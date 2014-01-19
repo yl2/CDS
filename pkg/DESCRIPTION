@@ -1,0 +1,14 @@
+Package: CDS
+Version: 1.0-0
+Date: 2014-01-18
+Title: Credit Default Swap
+Authors@R: c(person("David", "Kane", role = c("aut"),
+		 email = "dave.kane@gmail.com"))
+ 	person("Heidi", "Chen", role = c("aut", "cre"),
+	       	 email = "s.heidi.chen@gmail.com"),
+	person("Yang", "Lu", role = c("aut", "cre"),
+	       	 email = "yang.lu2014@gmail.com"),
+Depends: grid, R (>= 2.10)
+Imports: ggplot2, methods
+Description: A package that provides tools for pricing credit default swaps.
+License: GPL-2
