@@ -1,0 +1,22 @@
+importFrom("graphics", plot)
+import(ggplot2, methods)
+
+exportClasses(
+	      "brinson",
+	      "brinsonMulti",
+              "regression",
+              "regressionMulti"
+              )
+
+exportMethods(
+              "summary",
+              "returns",
+              "exposure",
+              "show",
+              "plot"
+              )
+
+export(
+       "brinson",
+       "regress"
+       )
