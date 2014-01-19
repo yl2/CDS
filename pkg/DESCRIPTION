@@ -1,5 +1,5 @@
 Package: CDS
-Version: 1.0-0
+Version: 0.0-1
 Date: 2014-01-18
 Title: Credit Default Swap
 Authors@R: c(person("David", "Kane", role = c("aut"),
