@@ -8,6 +8,8 @@
  * under the terms of the ISDA CDS Standard Model Public License.
  */
 
+#include <R.h>
+#include <Rdefines.h>
 #include <time.h>
 #include "cgeneral.h"
 #include "convert.h"

@@ -289,7 +289,8 @@ static THoliday *holidayFind(char *name)
     {
         while (hol)
         {
-            if (stricmp(name, hol->name) == 0)
+	  /* if (stricmp(name, hol->name) == 0)*/
+            if (strcasecmp(name, hol->name) == 0)
                 return hol;
             
             hol = hol->next;
