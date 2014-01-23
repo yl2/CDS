@@ -1,3 +1,6 @@
+useDynLib(CDS)
+exportPattern("^[[:alpha:]]+")
+
 importFrom("graphics", plot)
 import(ggplot2, methods)
 
