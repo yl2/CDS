@@ -1,16 +1,16 @@
 useDynLib(CDS)
 exportPattern("^[[:alpha:]]+")
 
-importFrom("graphics", plot)
-import(ggplot2, methods)
+## importFrom("graphics", plot)
+## import(ggplot2, methods)
 
-exportClasses(
-              )
+## exportClasses(
+##               )
 
-exportMethods(
+## exportMethods(
 
-              )
+##               )
 
-export(
+export(JpmcdsDate
 
        )

@@ -11,5 +11,5 @@ Authors@R: c(person("Heidi", "Chen", role = c("aut", "cre"),
 Depends: grid, R (>= 2.10), Rcpp (>= 0.10.6)
 Imports: ggplot2, methods
 Description: A package that provides tools for pricing credit default swaps.
-License: GPL-2
+License: GPL (>= 2)
 LinkingTo: Rcpp
