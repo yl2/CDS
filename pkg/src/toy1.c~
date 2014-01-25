@@ -1,9 +1,0 @@
-#include "toy1.h"
-
-int HeidiPlus
-(int a,
- int b	      
-){
-
-
-}
