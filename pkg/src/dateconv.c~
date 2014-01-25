@@ -464,7 +464,6 @@ static TDateCacheEntry gDateCacheArray[] = {
 ** dates.
 ***************************************************************************
 */
-
 TDate JpmcdsDate
 (long year,  /* (I) Year */
  long month, /* (I) Month */
@@ -476,18 +475,19 @@ TDate JpmcdsDate
     TMonthDayYear mdy;
     TDate         date; /* returned */
 
-    mdy.month = month;
+    printf('Tuotuo');
 
+    mdy.month = month;
     mdy.day   = day;
     mdy.year  = year;
-
+    /*
     if (JpmcdsMDYToDate (&mdy, &date) != SUCCESS)
     {
         JpmcdsErrMsg ("%s: Failed.\n", routine);
         date = FAILURE;
     }
+    */
     return date;
-
 }
 
 

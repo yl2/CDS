@@ -1,0 +1,18 @@
+#include "toy1.h"
+#include <Rdefines.h>
+#include <Rinternals.h>
+
+SEXP Tuotuo
+(SEXP a){
+SEXP tuotuo;
+int A, B;
+A = INTEGER(a);
+B = 3;
+printf(A);
+// B = HeidiPlus(A, A);
+printf(B);
+PROTECT(tuotuo = B);
+UNPROTECT(1);
+printf(tuotuo);
+return tuotuo;
+}

@@ -44,13 +44,11 @@ extern "C"
 ** dates.
 ***************************************************************************
 */
-
 TDate JpmcdsDate
 (long year,  /* (I) Year */
  long month, /* (I) Month */
  long day    /* (I) Day */
 );
-
 
 
 /*f

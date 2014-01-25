@@ -3,17 +3,9 @@
 ## dyn.load('~/CDS/pkg/src/cerror.so')
 ## dyn.load('~/CDS/pkg/src/dateconv.so')
 
-JpmcdsDate <- function() {
-    result <- .Call('JpmcdsDate')
-    return(result)
-}
+JpmcdsDate <- function(x) .Call('JpmcdsDate', x,  PACKAGE = 'CDS')
 
-## Tuotuo1 <- function(a, b, c) .C('JpmcdsDate', a,b,c,  PACKAGE = 'CDS')
-
-## Tuotuo2 <- function(a, b, c) .C('JpmcdsDate', as.double(a),as.double(b),as.double(c))
-
-## Tuotuo <- function(a, b, c) .C('test', a,b,c,  PACKAGE = 'CDS')
-
+Tuotuo <- function(x) .Call('Tuotuo', x,  PACKAGE = 'CDS')
 
 ## JpmcdsDateToMDY <-  function(x) .Call('JpmcdsDateToMDY', x,  PACKAGE = 'CDS')
 
