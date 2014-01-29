@@ -1,4 +1,4 @@
 int HeidiPlus
-(int a,
+(double *(a[2]),
  int b	      
 );
