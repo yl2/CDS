@@ -29,13 +29,13 @@ SEXP Tuotuo
   //  int A, B, n;
   double *A, B, n;
 
-  //a = coerceVector(a,INTSXP);
-  a = coerceVector(a,REALSXP);
+    a = coerceVector(a,INTSXP);
+  //a = coerceVector(a,REALSXP);
   tuostr = coerceVector(tuostr, STRSXP);
-  //A = INTEGER(a)[0];
-  A = REAL(a); // INTEGER(vector) returns pointer type
+  A = INTEGER(a)[0];
+  //  printf("got a-------", *a);
+  //  A = REAL(a); // INTEGER(vector) returns pointer type
   // B = INTEGER(a)[1];
-  printf("got a-------");
   B = HeidiPlus(A, 1);
   printf("got b-------");
   //  n = strlen(CHAR(STRING_ELT(tuostr, 0)));

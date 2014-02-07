@@ -16,11 +16,15 @@
 
 
 int HeidiPlus
-(double *(a[2]),
+(double *a,
  int b	      
 ){
   double heidi;
   //  heidi = (*a_ptr)[0] + (*a_ptr)[1] + b;
-  heidi = *(a[0]) + *(a[1]) + b;
+  //  heidi = *(a[0]) + *(a[1]) + b;
+  printf("heidiplus1 %f \n", (a[0] + a[1] + b));
+  //  printf("heidiplus2 %f \n", *a[0]);
+  heidi = a[0] + a[1] + b;
+
   return(heidi);
 }
