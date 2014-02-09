@@ -1,8 +1,9 @@
 TuoUpFront <- function(valueDateYear, valueDateMonth,
-valueDateDay, types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
-floatSwapFreq, fixedSwapDcc, floatSwapDcc, badDayConvZC, holidays) .Call('JpmcdsCdsoneUpfrontChargeTest', valueDateYear, valueDateMonth,
-valueDateDay, types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
-floatSwapFreq, fixedSwapDcc, floatSwapDcc, badDayConvZC, holidays)
+                       valueDateDay, types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
+                       floatSwapFreq, fixedSwapDcc, floatSwapDcc, badDayConvZC, holidays)
+    .Call('JpmcdsCdsoneUpfrontChargeTest', valueDateYear, valueDateMonth,
+          valueDateDay, types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
+          floatSwapFreq, fixedSwapDcc, floatSwapDcc, badDayConvZC, holidays)
 
 ## TuoUpFront(valueDateYear = 2008,
 ## valueDateMonth = 1,
