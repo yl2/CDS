@@ -28,10 +28,14 @@ SEXP Tuotuo
   SEXP tuotuo;
   //  int A, B, n;
   double *A, B, n;
-
-    a = coerceVector(a,INTSXP);
+  char *charTest;
+  
+  a = coerceVector(a,INTSXP);
   //a = coerceVector(a,REALSXP);
-  tuostr = coerceVector(tuostr, STRSXP);
+  //tuostr = coerceVector(tuostr, STRSXP);
+  // PROTECT(charTest = CHAR(STRING_ELT(tuostr, 0)));
+  
+
   A = INTEGER(a)[0];
   //  printf("got a-------", *a);
   //  A = REAL(a); // INTEGER(vector) returns pointer type
@@ -56,5 +60,6 @@ SEXP Tuotuo
   REAL(tuotuo)[1] = B;
   UNPROTECT(1);
   return tuotuo;
+  // return charTest;
 }
 
