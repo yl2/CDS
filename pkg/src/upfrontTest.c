@@ -72,7 +72,7 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
   valueDateMonth = coerceVector(valueDateMonth,INTSXP);
   valueDateDay = coerceVector(valueDateDay,INTSXP);
   baseDate = JpmcdsDate((long)INTEGER(valueDateYear)[0], (long)INTEGER(valueDateMonth)[0], (long)INTEGER(valueDateDay)[0]);
-  printf("%d", baseDate);
+  // printf("%lu", baseDate);
 
   types = coerceVector(types, STRSXP);
   
@@ -80,6 +80,7 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
   pt_holidays =  (char *) CHAR(STRING_ELT(holidays, 0));
   
   n = strlen(CHAR(STRING_ELT(types, 0))); // for zerocurve
+
   // dates = coerceVector(dates,INTSXP);
   rates = coerceVector(rates,REALSXP);
   mmDCC = coerceVector(mmDCC,REALSXP);
@@ -87,7 +88,13 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
   floatSwapFreq = coerceVector(floatSwapFreq,REALSXP);
   fixedSwapDCC = coerceVector(fixedSwapDCC,REALSXP);
   floatSwapDCC = coerceVector(floatSwapDCC,REALSXP);
-  badDayConvZC = coerceVector(badDayConvZC,REALSXP);
+
+  // badDayConvZC = coerceVector(badDayConvZC,STRSXP);
+
+  char *badDayConvZC_char;
+  badDayConvZC = AS_CHARACTER(badDayConvZC);
+  badDayConvZC_char = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
+
   holidays = coerceVector(holidays, STRSXP);
 
 
@@ -97,6 +104,7 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
   double        freq;
   long mmDCC_zc_main;
   static char  *routine_zc_main = "BuildExampleZeroCurve";
+
   if (JpmcdsStringToDayCountConv("Act/360", &mmDCC_zc_main) != SUCCESS)
     goto done;
   
@@ -133,6 +141,13 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
 
 
   printf("building zero curve...\n");
+  printf("baseDate...%i\n", baseDate);
+  printf("ninstr...%lu\n", n);
+  printf("mmDCC...%d\n", mmDCC_zc_main);
+  printf("freq...%lu\n", freq);
+  printf("dcc...%lu\n", dcc);
+  printf("badDayConv...|%c|\n", *badDayConvZC_char); 
+  
   // This step is the BuildExampleZeroCurve function in main.c under \examples
   discCurve = JpmcdsBuildIRZeroCurve(
 				     baseDate,
@@ -151,19 +166,31 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
 				     (long) freq,
 				     (long) dcc,
 				     (long) dcc,
-				     (long) badDayConvZC,
-				     pt_holidays
-				     );
+				     // (long) badDayConvZC,
+				     (char) *badDayConvZC_char,
+				     pt_holidays);
     
   if (discCurve == NULL) printf("NULL...\n");
   //  need to print error msg just like main.c
 
-  // printf("Discount factor on 3rd Jan 08 = %f\n", JpmcdsZeroPrice(discCurve, JpmcdsDate(2008,1,3)));
 
-    /* flatSpreadCurve = JpmcdsCleanSpreadCurve ( */
-    /*     today, */
-    /*     discCurve, */
-    /*     benchmarkStartDate, */
+  /* get discount factor */
+  printf("\n");
+  printf("Discount factor on 3rd Jan 08 = %f\n", JpmcdsZeroPrice(discCurve, JpmcdsDate(2008,1,3)));
+  printf("Discount factor on 3rd Jan 09 = %f\n", JpmcdsZeroPrice(discCurve, JpmcdsDate(2009,1,3)));
+  printf("Discount factor on 3rd Jan 17 = %f\n", JpmcdsZeroPrice(discCurve, JpmcdsDate(2017,1,3)));
+  
+  /* /\* get upfront charge *\/ */
+  /* printf("\n"); */
+  /* printf("Upfront charge @ cpn = 0bps    =  %f\n", CalcUpfrontCharge(discCurve, 0)); */
+  /* printf("Upfront charge @ cpn = 3600bps =  %f\n", CalcUpfrontCharge(discCurve, 3600)); */
+  /* printf("Upfront charge @ cpn = 7200bps = %f\n", CalcUpfrontCharge(discCurve, 7200)); */
+    
+
+  /* flatSpreadCurve = JpmcdsCleanSpreadCurve ( */
+  /*     today, */
+  /*     discCurve, */
+  /*     benchmarkStartDate, */
     /*     stepinDate, */
     /*     valueDate, */
     /*     1, */
