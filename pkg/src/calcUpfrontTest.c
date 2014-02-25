@@ -22,23 +22,26 @@
 ** Calculate upfront charge.
 ***************************************************************************
 */
-double CalcUpfrontCharge(TCurve* curve, double couponRate)
+double CalcUpfrontChargeTest
+(TCurve* curve, 
+ double couponRate,
+ TDate         today,
+ TDate         valueDate,
+ TDate         startDate,
+ TDate         benchmarkStart,
+ TDate         stepinDate,
+ TDate         endDate,
+ TBoolean      payAccOnDefault, // = TRUE,
+ TDateInterval ivl,
+ TStubMethod   stub,
+ long          dcc,
+ double        parSpread, //  = 3600,
+ double        recoveryRate, // = 0.4,
+ TBoolean      isPriceClean, // = FALSE,
+ double        notional //= 1e7
+)
 {
     static char  *routine = "CalcUpfrontCharge";
-    TDate         today;
-    TDate         valueDate;
-    TDate         startDate;
-    TDate         benchmarkStart;
-    TDate         stepinDate;
-    TDate         endDate;
-    TBoolean      payAccOnDefault = TRUE;
-    TDateInterval ivl;
-    TStubMethod   stub;
-    long          dcc;
-    double        parSpread = 3600;
-    double        recoveryRate = 0.4;
-    TBoolean      isPriceClean = FALSE;
-    double        notional = 1e7;
     double        result = -1.0;
 
     if (curve == NULL)
@@ -47,12 +50,12 @@ double CalcUpfrontCharge(TCurve* curve, double couponRate)
         goto done;
     }
 
-    today          = JpmcdsDate(2008, 2, 1);
-    valueDate      = JpmcdsDate(2008, 2, 4);
-    benchmarkStart = JpmcdsDate(2008, 2, 2);
-    startDate      = JpmcdsDate(2008, 2, 8);
-    endDate        = JpmcdsDate(2008, 2, 12);
-    stepinDate     = JpmcdsDate(2008, 2, 9);
+    /* today          = JpmcdsDate(2008, 2, 1); */
+    /* valueDate      = JpmcdsDate(2008, 2, 1); */
+    /* benchmarkStart = JpmcdsDate(2008, 2, 2); */
+    /* startDate      = JpmcdsDate(2008, 2, 8); */
+    /* endDate        = JpmcdsDate(2008, 2, 12); */
+    /* stepinDate     = JpmcdsDate(2008, 2, 9); */
 
     if (JpmcdsStringToDayCountConv("Act/360", &dcc) != SUCCESS)
         goto done;
@@ -87,7 +90,7 @@ done:
 
 
 //EXPORT int JpmcdsCdsoneUpfrontCharge(cdsone.c)
-SEXP JpmcdsCdsoneUpfrontChargeTest
+SEXP calcUpfrontTest
 (SEXP valueDateYear,  /* (I) Value date  for zero curve       */
  SEXP valueDateMonth,  /* (I) Value date  for zero curve       */
  SEXP valueDateDay,  /* (I) Value date  for zero curve       */
@@ -102,17 +105,39 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
  SEXP floatSwapDCC,    /* (I) DCC of floating leg              */
  SEXP badDayConvZC, //'M'  badDayConv for zero curve
  SEXP holidays,//'None'
+ // input for upfront charge calculation
+ /* today          = JpmcdsDate(2008, 2, 1); */
+ SEXP todayDateYear,  /* (I) T date  for upfront charge calculation       */
+ SEXP todayDateMonth,   /* (I) T date  for upfront charge calculation       */
+ SEXP todayDateDay,  /* (I) T date  for upfront charge calculation       */
+  /* valueDate      = JpmcdsDate(2008, 2, 1); derive from today T+3*/
+ /* benchmarkStart = JpmcdsDate(2008, 2, 2); */
+ SEXP benchmarkDateYear, 
+ SEXP benchmarkDateMonth,
+ SEXP benchmarkDateDay,  
+ 
+ /* startDate      = JpmcdsDate(2008, 2, 8); */
+ SEXP startDateYear, 
+ SEXP startDateMonth,
+ SEXP startDateDay,  
+
+
+ /* endDate        = JpmcdsDate(2008, 2, 12); */
+ SEXP endDateYear, 
+ SEXP endDateMonth,
+ SEXP endDateDay,  
+
+ /* stepinDate     = JpmcdsDate(2008, 2, 9); T + 1 */
  SEXP couponRate) 
 
 {
   static char routine[] = "JpmcdsCdsoneUpfrontCharge";
   //int         status    = FAILURE;
-  
-  TCurve           *flatSpreadCurve = NULL;
+  // TCurve           *flatSpreadCurve = NULL;
   
   // my vars
   int n;
-  TDate baseDate;
+  TDate baseDate, today, couponValueDate, benchmarkDate, startDate, endDate, stepinDate;
   SEXP status;
   TCurve *discCurve = NULL;
   char* pt_types;
@@ -124,6 +149,31 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
   valueDateMonth = coerceVector(valueDateMonth,INTSXP);
   valueDateDay = coerceVector(valueDateDay,INTSXP);
   baseDate = JpmcdsDate((long)INTEGER(valueDateYear)[0], (long)INTEGER(valueDateMonth)[0], (long)INTEGER(valueDateDay)[0]);
+
+
+  todayDateYear = coerceVector(todayDateYear,INTSXP);
+  todayDateMonth = coerceVector(todayDateMonth,INTSXP);
+  todayDateDay = coerceVector(todayDateDay,INTSXP);
+  today = JpmcdsDate((long)INTEGER(todayDateYear)[0], (long)INTEGER(todayDateMonth)[0], (long)INTEGER(todayDateDay)[0]);
+
+  couponValueDate = JpmcdsDate((long)INTEGER(todayDateYear)[0], (long)INTEGER(todayDateMonth)[0], (long)(INTEGER(todayDateDay)[0]+3));
+  stepinDate = JpmcdsDate((long)INTEGER(todayDateYear)[0], (long)INTEGER(todayDateMonth)[0], (long)(INTEGER(todayDateDay)[0]+1));
+
+  benchmarkDateYear = coerceVector(benchmarkDateYear,INTSXP);
+  benchmarkDateMonth = coerceVector(benchmarkDateMonth,INTSXP);
+  benchmarkDateDay = coerceVector(benchmarkDateDay,INTSXP);
+  benchmarkDate = JpmcdsDate((long)INTEGER(benchmarkDateYear)[0], (long)INTEGER(benchmarkDateMonth)[0], (long)INTEGER(benchmarkDateDay)[0]);
+
+
+  startDateYear = coerceVector(startDateYear,INTSXP);
+  startDateMonth = coerceVector(startDateMonth,INTSXP);
+  startDateDay = coerceVector(startDateDay,INTSXP);
+  startDate = JpmcdsDate((long)INTEGER(startDateYear)[0], (long)INTEGER(startDateMonth)[0], (long)INTEGER(startDateDay)[0]);
+
+  endDateYear = coerceVector(endDateYear,INTSXP);
+  endDateMonth = coerceVector(endDateMonth,INTSXP);
+  endDateDay = coerceVector(endDateDay,INTSXP);
+  endDate = JpmcdsDate((long)INTEGER(endDateYear)[0], (long)INTEGER(endDateMonth)[0], (long)INTEGER(endDateDay)[0]);
 
   types = coerceVector(types, STRSXP);
   
@@ -187,8 +237,6 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
       }
     }
 
-
-  
   // This step is the BuildExampleZeroCurve function in main.c under \examples
   discCurve = JpmcdsBuildIRZeroCurve(
 				     baseDate,
@@ -206,33 +254,32 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
 				     (long) freq,
 				     (long) dcc,
 				     (long) dcc,
-				     // (long) badDayConvZC,
 				     (char) *badDayConvZC_char,
 				     pt_holidays);
     
   if (discCurve == NULL) printf("NULL...\n");
 
-  /* get discount factor */
-  /* printf("\n"); */
-  /* printf("Discount factor on 3rd Jan 08 = %f\n", JpmcdsZeroPrice(discCurve, JpmcdsDate(2008,1,3))); */
-  /* printf("Discount factor on 3rd Jan 09 = %f\n", JpmcdsZeroPrice(discCurve, JpmcdsDate(2009,1,3))); */
-  /* printf("Discount factor on 3rd Jan 17 = %f\n", JpmcdsZeroPrice(discCurve, JpmcdsDate(2017,1,3))); */
-  
-  /* /\* get upfront charge *\/ */
-  /* printf("\n"); */
-  /* printf("Upfront charge @ cpn = 0bps    =  %f\n", CalcUpfrontCharge(discCurve, 0)); */
-  /* printf("Upfront charge @ cpn = 3600bps =  %f\n", CalcUpfrontCharge(discCurve, 3600)); */
-  /* printf("Upfront charge @ cpn = 7200bps = %f\n", CalcUpfrontCharge(discCurve, 7200)); */
-    
-  /* PROTECT(status = allocVector(INTSXP, 1)); */
-  /* INTEGER(status)[0] = 1; */
-  /* UNPROTECT(1); */
-  
+  TStubMethod stub;
   PROTECT(status = allocVector(REALSXP, 1));
-  REAL(status)[0] = CalcUpfrontCharge(discCurve, (double) couponRate_for_upf);
+  REAL(status)[0] = CalcUpfrontChargeTest(discCurve, 
+					  (double) couponRate_for_upf,
+					  today,
+					  couponValueDate,
+					  startDate,
+					  benchmarkDate,
+					  stepinDate,
+					  endDate,
+					  TRUE,
+					  ivl,
+					  stub, 
+					  dcc,
+					  3600,
+					  0.4,
+					  FALSE,
+					  1e7);
   UNPROTECT(1);
-
-
+  
+  
  done:
   FREE(dates_main);
   return status;
@@ -242,60 +289,3 @@ SEXP JpmcdsCdsoneUpfrontChargeTest
 }
 
 
-  /* flatSpreadCurve = JpmcdsCleanSpreadCurve ( */
-  /*     today, */
-  /*     discCurve, */
-  /*     benchmarkStartDate, */
-    /*     stepinDate, */
-    /*     valueDate, */
-    /*     1, */
-    /*     &endDate, */
-    /*     &oneSpread, */
-    /*     NULL, */
-    /*     recoveryRate, */
-    /*     payAccruedOnDefault, */
-    /*     dateInterval, */
-    /*     accrueDCC, */
-    /*     stubType, */
-    /*     badDayConv, */
-    /*     calendar); */
-
-    /* if (flatSpreadCurve == NULL) */
-    /*     goto done; */
-      
-    /* if (JpmcdsCdsPrice(today, */
-    /*                    valueDate, */
-    /*                    stepinDate, */
-    /*                    startDate,  /\* cds can start from past *\/ */
-    /*                    endDate, */
-    /*                    couponRate, */
-    /*                    payAccruedOnDefault, */
-    /*                    dateInterval, */
-    /*                    stubType, */
-    /*                    accrueDCC, */
-    /*                    badDayConv, */
-    /*                    calendar, */
-    /*                    discCurve, */
-    /*                    flatSpreadCurve, */
-    /*                    recoveryRate, */
-    /*                    payAccruedAtStart, */
-    /*                    upfrontCharge) != SUCCESS) */
-    /*     goto done; */
-
-    // status = SUCCESS;
-
- /* done: */
-
- /*    JpmcdsFreeTCurve(flatSpreadCurve); */
-
- /*    if (status != SUCCESS) */
- /*        JpmcdsErrMsgFailure (routine); */
-
-
-  /* printf("building zero curve...\n"); */
-  /* printf("baseDate...%i\n", baseDate); */
-  /* printf("ninstr...%lu\n", n); */
-  /* printf("mmDCC...%d\n", mmDCC_zc_main); */
-  /* printf("freq...%lu\n", freq); */
-  /* printf("dcc...%lu\n", dcc); */
-  /* printf("badDayConv...|%c|\n", *badDayConvZC_char);  */
