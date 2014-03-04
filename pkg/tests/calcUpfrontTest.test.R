@@ -1,23 +1,6 @@
-## upfrontTest.test.R
+## calcUpfrontTest.test.R
 
 library(CDS)
-
-## old
-## truth <- upFront(baseDate = "2008-01-03",
-##                  types = "MMMMMSSSSSSSSS",
-##                  dates = c(20080201, 20080203, 20080205),
-##                  rates = c(1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9),
-##                  nInstr = 10,
-##                  mmDCC = 10,
-##                  fixedSwapFreq = 10,
-##                  floatSwapFreq = 10,
-##                  fixedSwapDcc = 10,
-##                  floatSwapDcc = 10,
-##                  badDayConvZC = 'M',
-##                  holidays = 'None',
-##                  couponRate = 100)
-
-## save(truth, file = "upfrontTest.test.RData")
 
 ## new
 ## truth <- calcUpfront("2008-01-03",
@@ -38,10 +21,11 @@ library(CDS)
 ##                      startDate = "2008-02-08",
 ##                      endDate = "2008-02-12",
 ##                      stepinDate = "2008-02-9",
+##                      parSpread = 720,
 ##                      couponRate = 100)
-## save(truth, file = "upfrontTest.test.RData")
+## save(truth, file = "calcUpfrontTest.test.RData")
 
-load("upfrontTest.test.RData")
+load("calcUpfrontTest.test.RData")
 result <- calcUpfront("2008-01-03",
                       types = "MMMMMSSSSSSSSS",
                       dates = c(20080201, 20080203, 20080205),
@@ -60,6 +44,7 @@ result <- calcUpfront("2008-01-03",
                       startDate = "2008-02-08",
                       endDate = "2008-02-12",
                       stepinDate = "2008-02-9",
+                      parSpread = 720,
                       couponRate = 100)
 
 
