@@ -91,9 +91,10 @@ done:
 
 //EXPORT int JpmcdsCdsoneUpfrontCharge(cdsone.c)
 SEXP calcUpfrontTest
-(SEXP valueDateYear,  /* (I) Value date  for zero curve       */
- SEXP valueDateMonth,  /* (I) Value date  for zero curve       */
- SEXP valueDateDay,  /* (I) Value date  for zero curve       */
+(SEXP baseDateYear,  /* (I) Value date  for zero curve       */
+ SEXP baseDateMonth,  /* (I) Value date  for zero curve       */
+ SEXP baseDateDay,  /* (I) Value date  for zero curve       */
+
  SEXP types, //"MMMMMSSSSSSSSS"
  SEXP dates, /* (I) Array of swaps dates             */
  SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
@@ -110,7 +111,13 @@ SEXP calcUpfrontTest
  SEXP todayDateYear,  /* (I) T date  for upfront charge calculation       */
  SEXP todayDateMonth,   /* (I) T date  for upfront charge calculation       */
  SEXP todayDateDay,  /* (I) T date  for upfront charge calculation       */
-  /* valueDate      = JpmcdsDate(2008, 2, 1); derive from today T+3*/
+
+ /* valueDate      = JpmcdsDate(2008, 2, 1); */
+ SEXP valueDateYear,  /* (I) Value date for upfront charge calculation        */
+ SEXP valueDateMonth,  /* (I) Value date  for upfront charge calculation        */
+ SEXP valueDateDay,  /* (I) Value date  for upfront charge calculation        */
+ 
+
  /* benchmarkStart = JpmcdsDate(2008, 2, 2); */
  SEXP benchmarkDateYear, 
  SEXP benchmarkDateMonth,
@@ -127,7 +134,12 @@ SEXP calcUpfrontTest
  SEXP endDateMonth,
  SEXP endDateDay,  
 
- /* stepinDate     = JpmcdsDate(2008, 2, 9); T + 1 */
+ /* stepinDate     = JpmcdsDate(2008, 2, 9); */
+ SEXP stepinDateYear, 
+ SEXP stepinDateMonth,
+ SEXP stepinDateDay,  
+
+
  SEXP couponRate) 
 
 {
@@ -137,46 +149,64 @@ SEXP calcUpfrontTest
   
   // my vars
   int n;
-  TDate baseDate, today, couponValueDate, benchmarkDate, startDate, endDate, stepinDate;
+  TDate baseDate, today, benchmarkDate, startDate, endDate, stepinDate,valueDate;
   SEXP status;
   TCurve *discCurve = NULL;
   char* pt_types;
   char* pt_holidays;
   char *badDayConvZC_char;
   double couponRate_for_upf;
-
-  valueDateYear = coerceVector(valueDateYear,INTSXP);
-  valueDateMonth = coerceVector(valueDateMonth,INTSXP);
-  valueDateDay = coerceVector(valueDateDay,INTSXP);
-  baseDate = JpmcdsDate((long)INTEGER(valueDateYear)[0], (long)INTEGER(valueDateMonth)[0], (long)INTEGER(valueDateDay)[0]);
-
+  
+  baseDateYear = coerceVector(baseDateYear,INTSXP);
+  baseDateMonth = coerceVector(baseDateMonth,INTSXP);
+  baseDateDay = coerceVector(baseDateDay,INTSXP);
+  baseDate = JpmcdsDate((long)INTEGER(baseDateYear)[0], 
+			(long)INTEGER(baseDateMonth)[0], 
+			(long)INTEGER(baseDateDay)[0]);
 
   todayDateYear = coerceVector(todayDateYear,INTSXP);
   todayDateMonth = coerceVector(todayDateMonth,INTSXP);
   todayDateDay = coerceVector(todayDateDay,INTSXP);
-  today = JpmcdsDate((long)INTEGER(todayDateYear)[0], (long)INTEGER(todayDateMonth)[0], (long)INTEGER(todayDateDay)[0]);
+  today = JpmcdsDate((long)INTEGER(todayDateYear)[0], 
+		     (long)INTEGER(todayDateMonth)[0], 
+		     (long)INTEGER(todayDateDay)[0]);
 
-  couponValueDate = JpmcdsDate((long)INTEGER(todayDateYear)[0], (long)INTEGER(todayDateMonth)[0], (long)(INTEGER(todayDateDay)[0]+3));
-  stepinDate = JpmcdsDate((long)INTEGER(todayDateYear)[0], (long)INTEGER(todayDateMonth)[0], (long)(INTEGER(todayDateDay)[0]+1));
+  valueDateYear = coerceVector(valueDateYear,INTSXP);
+  valueDateMonth = coerceVector(valueDateMonth,INTSXP);
+  valueDateDay = coerceVector(valueDateDay,INTSXP);
+  valueDate = JpmcdsDate((long)INTEGER(valueDateYear)[0], 
+			 (long)INTEGER(valueDateMonth)[0], 
+			 (long)INTEGER(valueDateDay)[0]);
 
   benchmarkDateYear = coerceVector(benchmarkDateYear,INTSXP);
   benchmarkDateMonth = coerceVector(benchmarkDateMonth,INTSXP);
   benchmarkDateDay = coerceVector(benchmarkDateDay,INTSXP);
-  benchmarkDate = JpmcdsDate((long)INTEGER(benchmarkDateYear)[0], (long)INTEGER(benchmarkDateMonth)[0], (long)INTEGER(benchmarkDateDay)[0]);
-
+  benchmarkDate = JpmcdsDate((long)INTEGER(benchmarkDateYear)[0], 
+			     (long)INTEGER(benchmarkDateMonth)[0],
+			     (long)INTEGER(benchmarkDateDay)[0]);
 
   startDateYear = coerceVector(startDateYear,INTSXP);
   startDateMonth = coerceVector(startDateMonth,INTSXP);
   startDateDay = coerceVector(startDateDay,INTSXP);
-  startDate = JpmcdsDate((long)INTEGER(startDateYear)[0], (long)INTEGER(startDateMonth)[0], (long)INTEGER(startDateDay)[0]);
+  startDate = JpmcdsDate((long)INTEGER(startDateYear)[0], 
+			 (long)INTEGER(startDateMonth)[0], 
+			 (long)INTEGER(startDateDay)[0]);
 
   endDateYear = coerceVector(endDateYear,INTSXP);
   endDateMonth = coerceVector(endDateMonth,INTSXP);
   endDateDay = coerceVector(endDateDay,INTSXP);
-  endDate = JpmcdsDate((long)INTEGER(endDateYear)[0], (long)INTEGER(endDateMonth)[0], (long)INTEGER(endDateDay)[0]);
+  endDate = JpmcdsDate((long)INTEGER(endDateYear)[0],
+		       (long)INTEGER(endDateMonth)[0],
+		       (long)INTEGER(endDateDay)[0]);
+
+  stepinDateYear = coerceVector(stepinDateYear,INTSXP);
+  stepinDateMonth = coerceVector(stepinDateMonth,INTSXP);
+  stepinDateDay = coerceVector(stepinDateDay,INTSXP);
+  stepinDate = JpmcdsDate((long)INTEGER(stepinDateYear)[0],
+		       (long)INTEGER(stepinDateMonth)[0],
+		       (long)INTEGER(stepinDateDay)[0]);
 
   types = coerceVector(types, STRSXP);
-  
   pt_types = (char *) CHAR(STRING_ELT(types,0));
   pt_holidays =  (char *) CHAR(STRING_ELT(holidays, 0));
   
@@ -264,7 +294,7 @@ SEXP calcUpfrontTest
   REAL(status)[0] = CalcUpfrontChargeTest(discCurve, 
 					  (double) couponRate_for_upf,
 					  today,
-					  couponValueDate,
+					  valueDate,
 					  startDate,
 					  benchmarkDate,
 					  stepinDate,
@@ -283,8 +313,6 @@ SEXP calcUpfrontTest
  done:
   FREE(dates_main);
   return status;
-
-
 
 }
 

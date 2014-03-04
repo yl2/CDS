@@ -1,15 +1,15 @@
-upFront <- function(valueDate, ## valueDateYear, valueDateMonth, valueDateDay,
+upFront <- function(baseDate, ## valueDateYear, valueDateMonth, valueDateDay,
                     types, dates, rates, nInstr,
                     mmDCC, fixedSwapFreq,
                     floatSwapFreq, fixedSwapDcc, floatSwapDcc,
                     badDayConvZC, holidays, couponRate){
     ## valueDate format valueDate = "2008-02-01"
-    valueDateYear <- as.numeric(format(as.Date(valueDate), "%Y"))
-    valueDateMonth <- as.numeric(format(as.Date(valueDate), "%m"))
-    valueDateDay <- as.numeric(format(as.Date(valueDate), "%d"))
+    baseDateYear <- as.numeric(format(as.Date(baseDate), "%Y"))
+    baseDateMonth <- as.numeric(format(as.Date(baseDate), "%m"))
+    baseDateDay <- as.numeric(format(as.Date(baseDate), "%d"))
     
-    .Call('JpmcdsCdsoneUpfrontChargeTest', valueDateYear, valueDateMonth,
-          valueDateDay, types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
+    .Call('JpmcdsCdsoneUpfrontChargeTest', baseDateYear, baseDateMonth,
+          baseDateDay, types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
           floatSwapFreq, fixedSwapDcc, floatSwapDcc, badDayConvZC, holidays, couponRate)
 }
 ## pFront(valueDateYear = 2008,
