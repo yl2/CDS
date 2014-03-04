@@ -18,6 +18,7 @@ calcUpfront <- function(baseDate,
                         startDate,
                         endDate,
                         stepinDate,
+                        parSpread,
                         couponRate){
     baseDate <- separateYMD(baseDate)
     
@@ -39,6 +40,7 @@ calcUpfront <- function(baseDate,
           startDate[1],startDate[2],startDate[3],
           endDate[1],endDate[2],endDate[3],
           stepinDate[1],stepinDate[2],stepinDate[3],
+          parSpread,
           couponRate)
 }
 
@@ -61,4 +63,5 @@ calcUpfront <- function(baseDate,
 ##             startDate = "2008-02-08",
 ##             endDate = "2008-02-12",
 ##             stepinDate = "2008-02-9",
+##             parSpread = 3600,
 ##             couponRate = 100)

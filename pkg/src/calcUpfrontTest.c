@@ -128,7 +128,6 @@ SEXP calcUpfrontTest
  SEXP startDateMonth,
  SEXP startDateDay,  
 
-
  /* endDate        = JpmcdsDate(2008, 2, 12); */
  SEXP endDateYear, 
  SEXP endDateMonth,
@@ -138,8 +137,8 @@ SEXP calcUpfrontTest
  SEXP stepinDateYear, 
  SEXP stepinDateMonth,
  SEXP stepinDateDay,  
-
-
+ 
+ SEXP parSpread,
  SEXP couponRate) 
 
 {
@@ -155,8 +154,10 @@ SEXP calcUpfrontTest
   char* pt_types;
   char* pt_holidays;
   char *badDayConvZC_char;
+  double parSpread_for_upf;
   double couponRate_for_upf;
   
+  // function to consolidate R input to TDate
   baseDateYear = coerceVector(baseDateYear,INTSXP);
   baseDateMonth = coerceVector(baseDateMonth,INTSXP);
   baseDateDay = coerceVector(baseDateDay,INTSXP);
@@ -218,6 +219,7 @@ SEXP calcUpfrontTest
   floatSwapFreq = coerceVector(floatSwapFreq,REALSXP);
   fixedSwapDCC = coerceVector(fixedSwapDCC,REALSXP);
   floatSwapDCC = coerceVector(floatSwapDCC,REALSXP);
+  parSpread_for_upf = *REAL(parSpread);
   couponRate_for_upf = *REAL(couponRate);
   // printf("Coupon Rate = %f\n", (double)couponRate_for_upf);
 
@@ -303,7 +305,7 @@ SEXP calcUpfrontTest
 					  ivl,
 					  stub, 
 					  dcc,
-					  3600,
+					  parSpread_for_upf, //3600,
 					  0.4,
 					  FALSE,
 					  1e7);
