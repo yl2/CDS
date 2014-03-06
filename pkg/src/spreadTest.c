@@ -329,7 +329,7 @@ SEXP calcCdsoneSpread
     printf("protect done");
     REAL(status)[0] = *pt_onespread;
     printf("assign value done---%f", *pt_onespread);
-    
+    UNPROTECT(1);
     goto done;
     
 
