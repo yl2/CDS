@@ -329,12 +329,12 @@ SEXP calcCdsoneSpread
     printf("rootFindBrent Done\n");
     
     PROTECT(status = allocVector(REALSXP, 1));
-    printf("protect done");
+    printf("protect done\n", *pt_onespread);
     REAL(status)[0] = *pt_onespread;
     printf("assign value done---%f", *pt_onespread);
     UNPROTECT(1);
 
-    if (status != SUCCESS)
-        JpmcdsErrMsgFailure (routine);
+    //    if (status != SUCCESS)
+    //    JpmcdsErrMsgFailure (routine);
     return status;
 }
