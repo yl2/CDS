@@ -143,7 +143,7 @@ SEXP calcCdsoneSpread
 			  (long)INTEGER(baseDate_input)[1], 
 			  (long)INTEGER(baseDate_input)[2]);
 
-    printf("baseDate----%i\n", baseDate);
+    printf("baseDate----%d\n", baseDate);
 
     todayDate_input = coerceVector(todayDate_input,INTSXP);
     todayDate = JpmcdsDate((long)INTEGER(todayDate_input)[0], 
