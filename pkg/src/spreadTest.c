@@ -134,6 +134,8 @@ SEXP calcCdsoneSpread
     double couponRate, upfrontCharge, recoveryRate;
     long accrueDCC, badDayConv;
 
+    pt_onespread =  malloc(sizeof(double));
+
     CDSONE_SPREAD_CONTEXT context;
 
     baseDate_input = coerceVector(baseDate_input,INTSXP);
@@ -329,7 +331,6 @@ SEXP calcCdsoneSpread
     printf("rootFindBrent Done\n");
     
     PROTECT(status = allocVector(REALSXP, 1));
-    printf("protect done\n", *pt_onespread);
     REAL(status)[0] = *pt_onespread;
     printf("assign value done---%f", *pt_onespread);
     UNPROTECT(1);
