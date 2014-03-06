@@ -312,28 +312,27 @@ SEXP calcCdsoneSpread
     printf("context ok\n");
 
     if (JpmcdsRootFindBrent ((TObjectFunc)cdsoneSpreadSolverFunction,
-                          &context,
-                          0.0,    /* boundLo */
-                          100.0,  /* boundHi */
-                          100,    /* numIterations */
-                          0.01,   /* guess */
-                          0.0001, /* initialXStep */
-                          0.0,    /* initialFDeriv */
-                          1e-8,   /* xacc */
-                          1e-8,   /* facc */
-                          pt_onespread) != SUCCESS)
-      
-      printf("rootFindBrent Done\n");
+			     &context,
+			     0.0,    /* boundLo */
+			     100.0,  /* boundHi */
+			     100,    /* numIterations */
+			     0.01,   /* guess */
+			     0.0001, /* initialXStep */
+			     0.0,    /* initialFDeriv */
+			     1e-8,   /* xacc */
+			     1e-8,   /* facc */
+			     pt_onespread) != SUCCESS)
+      goto done;      
+
+ done:
+
+    printf("rootFindBrent Done\n");
     
     PROTECT(status = allocVector(REALSXP, 1));
     printf("protect done");
     REAL(status)[0] = *pt_onespread;
     printf("assign value done---%f", *pt_onespread);
     UNPROTECT(1);
-    goto done;
-    
-
- done:
 
     if (status != SUCCESS)
         JpmcdsErrMsgFailure (routine);
