@@ -5,7 +5,7 @@ separateYMD <- function(d){
     dateDay <- as.numeric(format(as.Date(d), "%d"))
     return(c(dateYear, dateMonth, dateDay))
 }
-    
+
 calcUpfront <- function(baseDate,
                         types, dates, rates, nInstr,
                         mmDCC, fixedSwapFreq,
