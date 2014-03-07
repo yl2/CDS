@@ -50,7 +50,7 @@ static int cdsoneSpreadSolverFunction
  double              *diff)
 {
     double upfrontCharge;
-    printf("solverFunction onespread %f\n", onespread);
+    // printf("solverFunction onespread %f\n", onespread);
 
     /* if (JpmcdsCdsoneUpfrontCharge(JpmcdsDate(2008, 2, 1), */
     /*                               JpmcdsDate(2008, 2, 1), */
@@ -82,31 +82,6 @@ static int cdsoneSpreadSolverFunction
     /* printf("isPriceClean--%i\n", context->payAccruedAtStart); */
 
 
-    /* int a; */
-    /* a = JpmcdsCdsoneUpfrontCharge(context->today, */
-    /*                            context->valueDate, */
-    /*                            context->benchmarkStartDate, */
-    /*                            context->stepinDate, */
-    /*                            context->startDate, */
-    /*                            context->endDate, */
-    /*                            context->couponRate, */
-    /*                            context->payAccruedOnDefault, */
-    /*                            context->dateInterval, */
-    /*                            context->stubType, */
-    /*                            context->accrueDCC, */
-    /* 				  context->badDayConv, */
-    /*                            context->calendar, */
-    /*                            context->discCurve, */
-    /*                            onespread, */
-    /*                            context->recoveryRate, */
-    /*                            context->payAccruedAtStart, */
-    /* 				  &upfrontCharge); */
-    /* printf("what is a in solver function??????--%i\n", a); */
-    /* printf("what is upfront then???%f\n", upfrontCharge); */
-    /* *diff = upfrontCharge - context->upfrontCharge; */
-    /* printf("solverFunction onespread %f", *diff); */
-
-
     if (JpmcdsCdsoneUpfrontCharge(context->today,
 				  context->valueDate,
 				  context->benchmarkStartDate,
@@ -126,9 +101,9 @@ static int cdsoneSpreadSolverFunction
 				  context->payAccruedAtStart,
 				  &upfrontCharge) != SUCCESS)
       return FAILURE;
-    printf("solverFunction upfront %f", upfrontCharge);
+    /* printf("solverFunction upfront %f", upfrontCharge); */
     *diff = upfrontCharge - context->upfrontCharge;
-    printf("solverFunction diff %f", *diff);
+    /* printf("solverFunction diff %f", *diff); */
     return SUCCESS;
 }
 
@@ -199,7 +174,7 @@ SEXP calcCdsoneSpread
 			  (long)INTEGER(baseDate_input)[1], 
 			  (long)INTEGER(baseDate_input)[2]);
 
-    printf("baseDate----%lu", baseDate);
+    // printf("baseDate----%lu", baseDate);
 
     todayDate_input = coerceVector(todayDate_input,INTSXP);
     todayDate = JpmcdsDate((long)INTEGER(todayDate_input)[0], 
@@ -231,22 +206,20 @@ SEXP calcCdsoneSpread
 		       (long)INTEGER(endDate_input)[1], 
 		       (long)INTEGER(endDate_input)[2]);
 
-    printf("todayDate----%lu\n", todayDate);
-    printf("valueDate----%lu\n", valueDate);
-    printf("bmDate----%lu\n", benchmarkStartDate);
-    printf("stepinDate----%lu\n", stepinDate);
-    printf("startDate----%lu\n", startDate);
-    printf("endDate----%lu\n", endDate);
+    /* printf("todayDate----%lu\n", todayDate); */
+    /* printf("valueDate----%lu\n", valueDate); */
+    /* printf("bmDate----%lu\n", benchmarkStartDate); */
+    /* printf("stepinDate----%lu\n", stepinDate); */
+    /* printf("startDate----%lu\n", startDate); */
+    /* printf("endDate----%lu\n", endDate); */
 
-    /*  */
-    /*  */
     char* pt_types;
 
     types = coerceVector(types, STRSXP);
     pt_types =  (char *) CHAR(STRING_ELT(types, 0));
-    printf("types----%c\n", pt_types[0]);
-    printf("types----%c\n", pt_types[1]);
-    printf("types----%c\n", pt_types[10]);
+    /* printf("types----%c\n", pt_types[0]); */
+    /* printf("types----%c\n", pt_types[1]); */
+    /* printf("types----%c\n", pt_types[10]); */
     holidays = coerceVector(holidays, STRSXP);
     pt_holidays =  (char *) CHAR(STRING_ELT(holidays, 0));
     n = strlen(CHAR(STRING_ELT(types, 0))); // for zerocurve
@@ -263,7 +236,7 @@ SEXP calcCdsoneSpread
     badDayConvZC = AS_CHARACTER(badDayConvZC);
     pt_badDayConvZC = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
 
-    printf("badDayConv...|%c|\n", *pt_badDayConvZC);
+    // printf("badDayConv...|%c|\n", *pt_badDayConvZC);
 
     // main.c dates
     TDateInterval ivl;
@@ -307,7 +280,7 @@ SEXP calcCdsoneSpread
       }
 
 
-    printf("build discCurve---laaaaaaaaaaaaaaa\n");
+    //printf("build discCurve---laaaaaaaaaaaaaaa\n");
 
     /* printf("baseDate--%lu\n", baseDate); */
     /* printf("pt_types--%c\n", *pt_types); */
@@ -343,20 +316,20 @@ SEXP calcCdsoneSpread
 				       (char) *pt_badDayConvZC,
 				       pt_holidays);
 
-    printf("tcurve fnumitems %i\n", discCurve->fNumItems);
-    printf("tcurve farray %f\n", *(discCurve->fArray));
-    printf("tcurve fBaseDate %i\n", discCurve->fBaseDate);
-    printf("tcurve fBasis %f\n", discCurve->fBasis);
-    printf("tcurve fDayCountConv %lu\n", discCurve->fDayCountConv);
+    /* printf("tcurve fnumitems %i\n", discCurve->fNumItems); */
+    /* printf("tcurve farray %f\n", *(discCurve->fArray)); */
+    /* printf("tcurve fBaseDate %i\n", discCurve->fBaseDate); */
+    /* printf("tcurve fBasis %f\n", discCurve->fBasis); */
+    /* printf("tcurve fDayCountConv %lu\n", discCurve->fDayCountConv); */
 
-    printf("done building discCurve---\n");
+    /* printf("done building discCurve---\n"); */
 
     if (discCurve == NULL) printf("NULL...\n");
 
     couponRate = *REAL(couponRate_input);
-    printf("coupon rate---%f\n", couponRate);
+    /* printf("coupon rate---%f\n", couponRate); */
     payAccruedOnDefault = *LOGICAL(payAccruedOnDefault_input);
-    printf("accruedOnDefault Logical---%i\n", payAccruedOnDefault);
+    /* printf("accruedOnDefault Logical---%i\n", payAccruedOnDefault); */
 
 
     /*  */
@@ -365,7 +338,7 @@ SEXP calcCdsoneSpread
     pt_dateInterval->prd_typ = *CHAR(STRING_ELT(coerceVector(dateInterval, STRSXP), 0));
     pt_dateInterval->prd = 6;
     pt_dateInterval->flag = 0;
-    printf("dateInterval...|%c|\n", pt_dateInterval->prd_typ);
+    /* printf("dateInterval...|%c|\n", pt_dateInterval->prd_typ); */
 
     /*  */
     /*  */
@@ -375,25 +348,26 @@ SEXP calcCdsoneSpread
     pt_stubType->stubAtEnd = stubAtEnd;
     pt_stubType->longStub = longStub;
 
-    printf("what is stubAtEnd----%i", stubAtEnd);
-    /*  */
-    /*  */
-
+    /* printf("what is stubAtEnd----%i", stubAtEnd); */
 
     //    pt_stubType = LOGICAL(stubType);
     //    printf("stubType Logical---%i\n", *pt_stubType);
     //printf("accrueDCC input---%f\n", *REAL(accrueDCC_input));
     accrueDCC = *INTEGER(accrueDCC_input);
-    printf("accrueDCC ---%i\n", accrueDCC);
+    /* printf("accrueDCC ---%i\n", accrueDCC); */
+
     badDayConv = *INTEGER(badDayConv_input);
-    printf("badDayConv---%i\n", badDayConv);
+    /* printf("badDayConv---%i\n", badDayConv); */
+
     pt_calendar = (char *) CHAR(STRING_ELT(coerceVector(calendar_input, STRSXP), 0));
     upfrontCharge = *REAL(upfrontCharge_input);
-    printf("upfront---%f\n", upfrontCharge);
+    /* printf("upfront---%f\n", upfrontCharge); */
+
     recoveryRate = *REAL(recoveryRate_input);
-    printf("recovery---%f\n", recoveryRate);
+    /* printf("recovery---%f\n", recoveryRate); */
+
     payAccruedAtStart = *LOGICAL(payAccruedAtStart_input);
-    printf("payAccruedAtStart Logical---%i\n", payAccruedAtStart);
+    // printf("payAccruedAtStart Logical---%i\n", payAccruedAtStart);
     //    pt_oneSpread = REAL(oneSpread);
     
     context.today               = todayDate;
@@ -414,9 +388,9 @@ SEXP calcCdsoneSpread
     context.recoveryRate        = recoveryRate;
     context.payAccruedAtStart   = payAccruedAtStart;
      
-    printf("context ok\n");
-    printf("maybe onespread ip---%d", pt_onespread);
-    printf("what are we putting into findbrent?---%f", *pt_onespread);
+    /* printf("context ok\n"); */
+    /* printf("maybe onespread ip---%d", pt_onespread); */
+    /* printf("what are we putting into findbrent?---%f", *pt_onespread); */
     //    *pt_onespread = 3;
 
     /* int a; */
