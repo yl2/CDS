@@ -50,7 +50,7 @@ static int cdsoneSpreadSolverFunction
  double              *diff)
 {
     double upfrontCharge;
-    printf("solverFunction onespread %f", onespread);
+    printf("solverFunction onespread %f\n", onespread);
 
     /* if (JpmcdsCdsoneUpfrontCharge(JpmcdsDate(2008, 2, 1), */
     /*                               JpmcdsDate(2008, 2, 1), */
@@ -71,40 +71,64 @@ static int cdsoneSpreadSolverFunction
     /*                               FALSE, */
     /*                               &upfrontCharge) != SUCCESS) */
 
-    printf("payAccOnDefault--%i\n", context->payAccruedOnDefault);
-    printf("ivl--%c\n", context->dateInterval->prd_typ);
-    printf("ivl--%i\n", context->dateInterval->prd);
-    printf("ivl--%i\n", context->dateInterval->flag);
-    printf("stubAtEnd--%i\n", context->stubType->stubAtEnd);
-    printf("stublongStub--%i\n", context->stubType->longStub);
-    printf("dcc--%i\n", context->accrueDCC);
-    printf("recovery rate--%f\n", context->recoveryRate);
-    printf("isPriceClean--%i\n", context->payAccruedAtStart);
+    /* printf("payAccOnDefault--%i\n", context->payAccruedOnDefault); */
+    /* printf("ivl--%c\n", context->dateInterval->prd_typ); */
+    /* printf("ivl--%i\n", context->dateInterval->prd); */
+    /* printf("ivl--%i\n", context->dateInterval->flag); */
+    /* printf("stubAtEnd--%i\n", context->stubType->stubAtEnd); */
+    /* printf("stublongStub--%i\n", context->stubType->longStub); */
+    /* printf("dcc--%i\n", context->accrueDCC); */
+    /* printf("recovery rate--%f\n", context->recoveryRate); */
+    /* printf("isPriceClean--%i\n", context->payAccruedAtStart); */
 
+
+    /* int a; */
+    /* a = JpmcdsCdsoneUpfrontCharge(context->today, */
+    /*                            context->valueDate, */
+    /*                            context->benchmarkStartDate, */
+    /*                            context->stepinDate, */
+    /*                            context->startDate, */
+    /*                            context->endDate, */
+    /*                            context->couponRate, */
+    /*                            context->payAccruedOnDefault, */
+    /*                            context->dateInterval, */
+    /*                            context->stubType, */
+    /*                            context->accrueDCC, */
+    /* 				  context->badDayConv, */
+    /*                            context->calendar, */
+    /*                            context->discCurve, */
+    /*                            onespread, */
+    /*                            context->recoveryRate, */
+    /*                            context->payAccruedAtStart, */
+    /* 				  &upfrontCharge); */
+    /* printf("what is a in solver function??????--%i\n", a); */
+    /* printf("what is upfront then???%f\n", upfrontCharge); */
+    /* *diff = upfrontCharge - context->upfrontCharge; */
+    /* printf("solverFunction onespread %f", *diff); */
 
 
     if (JpmcdsCdsoneUpfrontCharge(context->today,
-                               context->valueDate,
-                               context->benchmarkStartDate,
-                               context->stepinDate,
-                               context->startDate,
-                               context->endDate,
-                               context->couponRate,
-                               context->payAccruedOnDefault,
-                               context->dateInterval,
-                               context->stubType,
-                               context->accrueDCC,
+				  context->valueDate,
+				  context->benchmarkStartDate,
+				  context->stepinDate,
+				  context->startDate,
+				  context->endDate,
+				  context->couponRate,
+				  context->payAccruedOnDefault,
+				  context->dateInterval,
+				  context->stubType,
+				  context->accrueDCC,
     				  context->badDayConv,
-                               context->calendar,
-                               context->discCurve,
-                               onespread,
-                               context->recoveryRate,
-                               context->payAccruedAtStart,
-                               &upfrontCharge) != SUCCESS)
-        return FAILURE;
+				  context->calendar,
+				  context->discCurve,
+				  onespread,
+				  context->recoveryRate,
+				  context->payAccruedAtStart,
+				  &upfrontCharge) != SUCCESS)
+      return FAILURE;
     printf("solverFunction upfront %f", upfrontCharge);
     *diff = upfrontCharge - context->upfrontCharge;
-    printf("solverFunction onespread %f", *diff);
+    printf("solverFunction diff %f", *diff);
     return SUCCESS;
 }
 
@@ -393,7 +417,21 @@ SEXP calcCdsoneSpread
     printf("context ok\n");
     printf("maybe onespread ip---%d", pt_onespread);
     printf("what are we putting into findbrent?---%f", *pt_onespread);
-    *pt_onespread = 333;
+    //    *pt_onespread = 3;
+
+    /* int a; */
+    /* a = JpmcdsRootFindBrent ((TObjectFunc)cdsoneSpreadSolverFunction, */
+    /* 			     &context, */
+    /* 			     0.0,    /\* boundLo *\/ */
+    /* 			     100.0,  /\* boundHi *\/ */
+    /* 			     100,    /\* numIterations *\/ */
+    /* 			     0.01,   /\* guess *\/ */
+    /* 			     0.0001, /\* initialXStep *\/ */
+    /* 			     0.0,    /\* initialFDeriv *\/ */
+    /* 			     1e-8,   /\* xacc *\/ */
+    /* 			     1e-8,   /\* facc *\/ */
+    /* 			     pt_onespread); */
+    /* printf("what is a??????%i\n", a); */
     if (JpmcdsRootFindBrent ((TObjectFunc)cdsoneSpreadSolverFunction,
 			     &context,
 			     0.0,    /* boundLo */
@@ -410,7 +448,7 @@ SEXP calcCdsoneSpread
  done:
 
     printf("rootFindBrent Done\n");
-    
+    printf("what is ONESPREADDDDDDDDDDDDDDDD??????%f\n", *pt_onespread); 
     PROTECT(status = allocVector(REALSXP, 1));
     REAL(status)[0] = *pt_onespread;
     printf("assign value done---%f", *pt_onespread);

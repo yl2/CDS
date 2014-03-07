@@ -67,16 +67,16 @@ double CalcUpfrontChargeTest
         goto done;
 
 
-    printf("payAccOnDefault--%i", payAccOnDefault);
-    printf("ivl--%c", ivl.prd_typ);
-    printf("ivl--%i", ivl.prd);
-    printf("ivl--%i", ivl.flag);
-    printf("stubAtEnd--%i", stub.stubAtEnd);
-    printf("stublongStub--%i", stub.longStub);
-    printf("dcc--%i", dcc);
-    printf("parspread--%f", parSpread);
-    printf("recovery rate--%f", recoveryRate);
-    printf("isPriceClean--%i", isPriceClean);
+    /* printf("payAccOnDefault--%i", payAccOnDefault); */
+    /* printf("ivl--%c", ivl.prd_typ); */
+    /* printf("ivl--%i", ivl.prd); */
+    /* printf("ivl--%i", ivl.flag); */
+    /* printf("stubAtEnd--%i", stub.stubAtEnd); */
+    /* printf("stublongStub--%i", stub.longStub); */
+    /* printf("dcc--%i", dcc); */
+    /* printf("parspread--%f", parSpread); */
+    /* printf("recovery rate--%f", recoveryRate); */
+    /* printf("isPriceClean--%i", isPriceClean); */
 
 
     if (JpmcdsCdsoneUpfrontCharge(today,
@@ -282,7 +282,7 @@ SEXP calcUpfrontTest
       }
     }
 
-  printf("calc uppppppppppppp----~~~~~~~");
+  /* printf("calc uppppppppppppp----~~~~~~~"); */
     /* printf("baseDate--%lu\n", baseDate); */
     /* printf("pt_types--%c\n", *pt_types); */
     /* printf("dates_main--%lu\n", *dates_main); */
@@ -317,13 +317,13 @@ SEXP calcUpfrontTest
 				     (char) *badDayConvZC_char,
 				     pt_holidays);
     
-    printf("tcurve fnumitems %i\n", discCurve->fNumItems);
-    printf("tcurve farray %f\n", *(discCurve->fArray));
-    printf("tcurve fBaseDate %i\n", discCurve->fBaseDate);
-    printf("tcurve fBasis %f\n", discCurve->fBasis);
-    printf("tcurve fDayCountConv %lu\n", discCurve->fDayCountConv);
+  /*   printf("tcurve fnumitems %i\n", discCurve->fNumItems); */
+  /*   printf("tcurve farray %f\n", *(discCurve->fArray)); */
+  /*   printf("tcurve fBaseDate %i\n", discCurve->fBaseDate); */
+  /*   printf("tcurve fBasis %f\n", discCurve->fBasis); */
+  /*   printf("tcurve fDayCountConv %lu\n", discCurve->fDayCountConv); */
 
-  printf("calc uppppppppppppp----~~~~~~~");
+  /* printf("calc uppppppppppppp----~~~~~~~"); */
 
   if (discCurve == NULL) printf("NULL...\n");
 
