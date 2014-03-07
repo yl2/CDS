@@ -50,6 +50,38 @@ static int cdsoneSpreadSolverFunction
  double              *diff)
 {
     double upfrontCharge;
+    printf("solverFunction onespread %f", onespread);
+
+    /* if (JpmcdsCdsoneUpfrontCharge(JpmcdsDate(2008, 2, 1), */
+    /*                               JpmcdsDate(2008, 2, 1), */
+    /*                               JpmcdsDate(2008, 2, 2), */
+    /*                               JpmcdsDate(2008, 2, 9), */
+    /*                               JpmcdsDate(2008, 2, 8), */
+    /*                               JpmcdsDate(2008, 2, 12), */
+    /*                               100 / 10000.0, */
+    /*                               TRUE, */
+    /*                               context->dateInterval, */
+    /*                               context->stubType, */
+    /*                               context->accrueDCC, */
+    /*                               'F', */
+    /*                               "None", */
+    /*                               context->discCurve, */
+    /*                               500/10000, */
+    /*                               0.4, */
+    /*                               FALSE, */
+    /*                               &upfrontCharge) != SUCCESS) */
+
+    printf("payAccOnDefault--%i\n", context->payAccruedOnDefault);
+    printf("ivl--%c\n", context->dateInterval->prd_typ);
+    printf("ivl--%i\n", context->dateInterval->prd);
+    printf("ivl--%i\n", context->dateInterval->flag);
+    printf("stubAtEnd--%i\n", context->stubType->stubAtEnd);
+    printf("stublongStub--%i\n", context->stubType->longStub);
+    printf("dcc--%i\n", context->accrueDCC);
+    printf("recovery rate--%f\n", context->recoveryRate);
+    printf("isPriceClean--%i\n", context->payAccruedAtStart);
+
+
 
     if (JpmcdsCdsoneUpfrontCharge(context->today,
                                context->valueDate,
@@ -62,7 +94,7 @@ static int cdsoneSpreadSolverFunction
                                context->dateInterval,
                                context->stubType,
                                context->accrueDCC,
-                               context->badDayConv,
+    				  context->badDayConv,
                                context->calendar,
                                context->discCurve,
                                onespread,
@@ -70,8 +102,9 @@ static int cdsoneSpreadSolverFunction
                                context->payAccruedAtStart,
                                &upfrontCharge) != SUCCESS)
         return FAILURE;
-
+    printf("solverFunction upfront %f", upfrontCharge);
     *diff = upfrontCharge - context->upfrontCharge;
+    printf("solverFunction onespread %f", *diff);
     return SUCCESS;
 }
 
@@ -117,13 +150,12 @@ SEXP calcCdsoneSpread
  SEXP        payAccruedAtStart_input	/* (True/False), True: Clean Upfront supplied */
 )
 {
-  printf("hello----%d", 3);
   static char routine[] = "JpmcdsCdsoneSpread";
     SEXP status;
     TDate baseDate, todayDate, benchmarkStartDate, startDate, endDate, stepinDate,valueDate;
     int n; 	/* for zero curve */
     TCurve *discCurve = NULL;
-    char* pt_types;
+    //    char* pt_types;
     char* pt_holidays;
     char* pt_badDayConvZC;
     char* pt_calendar;
@@ -143,7 +175,7 @@ SEXP calcCdsoneSpread
 			  (long)INTEGER(baseDate_input)[1], 
 			  (long)INTEGER(baseDate_input)[2]);
 
-    printf("baseDate----%d\n", baseDate);
+    printf("baseDate----%lu", baseDate);
 
     todayDate_input = coerceVector(todayDate_input,INTSXP);
     todayDate = JpmcdsDate((long)INTEGER(todayDate_input)[0], 
@@ -175,20 +207,27 @@ SEXP calcCdsoneSpread
 		       (long)INTEGER(endDate_input)[1], 
 		       (long)INTEGER(endDate_input)[2]);
 
-    printf("todayDate----%i\n", todayDate);
-    printf("valueDate----%i\n", valueDate);
-    printf("bmDate----%i\n", benchmarkStartDate);
-    printf("stepinDate----%i\n", stepinDate);
-    printf("startDate----%i\n", startDate);
-    printf("endDate----%i\n", endDate);
+    printf("todayDate----%lu\n", todayDate);
+    printf("valueDate----%lu\n", valueDate);
+    printf("bmDate----%lu\n", benchmarkStartDate);
+    printf("stepinDate----%lu\n", stepinDate);
+    printf("startDate----%lu\n", startDate);
+    printf("endDate----%lu\n", endDate);
 
+    /*  */
+    /*  */
+    char* pt_types;
 
     types = coerceVector(types, STRSXP);
-    pt_types = (char *) CHAR(STRING_ELT(types,0));
+    pt_types =  (char *) CHAR(STRING_ELT(types, 0));
+    printf("types----%c\n", pt_types[0]);
+    printf("types----%c\n", pt_types[1]);
+    printf("types----%c\n", pt_types[10]);
+    holidays = coerceVector(holidays, STRSXP);
     pt_holidays =  (char *) CHAR(STRING_ELT(holidays, 0));
     n = strlen(CHAR(STRING_ELT(types, 0))); // for zerocurve
 
-    printf("types...|%c|\n", *pt_types);
+
 
     rates = coerceVector(rates,REALSXP);
     mmDCC = coerceVector(mmDCC,REALSXP);
@@ -199,8 +238,6 @@ SEXP calcCdsoneSpread
 
     badDayConvZC = AS_CHARACTER(badDayConvZC);
     pt_badDayConvZC = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
-
-    holidays = coerceVector(holidays, STRSXP);
 
     printf("badDayConv...|%c|\n", *pt_badDayConvZC);
 
@@ -246,8 +283,23 @@ SEXP calcCdsoneSpread
       }
 
 
-    printf("build discCurve---\n");
+    printf("build discCurve---laaaaaaaaaaaaaaa\n");
+
+    /* printf("baseDate--%lu\n", baseDate); */
+    /* printf("pt_types--%c\n", *pt_types); */
+    /* printf("dates_main--%lu\n", *dates_main); */
+    /* printf("rates--%f\n", rates); */
+    /* printf("nnnnnnnn--%i\n", n); */
+    /* printf("mmDCC--%i\n", mmDCC_zc_main); */
+    /* printf("freq--%i\n", freq); */
+    /* printf("dcc--%i\n", dcc); */
+    /* printf("pt_badDayConv--%c\n", *pt_badDayConvZC); */
+    /* printf("holidays--%c\n", *pt_holidays); */
+
+    /* printf("curve---laaaaaaaaaaaaaaa\n"); */
+
   // This step is the BuildExampleZeroCurve function in main.c under \examples    
+    discCurve = (TCurve*)malloc(sizeof(TCurve));
     discCurve = JpmcdsBuildIRZeroCurve(
 				       baseDate,
 				       pt_types,
@@ -267,6 +319,12 @@ SEXP calcCdsoneSpread
 				       (char) *pt_badDayConvZC,
 				       pt_holidays);
 
+    printf("tcurve fnumitems %i\n", discCurve->fNumItems);
+    printf("tcurve farray %f\n", *(discCurve->fArray));
+    printf("tcurve fBaseDate %i\n", discCurve->fBaseDate);
+    printf("tcurve fBasis %f\n", discCurve->fBasis);
+    printf("tcurve fDayCountConv %lu\n", discCurve->fDayCountConv);
+
     printf("done building discCurve---\n");
 
     if (discCurve == NULL) printf("NULL...\n");
@@ -275,13 +333,34 @@ SEXP calcCdsoneSpread
     printf("coupon rate---%f\n", couponRate);
     payAccruedOnDefault = *LOGICAL(payAccruedOnDefault_input);
     printf("accruedOnDefault Logical---%i\n", payAccruedOnDefault);
-    pt_dateInterval = (char *) CHAR(STRING_ELT(coerceVector(dateInterval, STRSXP), 0));
-    printf("dateInterval...|%c|\n", *pt_dateInterval);
-    pt_stubType = LOGICAL(stubType);
-    printf("stubType Logical---%i\n", *pt_stubType);
+
+
+    /*  */
+    /*  */
+    pt_dateInterval = (TDateInterval*)malloc(sizeof(TDateInterval));
+    pt_dateInterval->prd_typ = *CHAR(STRING_ELT(coerceVector(dateInterval, STRSXP), 0));
+    pt_dateInterval->prd = 6;
+    pt_dateInterval->flag = 0;
+    printf("dateInterval...|%c|\n", pt_dateInterval->prd_typ);
+
+    /*  */
+    /*  */
+    TBoolean stubAtEnd = FALSE;
+    TBoolean longStub = FALSE;
+    pt_stubType = (TStubMethod*)malloc(sizeof(TStubMethod));
+    pt_stubType->stubAtEnd = stubAtEnd;
+    pt_stubType->longStub = longStub;
+
+    printf("what is stubAtEnd----%i", stubAtEnd);
+    /*  */
+    /*  */
+
+
+    //    pt_stubType = LOGICAL(stubType);
+    //    printf("stubType Logical---%i\n", *pt_stubType);
     //printf("accrueDCC input---%f\n", *REAL(accrueDCC_input));
     accrueDCC = *INTEGER(accrueDCC_input);
-    printf("accrueDCC Logical---%i\n", accrueDCC);
+    printf("accrueDCC ---%i\n", accrueDCC);
     badDayConv = *INTEGER(badDayConv_input);
     printf("badDayConv---%i\n", badDayConv);
     pt_calendar = (char *) CHAR(STRING_ELT(coerceVector(calendar_input, STRSXP), 0));
@@ -312,7 +391,9 @@ SEXP calcCdsoneSpread
     context.payAccruedAtStart   = payAccruedAtStart;
      
     printf("context ok\n");
-
+    printf("maybe onespread ip---%d", pt_onespread);
+    printf("what are we putting into findbrent?---%f", *pt_onespread);
+    *pt_onespread = 333;
     if (JpmcdsRootFindBrent ((TObjectFunc)cdsoneSpreadSolverFunction,
 			     &context,
 			     0.0,    /* boundLo */
