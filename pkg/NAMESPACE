@@ -11,6 +11,3 @@ exportPattern("^[[:alpha:]]+")
 
 ##               )
 
-export(JpmcdsDate
-
-       )
