@@ -120,7 +120,7 @@ SEXP calcCdsoneSpread
     TCurve *discCurve = NULL;
     //    char* pt_types;
     char* pt_holidays;
-    char* pt_badDayConvZC;
+    const char* pt_badDayConvZC;
     char* pt_calendar;
     TBoolean payAccruedOnDefault, payAccruedAtStart;
     TStubMethod *pt_stubType;

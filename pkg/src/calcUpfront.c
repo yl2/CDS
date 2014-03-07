@@ -146,7 +146,8 @@ SEXP calcUpfrontTest
   TCurve *discCurve = NULL;
   char* pt_types;
   char* pt_holidays;
-  char *badDayConvZC_char;
+  // new
+  const char *badDayConvZC_char;
   double parSpread_for_upf;
   double couponRate_for_upf;
   
