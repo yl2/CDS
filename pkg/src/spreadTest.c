@@ -447,11 +447,10 @@ SEXP calcCdsoneSpread
 
  done:
 
-    printf("rootFindBrent Done\n");
-    printf("what is ONESPREADDDDDDDDDDDDDDDD??????%f\n", *pt_onespread); 
+    /* printf("rootFindBrent Done\n"); */
     PROTECT(status = allocVector(REALSXP, 1));
-    REAL(status)[0] = *pt_onespread;
-    printf("assign value done---%f", *pt_onespread);
+    REAL(status)[0] = (*pt_onespread) * 1e4;
+    /* printf("assign value done---%f", *pt_onespread); */
     UNPROTECT(1);
 
     //    if (status != SUCCESS)
