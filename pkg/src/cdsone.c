@@ -76,32 +76,6 @@ EXPORT int JpmcdsCdsoneUpfrontCharge
 
     TCurve           *flatSpreadCurve = NULL;
     
-    /* printf("flat currrrrrrrrrrrrrrve---------------------\n"); */
-    /* printf("today--%lu\n", today); */
-    /* printf("valueDate--%lu\n", valueDate); */
-    /* printf("bmStart--%lu\n", benchmarkStartDate); */
-    /* printf("stepin--%lu\n", stepinDate); */
-    /* printf("endDate--%lu\n", endDate); */
-    /* printf("onespread--%f\n", oneSpread); */
-    /* printf("recovery--%f\n", recoveryRate); */
-    /* printf("payAOD--%i\n", payAccruedOnDefault); */
-    /* printf("dateInterval--%c\n", dateInterval->prd_typ); */
-    /* printf("ivl--%i\n", dateInterval->prd); */
-    /* printf("ivl--%i\n", dateInterval->flag); */
-    /* printf("stubAtEnd--%i\n", stubType->stubAtEnd); */
-    /* printf("stublongStub--%i\n", stubType->longStub); */
-    /* printf("dcc--%i\n", accrueDCC); */
-    /* printf("badDayConv--%i\n", badDayConv); */
-    /* printf("calendar--%c\n", *calendar); */
-    /* printf("tcurve fnumitems %i\n", discCurve->fNumItems); */
-    /* printf("tcurve farray %f\n", *(discCurve->fArray)); */
-    /* printf("tcurve fBaseDate %i\n", discCurve->fBaseDate); */
-    /* printf("tcurve fBasis %f\n", discCurve->fBasis); */
-    /* printf("tcurve fDayCountConv %lu\n", discCurve->fDayCountConv); */
-    /* printf("flat currrrrrrrrrrrrrrve----------------\n"); */
-
-
-
     flatSpreadCurve = JpmcdsCleanSpreadCurve (
         today,
         discCurve,
@@ -121,7 +95,6 @@ EXPORT int JpmcdsCdsoneUpfrontCharge
         calendar);
 
     if (flatSpreadCurve == NULL){
-      // printf("cdsupfrontcharge flatspread null-------------\n");
       goto done;
     }
       
@@ -146,7 +119,6 @@ EXPORT int JpmcdsCdsoneUpfrontCharge
       printf("cdsupfrontcharge fail cds price");
       goto done;
     }
-    // printf("cdsupfrontcharge cds price upfront %f~-~-~-~-~-\n", upfrontCharge);
     status = SUCCESS;
 
  done:
@@ -156,7 +128,6 @@ EXPORT int JpmcdsCdsoneUpfrontCharge
     if (status != SUCCESS)
         JpmcdsErrMsgFailure (routine);
 
-    // printf("success?????? cdsupfront %i\n", status);
     return status;
 }
 
