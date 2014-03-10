@@ -17,15 +17,15 @@ To-Do's
 - Make a function to calculate default probability in decimal (defaultProb)
 - Make functions to calculate SpreadDV01, IR01, and RecRisk01
 - Figure out all inputs for main.c and buildIRExampleCurve
-- Figure out how different types of accruals work
-'''c
+- Figure out how different types of accruals 
+```c
 #define JPMCDS_ACT_365_STR       "Actual/365"
 #define JPMCDS_ACT_365F_STR      "Actual/365F"
 #define JPMCDS_ACT_360_STR       "Actual/360"
 #define JPMCDS_B30_360_STR       "30/360"
 #define JPMCDS_B30E_360_STR      "30E/360"
 #define JPMCDS_EFFECTIVE_RATE_STR "Effective"
-'''
+```
 - Figure out the default swap curve used in the ISDA model (USD first)
 
 
