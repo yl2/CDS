@@ -12,11 +12,36 @@ yang.lu2014 at gmail.com
 CDS To-Do's
 --------------------------------------------------------
 
+
+To-Do's
+- Make a function to calculate default probability in decimal (defaultProb)
+- Make functions to calculate SpreadDV01, IR01, and RecRisk01
+- Figure out how different types of accruals work
+'''
+#define JPMCDS_ACT_365_STR       "Actual/365"
+#define JPMCDS_ACT_365F_STR      "Actual/365F"
+#define JPMCDS_ACT_360_STR       "Actual/360"
+#define JPMCDS_B30_360_STR       "30/360"
+#define JPMCDS_B30E_360_STR      "30E/360"
+#define JPMCDS_EFFECTIVE_RATE_STR "Effective"
+'''
+- Figure out the default swap curve used in the ISDA model (USD first)
+
+
+
+Existing R function files
+- calcUpfront.R: calculates cash settlement amount from conventional spread
+- calcSpreadTest.R: calculates conventional spread from upfront
+
+
+
 Notes
 - Fixed payment from the protection buyer is the "premium leg"
 - Payment of notional less recovery by the protection seller in the event of a default is the "contingent leg"
 - Upfront paymant is often quoted in percent of notional.
 - In general, the market still quotes CDS on investment grade names in terms of their running spread, while high yield name are quoted on an upfront basis.
+- Typically interested in 5-year protection
+
 
 
 Deal Section (From Bloomberg manual)
@@ -53,24 +78,5 @@ Calculator Section (From Bloomberg manual)
 - IR DV01: Dollar value change in Market Value if the benchmark interest rate goes up by 1 bp every point on the curve.
 - Rec Risk (1%): Dollar value change in Market Value if the recovery rate in the spreads section were shift by 1%.
 - Default Exposure: (1-Recovery Rate)*Notional - Principal
-
-
-
-- Able to specify trade date, maturity, recovery rate, deal spread
-- Typically interested in 5-year protection
-
-
-Qns
-- Figure out how different types of accruals work
-- Figure out the default swap curve used in the ISDA model (USD first)
-- Function to calculate default probability (Bloomberg mkt section). In bps p.a.?
-- pt. upfront in percentage of notional amount
-- spreadDV01: what would happen to the principal if spread increases by 1 bps
-- test cases for Spread DV01 and IR DV01
-
-Existing R function files
-- calcUpfront.R: calculates cash settlement amount from conventional spread
-- calcSpreadTest.R: calculates conventional spread from upfront
-
 
 

@@ -1,3 +1,10 @@
+#' Calculate dirty upfront payments from conventional spread
+#'
+#' @param parSpread in bps
+#' @param couponRate in bps
+#' @param recoveryRate in decimal. Default is 0.4.
+#' @param notional default is 10mm (1e7)
+#' 
 calcUpfront <- function(baseDate,
                         types, dates, rates, nInstr,
                         mmDCC, fixedSwapFreq,
@@ -11,7 +18,9 @@ calcUpfront <- function(baseDate,
                         endDate,
                         stepinDate,
                         parSpread,
-                        couponRate){
+                        couponRate,
+                        recoveryRate = 0.4,
+                        notional = 1e7){
     baseDate <- separateYMD(baseDate)
     today <- separateYMD(today)
     valueDate <- separateYMD(valueDate)
@@ -21,18 +30,21 @@ calcUpfront <- function(baseDate,
     stepinDate <- separateYMD(stepinDate)
  
     .Call('calcUpfrontTest',
-          baseDate[1], baseDate[2], baseDate[3],
+          baseDate,
 
           types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
           floatSwapFreq, fixedSwapDcc, floatSwapDcc, badDayConvZC, holidays,
           
-          today[1],today[2],today[3],
-          valueDate[1],valueDate[2],valueDate[3],
-          benchmarkDate[1], benchmarkDate[2], benchmarkDate[3],
-          startDate[1],startDate[2],startDate[3],
-          endDate[1],endDate[2],endDate[3],
-          stepinDate[1],stepinDate[2],stepinDate[3],
-          parSpread, couponRate)
+          today,
+          valueDate,
+          benchmarkDate,
+          startDate,
+          endDate,
+          stepinDate,
+          parSpread,
+          couponRate,
+          recoveryRate,
+          notional)
 }
 
 

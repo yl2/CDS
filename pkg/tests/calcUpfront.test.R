@@ -21,7 +21,9 @@ library(CDS)
 ##                      endDate = "2008-02-12",
 ##                      stepinDate = "2008-02-9",
 ##                      parSpread = 720,
-##                      couponRate = 100)
+##                      couponRate = 100,
+##                      recoveryRate = 0.4,
+##                      notional = 1e7)
 ## save(truth, file = "calcUpfront.test.RData")
 
 load("calcUpfront.test.RData")
@@ -44,7 +46,9 @@ result <- calcUpfront("2008-01-03",
                       endDate = "2008-02-12",
                       stepinDate = "2008-02-9",
                       parSpread = 720,
-                      couponRate = 100)
+                      couponRate = 100,
+                      recoveryRate = 0.4,
+                      notional = 1e7)
 
 
 stopifnot(all.equal(result, truth))
