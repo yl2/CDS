@@ -16,8 +16,9 @@ CDS To-Do's
 To-Do's
 - Make a function to calculate default probability in decimal (defaultProb)
 - Make functions to calculate SpreadDV01, IR01, and RecRisk01
+- Figure out all inputs for main.c and buildIRExampleCurve
 - Figure out how different types of accruals work
-'''
+'''c
 #define JPMCDS_ACT_365_STR       "Actual/365"
 #define JPMCDS_ACT_365F_STR      "Actual/365F"
 #define JPMCDS_ACT_360_STR       "Actual/360"
