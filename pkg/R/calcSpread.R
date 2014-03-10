@@ -1,4 +1,11 @@
-## Calculate conventional spread from upfront
+#' Calculate conventional spread from upfront
+#'
+#' @param couponRate in bps
+#' @param recoveryRate in decimal. Default is 0.4.
+#' @param notional default is 10mm (1e7)
+#' @param upfrontCharge the dollar amount for upfront payment
+#' 
+
 calcSpread <- function(baseDate,
                        types, dates, rates, nInstr,
                        mmDCC, fixedSwapFreq,
@@ -20,9 +27,10 @@ calcSpread <- function(baseDate,
                        calendar,
                        upfrontCharge,
                        recoveryRate,
-                       payAccruedAtStart
+                       payAccruedAtStart,
+                       notional
                        ){
-    
+    ptsUpf <- upfrontCharge / notional
     baseDate <- separateYMD(baseDate)
     todayDate <- separateYMD(todayDate)
     valueDate <- separateYMD(valueDate)
@@ -50,14 +58,15 @@ calcSpread <- function(baseDate,
           stepinDate,
           startDate,
           endDate,
-          couponRate,
+          couponRate / 1e4,
           payAccruedOnDefault,
           dateInterval,
           stubType,
           accrueDCC,
           badDayConv,
           calendar,
-          upfrontCharge,
+          ## upfrontCharge,
+          ptsUpf,
           recoveryRate,
           payAccruedAtStart)
 }

@@ -52,16 +52,17 @@ result <- calcSpread(baseDate = "2008-01-03",
                      startDate = "2008-02-08",
                      endDate = "2008-02-12",
                      stepinDate = "2008-02-9",
-                     couponRate = 100/1e4, 
+                     couponRate = 100, 
                      payAccruedOnDefault = TRUE, 
                      dateInterval = 'M',		  
                      stubType = TRUE, 		
                      accrueDCC = as.integer(3),
                      badDayConv = as.integer(70),
                      calendar = 'None',
-                     upfrontCharge = 600000/1e7,
+                     upfrontCharge = 600000,
                      recoveryRate = .4,
-                     payAccruedAtStart = FALSE
+                     payAccruedAtStart = FALSE,
+                     notional = 1e7
                      )
 
 
