@@ -14,9 +14,10 @@ CDS To-Do's
 
 
 To-Do's
-- Make a function to calculate default probability in decimal (defaultProb)
-- Make functions to calculate SpreadDV01, IR01, and RecRisk01
+- Ensure that all inputs of calcUpfront and calcSpread work
 - Figure out all inputs for main.c and buildIRExampleCurve
+- Make functions to calculate SpreadDV01, IR01, and RecRisk01
+- Make a function to calculate default probability in decimal (defaultProb)
 - Figure out the default swap curve used in the ISDA model (USD first)
 
 
@@ -24,7 +25,7 @@ To-Do's
 Existing R function files
 - calcUpfront.R: calculates cash settlement amount from conventional spread
 - calcSpreadTest.R: calculates conventional spread from upfront
-
+- CDS.R: construct a primitive CDS class object. More to implement once spreadDV01 and IR DV01 functions become available.
 
 
 Notes
