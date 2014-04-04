@@ -17,15 +17,6 @@ To-Do's
 - Make a function to calculate default probability in decimal (defaultProb)
 - Make functions to calculate SpreadDV01, IR01, and RecRisk01
 - Figure out all inputs for main.c and buildIRExampleCurve
-- Figure out how different types of accruals 
-```c
-#define JPMCDS_ACT_365_STR       "Actual/365"
-#define JPMCDS_ACT_365F_STR      "Actual/365F"
-#define JPMCDS_ACT_360_STR       "Actual/360"
-#define JPMCDS_B30_360_STR       "30/360"
-#define JPMCDS_B30E_360_STR      "30E/360"
-#define JPMCDS_EFFECTIVE_RATE_STR "Effective"
-```
 - Figure out the default swap curve used in the ISDA model (USD first)
 
 
@@ -42,7 +33,16 @@ Notes
 - Upfront paymant is often quoted in percent of notional.
 - In general, the market still quotes CDS on investment grade names in terms of their running spread, while high yield name are quoted on an upfront basis.
 - Typically interested in 5-year protection
-
+- DCC: day count convention. ACT/FixedNumber where ACT is the actual
+number of days between two events and the fixed denominator is 360 or
+365. ACT/365 is often referred to as ACT/365 Fixed or ACT/365F. More details at http://developers.opengamma.com/quantitative-research/Interest-Rate-Instruments-and-Market-Conventions.pdf
+- The cash settlement value (or dirty price from bond lexicon) of a CDS
+is the discounted value of expected future cash flows, and ignores the
+accrued premium. What is normally quoted is the upfront fee or cash
+amount (the clean price), which is simply the dirty price with any
+accrued interest added. For a newly issued legacy CDS, there is no
+accrued interest (recall, interest accrues from T+1), so dirty and
+clean price are the same. (OpenGamma)
 
 
 Deal Section (From Bloomberg manual)
