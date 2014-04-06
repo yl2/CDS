@@ -40,13 +40,13 @@ calcSpread <- function(baseDate,
                        notional
                        ){
     ptsUpf <- upfrontCharge / notional
-    baseDate <- separateYMD(baseDate)
-    todayDate <- separateYMD(todayDate)
-    valueDate <- separateYMD(valueDate)
-    benchmarkStartDate <- separateYMD(benchmarkStartDate)
-    startDate <- separateYMD(startDate)
-    endDate <- separateYMD(endDate)
-    stepinDate <- separateYMD(stepinDate)
+    baseDate <- .separateYMD(baseDate)
+    todayDate <- .separateYMD(todayDate)
+    valueDate <- .separateYMD(valueDate)
+    benchmarkStartDate <- .separateYMD(benchmarkStartDate)
+    startDate <- .separateYMD(startDate)
+    endDate <- .separateYMD(endDate)
+    stepinDate <- .separateYMD(stepinDate)
     
     .Call('calcCdsoneSpread',
           baseDate,

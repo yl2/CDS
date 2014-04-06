@@ -24,18 +24,20 @@ calcUpfront <- function(baseDate,
                         dccCDS,
                         freqCDS,
                         stubCDS,
+                        badDayConvCDS,
+                        calendar,
                         
                         parSpread,
                         couponRate,
                         recoveryRate = 0.4,
                         notional = 1e7){
-    baseDate <- separateYMD(baseDate)
-    today <- separateYMD(today)
-    valueDate <- separateYMD(valueDate)
-    benchmarkDate <- separateYMD(benchmarkDate)
-    startDate <- separateYMD(startDate)
-    endDate <- separateYMD(endDate)
-    stepinDate <- separateYMD(stepinDate)
+    baseDate <- .separateYMD(baseDate)
+    today <- .separateYMD(today)
+    valueDate <- .separateYMD(valueDate)
+    benchmarkDate <- .separateYMD(benchmarkDate)
+    startDate <- .separateYMD(startDate)
+    endDate <- .separateYMD(endDate)
+    stepinDate <- .separateYMD(stepinDate)
  
     .Call('calcUpfrontTest',
           baseDate,
@@ -55,7 +57,9 @@ calcUpfront <- function(baseDate,
           dccCDS,
           freqCDS,
           stubCDS,
-
+          badDayConvCDS,
+          calendar,
+          
           parSpread,
           couponRate,
           recoveryRate,

@@ -32,9 +32,13 @@ double CalcUpfrontChargeTest
  TDate         stepinDate,
  TDate         endDate,
  TBoolean      payAccOnDefault, // = TRUE,
- char*          dcc,
- char*          stub,
- char*          ivl,
+ char*         dcc,
+ char*         stub,
+ char*         ivl,
+
+ char          badDayConv,
+ char*         calendar,
+
  double        parSpread, //  = 3600,
  double        recoveryRate, // = 0.4,
  TBoolean      isPriceClean, // = FALSE,
@@ -82,9 +86,9 @@ double CalcUpfrontChargeTest
                                   &ivl_cds,
                                   &stub_cds,
                                   dcc_cds,
-                                  'F',
-                                  "None",
-                                  curve,
+				  badDayConv,// 'F',
+				  calendar,// "None",
+				  curve,
                                   parSpread / 10000.0,
                                   recoveryRate,
                                   isPriceClean,
@@ -122,6 +126,8 @@ SEXP calcUpfrontTest
  SEXP dccCDS,
  SEXP ivlCDS,
  SEXP stubCDS,
+ SEXP badDayConvCDS,
+ SEXP calendar,
 
  SEXP parSpread,
  SEXP couponRate,
@@ -146,9 +152,11 @@ SEXP calcUpfrontTest
   char* pt_dccCDS;
   char* pt_ivlCDS;
   char* pt_stubCDS;
+  char* pt_calendar;
+  char* pt_badDayConvCDS;
 
   // new
-  const char *badDayConvZC_char;
+  const char *pt_badDayConvZC;
   double parSpread_for_upf, couponRate_for_upf, recoveryRate_for_upf, notional_for_upf;
   
   // function to consolidate R input to TDate
@@ -210,6 +218,9 @@ SEXP calcUpfrontTest
   floatSwapDCC = coerceVector(floatSwapDCC, STRSXP);
   pt_floatSwapDCC = (char *) CHAR(STRING_ELT(floatSwapDCC,0));
 
+  calendar = coerceVector(calendar, STRSXP);
+  pt_calendar = (char *) CHAR(STRING_ELT(calendar,0));
+
   /* fixedSwapFreq = coerceVector(fixedSwapFreq,REALSXP); */
   /* floatSwapFreq = coerceVector(floatSwapFreq,REALSXP); */
   /* fixedSwapDCC = coerceVector(fixedSwapDCC,REALSXP); */
@@ -220,9 +231,10 @@ SEXP calcUpfrontTest
   notional_for_upf = *REAL(notional);
 
   badDayConvZC = AS_CHARACTER(badDayConvZC);
-  badDayConvZC_char = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
+  pt_badDayConvZC = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
 
-
+  badDayConvCDS = AS_CHARACTER(badDayConvCDS);
+  pt_badDayConvCDS = CHAR(asChar(STRING_ELT(badDayConvCDS, 0)));
 
   // main.c dates
   /* TDateInterval ivl; */
@@ -296,7 +308,7 @@ SEXP calcUpfrontTest
 				       (long) floatSwapFreq_curve,
 				       fixedSwapDCC_curve,
 				       floatSwapDCC_curve,
-				       (char) *badDayConvZC_char,
+				       (char) *pt_badDayConvZC,
 				       pt_holidays);
     
     if (discCurve == NULL) printf("NULL...\n");
@@ -327,6 +339,10 @@ SEXP calcUpfrontTest
 						    pt_dccCDS,
 						    pt_stubCDS, 
 						    pt_ivlCDS,
+						    
+						    (char) *pt_badDayConvCDS,
+						    pt_calendar,
+						    
 						    parSpread_for_upf, 
 						    recoveryRate_for_upf,
 						    FALSE,

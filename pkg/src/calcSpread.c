@@ -93,28 +93,26 @@ SEXP calcCdsoneSpread
  SEXP badDayConvZC, //'M'  badDayConv for zero curve
  SEXP holidays,//'None'
 
- SEXP           todayDate_input, /*today: T (Where T = trade date)*/
- SEXP           valueDate_input, /* value date: T+3 Business Days*/
- SEXP           benchmarkStartDate_input,  /* start date of benchmark CDS for
+ SEXP todayDate_input, /*today: T (Where T = trade date)*/
+ SEXP valueDate_input, /* value date: T+3 Business Days*/
+ SEXP benchmarkStartDate_input,  /* start date of benchmark CDS for
 				     ** internal clean spread bootstrapping;
 				     ** accrual Begin Date  */
- SEXP           stepinDate_input,  /* T + 1*/
- SEXP           startDate_input,  /* Accrual Begin Date */
- SEXP           endDate_input,  /*  Maturity (Fixed) */
+ SEXP stepinDate_input,  /* T + 1*/
+ SEXP startDate_input,  /* Accrual Begin Date */
+ SEXP endDate_input,  /*  Maturity (Fixed) */
 
-
-
- SEXP          couponRate_input, 	/* Fixed Coupon Amt */
- SEXP        payAccruedOnDefault_input, /* TRUE in new contract */
- SEXP  dateInterval,		  /* Q - 3 months in new contract */
- SEXP    stubType, 		/* F/S */
- SEXP            accrueDCC_input,	/* ACT/360 */
- SEXP            badDayConv_input, 	/* (F) Following */ 
- SEXP           calendar_input,	/*  None (no holiday calendar) in new contract */
- SEXP          upfrontCharge_input,
- SEXP          recoveryRate_input,	/* might want to consider setting default 
+ SEXP couponRate_input, 	/* Fixed Coupon Amt */
+ SEXP payAccruedOnDefault_input, /* TRUE in new contract */
+ SEXP dateInterval,		  /* Q - 3 months in new contract */
+ SEXP stubType, 		/* F/S */
+ SEXP accrueDCC_input,	/* ACT/360 */
+ SEXP badDayConv_input, 	/* (F) Following */ 
+ SEXP calendar_input,	/*  None (no holiday calendar) in new contract */
+ SEXP upfrontCharge_input,
+ SEXP recoveryRate_input,	/* might want to consider setting default 
 				** to 40% for the new contracts */
- SEXP        payAccruedAtStart_input	/* (True/False), True: Clean Upfront supplied */
+ SEXP payAccruedAtStart_input	/* (True/False), True: Clean Upfront supplied */
 )
 {
   static char routine[] = "JpmcdsCdsoneSpread";
@@ -148,8 +146,6 @@ SEXP calcCdsoneSpread
   baseDate = JpmcdsDate((long)INTEGER(baseDate_input)[0], 
 			(long)INTEGER(baseDate_input)[1], 
 			(long)INTEGER(baseDate_input)[2]);
-  
-  // printf("baseDate----%lu", baseDate);
   
   todayDate_input = coerceVector(todayDate_input,INTSXP);
   todayDate = JpmcdsDate((long)INTEGER(todayDate_input)[0], 
