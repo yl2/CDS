@@ -32,17 +32,20 @@ double CalcUpfrontChargeTest
  TDate         stepinDate,
  TDate         endDate,
  TBoolean      payAccOnDefault, // = TRUE,
- TDateInterval ivl,
- TStubMethod   stub,
- long          dcc,
+ char*          dcc,
+ char*          stub,
+ char*          ivl,
  double        parSpread, //  = 3600,
  double        recoveryRate, // = 0.4,
  TBoolean      isPriceClean, // = FALSE,
  double        notional //= 1e7
-)
+ )
 {
-    static char  *routine = "CalcUpfrontCharge";
-    double        result = -1.0;
+  static char  *routine = "CalcUpfrontCharge";
+  double        result = -1.0;
+  TDateInterval ivl_cds;
+  long          dcc_cds;
+  TStubMethod   stub_cds;
 
     if (curve == NULL)
     {
@@ -50,13 +53,22 @@ double CalcUpfrontChargeTest
         goto done;
     }
 
-    if (JpmcdsStringToDayCountConv("Act/360", &dcc) != SUCCESS)
+    /* if (JpmcdsStringToDayCountConv("Act/360", &dcc_cds) != SUCCESS) */
+    /*     goto done; */
+    
+    /* if (JpmcdsStringToDateInterval("1S", routine, &ivl_cds) != SUCCESS) */
+    /*     goto done; */
+
+    /* if (JpmcdsStringToStubMethod("f/s", &stub_cds) != SUCCESS) */
+    /*     goto done; */
+
+    if (JpmcdsStringToDayCountConv(dcc, &dcc_cds) != SUCCESS)
         goto done;
     
-    if (JpmcdsStringToDateInterval("1S", routine, &ivl) != SUCCESS)
+    if (JpmcdsStringToDateInterval(ivl, routine, &ivl_cds) != SUCCESS)
         goto done;
 
-    if (JpmcdsStringToStubMethod("f/s", &stub) != SUCCESS)
+    if (JpmcdsStringToStubMethod(stub, &stub_cds) != SUCCESS)
         goto done;
 
     if (JpmcdsCdsoneUpfrontCharge(today,
@@ -67,9 +79,9 @@ double CalcUpfrontChargeTest
                                   endDate,
                                   couponRate / 10000.0,
                                   payAccOnDefault,
-                                  &ivl,
-                                  &stub,
-                                  dcc,
+                                  &ivl_cds,
+                                  &stub_cds,
+                                  dcc_cds,
                                   'F',
                                   "None",
                                   curve,
@@ -91,8 +103,9 @@ SEXP calcUpfrontTest
  SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
  SEXP nInstr,          /* (I) Number of benchmark instruments  */
  SEXP mmDCC,          /* (I) DCC of MM instruments            */
- SEXP fixedSwapFreq,   /* (I) Fixed leg freqency               */
- SEXP floatSwapFreq,   /* (I) Floating leg freqency            */
+
+ SEXP fixedSwapFreq,   /* (I) Fixed leg freqency/interval               */
+ SEXP floatSwapFreq,   /* (I) Floating leg freqency/interval            */
  SEXP fixedSwapDCC,    /* (I) DCC of fixed leg                 */
  SEXP floatSwapDCC,    /* (I) DCC of floating leg              */
  SEXP badDayConvZC, //'M'  badDayConv for zero curve
@@ -106,6 +119,10 @@ SEXP calcUpfrontTest
  SEXP endDate_input,
  SEXP stepinDate_input,
  
+ SEXP dccCDS,
+ SEXP ivlCDS,
+ SEXP stubCDS,
+
  SEXP parSpread,
  SEXP couponRate,
  SEXP recoveryRate,
@@ -121,6 +138,15 @@ SEXP calcUpfrontTest
   TCurve *discCurve = NULL;
   char* pt_types;
   char* pt_holidays;
+  char* pt_mmDCC;
+  char* pt_fixedSwapDCC;
+  char* pt_floatSwapDCC;
+  char* pt_fixedSwapFreq;
+  char* pt_floatSwapFreq;
+  char* pt_dccCDS;
+  char* pt_ivlCDS;
+  char* pt_stubCDS;
+
   // new
   const char *badDayConvZC_char;
   double parSpread_for_upf, couponRate_for_upf, recoveryRate_for_upf, notional_for_upf;
@@ -163,16 +189,31 @@ SEXP calcUpfrontTest
 
   types = coerceVector(types, STRSXP);
   pt_types = (char *) CHAR(STRING_ELT(types,0));
+  holidays = coerceVector(holidays, STRSXP);
   pt_holidays =  (char *) CHAR(STRING_ELT(holidays, 0));
   
   n = strlen(CHAR(STRING_ELT(types, 0))); // for zerocurve
-
   rates = coerceVector(rates,REALSXP);
-  mmDCC = coerceVector(mmDCC,REALSXP);
-  fixedSwapFreq = coerceVector(fixedSwapFreq,REALSXP);
-  floatSwapFreq = coerceVector(floatSwapFreq,REALSXP);
-  fixedSwapDCC = coerceVector(fixedSwapDCC,REALSXP);
-  floatSwapDCC = coerceVector(floatSwapDCC,REALSXP);
+
+  mmDCC = coerceVector(mmDCC, STRSXP);
+  pt_mmDCC = (char *) CHAR(STRING_ELT(mmDCC,0));
+
+  fixedSwapFreq = coerceVector(fixedSwapFreq, STRSXP);
+  pt_fixedSwapFreq = (char *) CHAR(STRING_ELT(fixedSwapFreq,0));
+
+  floatSwapFreq = coerceVector(floatSwapFreq, STRSXP);
+  pt_floatSwapFreq = (char *) CHAR(STRING_ELT(floatSwapFreq,0));
+
+  fixedSwapDCC = coerceVector(fixedSwapDCC, STRSXP);
+  pt_fixedSwapDCC = (char *) CHAR(STRING_ELT(fixedSwapDCC,0));
+
+  floatSwapDCC = coerceVector(floatSwapDCC, STRSXP);
+  pt_floatSwapDCC = (char *) CHAR(STRING_ELT(floatSwapDCC,0));
+
+  /* fixedSwapFreq = coerceVector(fixedSwapFreq,REALSXP); */
+  /* floatSwapFreq = coerceVector(floatSwapFreq,REALSXP); */
+  /* fixedSwapDCC = coerceVector(fixedSwapDCC,REALSXP); */
+  /* floatSwapDCC = coerceVector(floatSwapDCC,REALSXP); */
   parSpread_for_upf = *REAL(parSpread);
   couponRate_for_upf = *REAL(couponRate);
   recoveryRate_for_upf = *REAL(recoveryRate);
@@ -181,25 +222,46 @@ SEXP calcUpfrontTest
   badDayConvZC = AS_CHARACTER(badDayConvZC);
   badDayConvZC_char = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
 
-  holidays = coerceVector(holidays, STRSXP);
+
 
   // main.c dates
-  TDateInterval ivl;
-  long          dcc;
-  double        freq;
+  /* TDateInterval ivl; */
+  TDateInterval fixedSwapIvl_curve;
+  TDateInterval floatSwapIvl_curve;
+  /* long          dcc; */
+  long          fixedSwapDCC_curve;
+  long          floatSwapDCC_curve;
+  /* double        freq; */
+  double        fixedSwapFreq_curve;
+  double        floatSwapFreq_curve;
+
   long mmDCC_zc_main;
   static char  *routine_zc_main = "BuildExampleZeroCurve";
 
-  if (JpmcdsStringToDayCountConv("Act/360", &mmDCC_zc_main) != SUCCESS)
+  /* if (JpmcdsStringToDayCountConv("Act/360", &mmDCC_zc_main) != SUCCESS) */
+  /*   goto done; */
+  if (JpmcdsStringToDayCountConv(pt_mmDCC, &mmDCC_zc_main) != SUCCESS)
     goto done;
   
-  if (JpmcdsStringToDayCountConv("30/360", &dcc) != SUCCESS)
+  /* if (JpmcdsStringToDayCountConv("30/360", &dcc) != SUCCESS) */
+  /*   goto done; */
+  if (JpmcdsStringToDayCountConv(pt_fixedSwapDCC, &fixedSwapDCC_curve) != SUCCESS)
+    goto done;
+  if (JpmcdsStringToDayCountConv(pt_floatSwapDCC, &floatSwapDCC_curve) != SUCCESS)
     goto done;
   
-  if (JpmcdsStringToDateInterval("6M", routine_zc_main, &ivl) != SUCCESS)
+  /* if (JpmcdsStringToDateInterval("6M", routine_zc_main, &ivl) != SUCCESS) */
+  /*   goto done; */
+  if (JpmcdsStringToDateInterval(pt_fixedSwapFreq, routine_zc_main, &fixedSwapIvl_curve) != SUCCESS)
+    goto done;
+  if (JpmcdsStringToDateInterval(pt_floatSwapFreq, routine_zc_main, &floatSwapIvl_curve) != SUCCESS)
     goto done;
   
-  if (JpmcdsDateIntervalToFreq(&ivl, &freq) != SUCCESS)
+  /* if (JpmcdsDateIntervalToFreq(&ivl, &freq) != SUCCESS) */
+  /*   goto done; */
+  if (JpmcdsDateIntervalToFreq(&fixedSwapIvl_curve, &fixedSwapFreq_curve) != SUCCESS)
+    goto done;
+  if (JpmcdsDateIntervalToFreq(&floatSwapIvl_curve, &floatSwapFreq_curve) != SUCCESS)
     goto done;
   
   
@@ -224,23 +286,34 @@ SEXP calcUpfrontTest
       }
     }
 
-    discCurve = JpmcdsBuildIRZeroCurve(
-				       baseDate,
+    discCurve = JpmcdsBuildIRZeroCurve(baseDate,
 				       pt_types,
 				       dates_main,
 				       REAL(rates),
 				       (long)n,
 				       (long) mmDCC_zc_main,
-				       (long) freq,
-				       (long) freq,
-				       (long) dcc,
-				       (long) dcc,
+				       (long) fixedSwapFreq_curve,
+				       (long) floatSwapFreq_curve,
+				       fixedSwapDCC_curve,
+				       floatSwapDCC_curve,
 				       (char) *badDayConvZC_char,
 				       pt_holidays);
     
     if (discCurve == NULL) printf("NULL...\n");
-    
-    TStubMethod stub;
+
+    long dcc_cds;
+    TDateInterval ivl_cds;
+
+    dccCDS = coerceVector(dccCDS, STRSXP);
+    pt_dccCDS = (char *) CHAR(STRING_ELT(dccCDS,0));
+
+    ivlCDS = coerceVector(ivlCDS, STRSXP);
+    pt_ivlCDS = (char *) CHAR(STRING_ELT(ivlCDS,0));
+
+    stubCDS = coerceVector(stubCDS, STRSXP);
+    pt_stubCDS = (char *) CHAR(STRING_ELT(stubCDS,0));
+
+    /* TStubMethod stub; */
     PROTECT(upfrontPayment = allocVector(REALSXP, 1));
     REAL(upfrontPayment)[0] = CalcUpfrontChargeTest(discCurve, 
 						    (double) couponRate_for_upf,
@@ -251,9 +324,9 @@ SEXP calcUpfrontTest
 						    stepinDate,
 						    endDate,
 						    TRUE,
-						    ivl,
-						    stub, 
-						    dcc,
+						    pt_dccCDS,
+						    pt_stubCDS, 
+						    pt_ivlCDS,
 						    parSpread_for_upf, 
 						    recoveryRate_for_upf,
 						    FALSE,

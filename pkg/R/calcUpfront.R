@@ -7,8 +7,11 @@
 #' 
 calcUpfront <- function(baseDate,
                         types, dates, rates, nInstr,
-                        mmDCC, fixedSwapFreq,
-                        floatSwapFreq, fixedSwapDcc, floatSwapDcc,
+                        mmDCC, ## mmDCC is a character detailing the
+                               ## DCC of the MM instruments for the
+                               ## yield curve.
+                        
+                        fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
                         badDayConvZC, holidays,
                         
                         today,
@@ -17,6 +20,11 @@ calcUpfront <- function(baseDate,
                         startDate,
                         endDate,
                         stepinDate,
+
+                        dccCDS,
+                        freqCDS,
+                        stubCDS,
+                        
                         parSpread,
                         couponRate,
                         recoveryRate = 0.4,
@@ -32,8 +40,10 @@ calcUpfront <- function(baseDate,
     .Call('calcUpfrontTest',
           baseDate,
 
-          types, dates, rates, nInstr, mmDCC, fixedSwapFreq,
-          floatSwapFreq, fixedSwapDcc, floatSwapDcc, badDayConvZC, holidays,
+          types, dates, rates, nInstr, mmDCC,
+          
+          fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
+          badDayConvZC, holidays,
           
           today,
           valueDate,
@@ -41,6 +51,11 @@ calcUpfront <- function(baseDate,
           startDate,
           endDate,
           stepinDate,
+          
+          dccCDS,
+          freqCDS,
+          stubCDS,
+
           parSpread,
           couponRate,
           recoveryRate,
