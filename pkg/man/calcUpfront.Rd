@@ -8,5 +8,5 @@ Calculate upfront charge
 more to come
 }
 \usage{
-more to come
+
 }

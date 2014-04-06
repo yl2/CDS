@@ -8,5 +8,5 @@ Calculate conventional spread from upfront
 more to come
 }
 \usage{
-more to come
+
 }
