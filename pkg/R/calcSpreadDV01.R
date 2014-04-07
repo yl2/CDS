@@ -5,7 +5,7 @@
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param notional default is 10mm (1e7)
 #' 
-calcDV01 <- function(baseDate,
+calcSpreadDV01 <- function(baseDate,
                      types, dates, rates, nInstr,
                      mmDCC, ## mmDCC is a character detailing the
                             ## DCC of the MM instruments for the
