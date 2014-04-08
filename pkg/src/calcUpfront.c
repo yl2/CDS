@@ -348,7 +348,6 @@ SEXP calcUpfrontTest
 						    recoveryRate_for_upf,
 						    FALSE,
 						    notional_for_upf);
-    printf("spread curve %f \n", parSpread_for_upf);
     UNPROTECT(1);
  done:
     FREE(dates_main);
