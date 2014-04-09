@@ -42,7 +42,10 @@ calcIRDV01 <- function(baseDate,
     upfront = .Call('calcUpfrontTest',
         baseDate,
         
-        types, dates, rates, nInstr, mmDCC,
+        types, ## dates,
+        rates,
+        ##nInstr,
+        mmDCC,
         
         fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
         badDayConvZC, holidays,
@@ -68,28 +71,31 @@ calcIRDV01 <- function(baseDate,
   upfront2 = .Call('calcUpfrontTest',
       baseDate,
       
-        types, dates, rates + 1/1e4, nInstr, mmDCC,
+      types, ## dates,
+      rates + 1/1e4,
+      ## nInstr,
+      mmDCC,
       
-        fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
-        badDayConvZC, holidays,
-        
-        today,
-        valueDate,
-        benchmarkDate,
-        startDate,
-        endDate,
-        stepinDate,
-        
-        dccCDS,
-        freqCDS,
-        stubCDS,
-        badDayConvCDS,
-        calendar,
-        
-        parSpread,
-        couponRate,
-        recoveryRate,
-        notional)
+      fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
+      badDayConvZC, holidays,
+      
+      today,
+      valueDate,
+      benchmarkDate,
+      startDate,
+      endDate,
+      stepinDate,
+      
+      dccCDS,
+      freqCDS,
+      stubCDS,
+      badDayConvCDS,
+      calendar,
+      
+      parSpread,
+      couponRate,
+      recoveryRate,
+      notional)
 
     return (upfront2 - upfront)
     

@@ -43,7 +43,11 @@ calcSpreadDV01 <- function(baseDate,
     upfront = .Call('calcUpfrontTest',
         baseDate,
         
-        types, dates, rates, nInstr, mmDCC,
+        types,
+        ## dates,
+        rates,
+        ## nInstr,
+        mmDCC,
         
         fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
         badDayConvZC, holidays,
@@ -69,29 +73,32 @@ calcSpreadDV01 <- function(baseDate,
   upfront2 = .Call('calcUpfrontTest',
       baseDate,
       
-        types, dates, rates, nInstr, mmDCC,
+      types, ## dates,
+      rates,
+      ## nInstr,
+      mmDCC,
       
-        fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
-        badDayConvZC, holidays,
+      fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
+      badDayConvZC, holidays,
+      
+      today,
+      valueDate,
+      benchmarkDate,
+      startDate,
+      endDate,
+      stepinDate,
         
-        today,
-        valueDate,
-        benchmarkDate,
-        startDate,
-        endDate,
-        stepinDate,
-        
-        dccCDS,
-        freqCDS,
-        stubCDS,
-        badDayConvCDS,
-        calendar,
-        
-        parSpread + 1,
-        couponRate,
-        recoveryRate,
-        notional)
-
+      dccCDS,
+      freqCDS,
+      stubCDS,
+      badDayConvCDS,
+      calendar,
+      
+      parSpread + 1,
+      couponRate,
+      recoveryRate,
+      notional)
+    
     return (upfront2 - upfront)
     
 }
