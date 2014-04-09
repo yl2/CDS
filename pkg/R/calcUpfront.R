@@ -1,12 +1,16 @@
 #' Calculate dirty upfront payments from conventional spread
 #'
+#' 
 #' @param parSpread in bps
 #' @param couponRate in bps
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param notional default is 10mm (1e7)
 #' 
 calcUpfront <- function(baseDate,
-                        types, dates, rates, nInstr,
+                        types,
+                        ## dates,
+                        rates,
+                        ## nInstr,
                         mmDCC, ## mmDCC is a character detailing the
                                ## DCC of the MM instruments for the
                                ## yield curve.
@@ -42,7 +46,11 @@ calcUpfront <- function(baseDate,
     .Call('calcUpfrontTest',
           baseDate,
 
-          types, dates, rates, nInstr, mmDCC,
+          types,
+          ## dates,
+          rates,
+          ## nInstr,
+          mmDCC,
           
           fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
           badDayConvZC, holidays,

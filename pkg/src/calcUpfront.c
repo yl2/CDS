@@ -104,9 +104,9 @@ SEXP calcUpfrontTest
 (SEXP baseDate_input,  /* (I) Value date  for zero curve       */
  
  SEXP types, //"MMMMMSSSSSSSSS"
- SEXP dates, /* (I) Array of swaps dates             */
+ // SEXP dates, /* (I) Array of swaps dates             */
  SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
- SEXP nInstr,          /* (I) Number of benchmark instruments  */
+ // SEXP nInstr,          /* (I) Number of benchmark instruments  */
  SEXP mmDCC,          /* (I) DCC of MM instruments            */
 
  SEXP fixedSwapFreq,   /* (I) Fixed leg freqency/interval               */
@@ -237,7 +237,6 @@ SEXP calcUpfrontTest
   badDayConvCDS = AS_CHARACTER(badDayConvCDS);
   pt_badDayConvCDS = CHAR(asChar(STRING_ELT(badDayConvCDS, 0)));
 
-  // main.c dates
   /* TDateInterval ivl; */
   TDateInterval fixedSwapIvl_curve;
   TDateInterval floatSwapIvl_curve;

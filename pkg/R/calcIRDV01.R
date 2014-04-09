@@ -1,4 +1,4 @@
-#' Calculate the spread DV01 from conventional spread
+#' Calculate the IR DV01 from conventional spread
 #'
 #' @param parSpread in bps
 #' @param couponRate in bps
