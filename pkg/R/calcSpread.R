@@ -8,9 +8,9 @@
 
 calcSpread <- function(baseDate,
                        types,
-                       dates,
+                       ## dates,
                        rates,
-                       nInstr,
+                       ## nInstr,
                        mmDCC,
 
                        fixedSwapFreq,
@@ -51,9 +51,9 @@ calcSpread <- function(baseDate,
     .Call('calcCdsoneSpread',
           baseDate,
           types,
-          dates,
+          ## dates,
           rates,
-          nInstr,
+          ## nInstr,
           mmDCC,
           
           fixedSwapFreq,

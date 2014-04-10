@@ -16,7 +16,7 @@ CDS To-Do's
 To-Do's
 - Make a function to calculate default probability in decimal (defaultProb)
 - Make functions to calculate RecRisk01
-- Test cases for getRates.R
+- Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
 Existing R function files
 - calcUpfront.R calculates cash settlement amount from conventional spread

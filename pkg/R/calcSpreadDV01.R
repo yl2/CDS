@@ -7,13 +7,20 @@
 #' 
 
 calcSpreadDV01 <- function(baseDate,
-                           types, dates, rates, nInstr,
+                           types,
+                           ## dates,
+                           rates,
+                           ## nInstr,
                            mmDCC, ## mmDCC is a character detailing the
                            ## DCC of the MM instruments for the
                            ## yield curve.
                            
-                           fixedSwapFreq, floatSwapFreq, fixedSwapDcc, floatSwapDcc,
-                           badDayConvZC, holidays,
+                           fixedSwapFreq,
+                           floatSwapFreq,
+                           fixedSwapDcc,
+                           floatSwapDcc,
+                           badDayConvZC,
+                           holidays,
                            
                            today,
                            valueDate,
