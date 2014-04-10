@@ -1,4 +1,4 @@
-#' Approximate the probability to default at time t given the parSpread
+#' Approximate the default probability at time t given the parSpread
 #'
 #' @param parSpread in bps
 #' @param t in years
