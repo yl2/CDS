@@ -21,8 +21,7 @@ typedef struct
 {
     TDate           today;
     TDate           valueDate;
-    TDate           benchmarkStartDate; /* start date of benchmark CDS for
-                                        ** internal clean spread bootstrapping */
+    TDate           benchmarkDate; 
     TDate           stepinDate;
     TDate           startDate;
     TDate           endDate;
@@ -50,7 +49,7 @@ static int cdsoneSpreadSolverFunction
 
     if (JpmcdsCdsoneUpfrontCharge(context->today,
 				  context->valueDate,
-				  context->benchmarkStartDate,
+				  context->benchmarkDate,
 				  context->stepinDate,
 				  context->startDate,
 				  context->endDate,
@@ -81,9 +80,10 @@ SEXP calcCdsoneSpread
 (// variables for the zero curve
  SEXP baseDate_input,  /* (I) Value date  for zero curve       */
  SEXP types, //"MMMMMSSSSSSSSS"
- // SEXP dates, /* (I) Array of swaps dates             */
+
  SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
- // SEXP nInstr,          /* (I) Number of benchmark instruments  */
+ 
+ SEXP expiries, 
  SEXP mmDCC, /* (I) DCC of MM instruments            */
 
  SEXP fixedSwapFreq,   /* (I) Fixed leg freqency               */
@@ -95,29 +95,31 @@ SEXP calcCdsoneSpread
 
  SEXP todayDate_input, /*today: T (Where T = trade date)*/
  SEXP valueDate_input, /* value date: T+3 Business Days*/
- SEXP benchmarkStartDate_input,  /* start date of benchmark CDS for
+ SEXP benchmarkDate_input,  /* start date of benchmark CDS for
 				     ** internal clean spread bootstrapping;
 				     ** accrual Begin Date  */
- SEXP stepinDate_input,  /* T + 1*/
  SEXP startDate_input,  /* Accrual Begin Date */
  SEXP endDate_input,  /*  Maturity (Fixed) */
+ SEXP stepinDate_input,  /* T + 1*/
 
  SEXP couponRate_input, 	/* Fixed Coupon Amt */
  SEXP payAccruedOnDefault_input, /* TRUE in new contract */
+
+ SEXP dccCDS, //accrueDCC_input,	/* ACT/360 */
  SEXP dateInterval,		  /* Q - 3 months in new contract */
  SEXP stubType, 		/* F/S */
- SEXP accrueDCC_input,	/* ACT/360 */
+
  SEXP badDayConv_input, 	/* (F) Following */ 
  SEXP calendar_input,	/*  None (no holiday calendar) in new contract */
+
  SEXP upfrontCharge_input,
- SEXP recoveryRate_input,	/* might want to consider setting default 
-				** to 40% for the new contracts */
+ SEXP recoveryRate_input,
  SEXP payAccruedAtStart_input	/* (True/False), True: Clean Upfront supplied */
 )
 {
   static char routine[] = "JpmcdsCdsoneSpread";
   SEXP status;
-  TDate baseDate, todayDate, benchmarkStartDate, startDate, endDate, stepinDate,valueDate;
+  TDate baseDate, todayDate, benchmarkDate, startDate, endDate, stepinDate,valueDate;
   int n; 	/* for zero curve */
   TCurve *discCurve = NULL;
   
@@ -157,10 +159,10 @@ SEXP calcCdsoneSpread
 			 (long)INTEGER(valueDate_input)[1], 
 			 (long)INTEGER(valueDate_input)[2]);
   
-  benchmarkStartDate_input = coerceVector(benchmarkStartDate_input,INTSXP);
-  benchmarkStartDate = JpmcdsDate((long)INTEGER(benchmarkStartDate_input)[0], 
-				  (long)INTEGER(benchmarkStartDate_input)[1], 
-				  (long)INTEGER(benchmarkStartDate_input)[2]);
+  benchmarkDate_input = coerceVector(benchmarkDate_input,INTSXP);
+  benchmarkDate = JpmcdsDate((long)INTEGER(benchmarkDate_input)[0], 
+				  (long)INTEGER(benchmarkDate_input)[1], 
+				  (long)INTEGER(benchmarkDate_input)[2]);
   
   stepinDate_input = coerceVector(stepinDate_input,INTSXP);
   stepinDate = JpmcdsDate((long)INTEGER(stepinDate_input)[0], 
@@ -185,7 +187,6 @@ SEXP calcCdsoneSpread
   
   n = strlen(CHAR(STRING_ELT(types, 0))); // for zerocurve
   rates = coerceVector(rates,REALSXP);
-  // mmDCC = coerceVector(mmDCC,REALSXP);
   
   mmDCC = coerceVector(mmDCC, STRSXP);
   pt_mmDCC = (char *) CHAR(STRING_ELT(mmDCC,0));
@@ -259,8 +260,9 @@ SEXP calcCdsoneSpread
   if (JpmcdsDateIntervalToFreq(&floatSwapIvl_curve, &floatSwapFreq_curve) != SUCCESS)
     goto done;
   
-  
-  char *expiries[14] = {"1M", "2M", "3M", "6M", "9M", "1Y", "2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y"};
+  expiries = coerceVector(expiries, VECSXP);
+
+
   TDate *dates_main = NULL;
   dates_main = NEW_ARRAY1(TDate, n);
   int i;
@@ -268,8 +270,8 @@ SEXP calcCdsoneSpread
     {
       TDateInterval tmp;
       
-      if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
-	{
+      // if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
+      if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)	{
 	  JpmcdsErrMsg ("%s: invalid interval for element[%d].\n", routine_zc_main, i);
 	  goto done;
 	}
@@ -313,8 +315,21 @@ SEXP calcCdsoneSpread
   pt_stubType->stubAtEnd = stubAtEnd;
   pt_stubType->longStub = longStub;
     
-  accrueDCC = *INTEGER(accrueDCC_input);
-  badDayConv = *INTEGER(badDayConv_input);
+  /* accrueDCC = *INTEGER(dccCDS); */
+  /* badDayConv = *INTEGER(badDayConv_input); */
+
+  char* pt_dccCDS;
+  dccCDS = coerceVector(dccCDS, STRSXP);
+  pt_dccCDS = (char *) CHAR(STRING_ELT(dccCDS,0));
+
+  char* pt_badDayConv;
+  badDayConv_input = coerceVector(badDayConv_input, STRSXP);
+  pt_badDayConv = (char *) CHAR(STRING_ELT(badDayConv_input,0));
+
+  if (JpmcdsStringToDayCountConv(pt_dccCDS, &accrueDCC) != SUCCESS)
+    goto done;
+
+
   pt_calendar = (char *) CHAR(STRING_ELT(coerceVector(calendar_input, STRSXP), 0));
   upfrontCharge = *REAL(upfrontCharge_input);
   recoveryRate = *REAL(recoveryRate_input);
@@ -322,7 +337,7 @@ SEXP calcCdsoneSpread
     
   context.today               = todayDate;
   context.valueDate           = valueDate;
-  context.benchmarkStartDate  = benchmarkStartDate;
+  context.benchmarkDate       = benchmarkDate;
   context.stepinDate          = stepinDate;
   context.startDate           = startDate;
   context.endDate             = endDate;
@@ -330,8 +345,9 @@ SEXP calcCdsoneSpread
   context.payAccruedOnDefault = payAccruedOnDefault;
   context.dateInterval        = pt_dateInterval;
   context.stubType            = pt_stubType;
-  context.accrueDCC           = accrueDCC;
-  context.badDayConv          = badDayConv;
+  context.accrueDCC           = (long) accrueDCC;
+  // context.badDayConv          = (long) badDayConv;
+  context.badDayConv          = *pt_badDayConv;
   context.calendar            = pt_calendar;
   context.discCurve           = discCurve;
   context.upfrontCharge       = upfrontCharge;

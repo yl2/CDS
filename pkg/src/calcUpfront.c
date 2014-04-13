@@ -102,11 +102,11 @@ double CalcUpfrontChargeTest
 //EXPORT int JpmcdsCdsoneUpfrontCharge(cdsone.c)
 SEXP calcUpfrontTest
 (SEXP baseDate_input,  /* (I) Value date  for zero curve       */
- 
  SEXP types, //"MMMMMSSSSSSSSS"
- // SEXP dates, /* (I) Array of swaps dates             */
+
  SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
- // SEXP nInstr,          /* (I) Number of benchmark instruments  */
+
+ SEXP expiries,
  SEXP mmDCC,          /* (I) DCC of MM instruments            */
 
  SEXP fixedSwapFreq,   /* (I) Fixed leg freqency/interval               */
@@ -277,7 +277,10 @@ SEXP calcUpfrontTest
     goto done;
   
   
-  char *expiries[14] = {"1M", "2M", "3M", "6M", "9M", "1Y", "2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y"};
+  // char *expiries[14] = {"1M", "2M", "3M", "6M", "9M", "1Y", "2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y"};
+
+  expiries = coerceVector(expiries, VECSXP);
+
   TDate *dates_main = NULL;
   dates_main = NEW_ARRAY1(TDate, n);
   int i;
@@ -285,8 +288,9 @@ SEXP calcUpfrontTest
     {
       TDateInterval tmp;
       
-      if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
-        {
+      // if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
+      if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)
+      {
             JpmcdsErrMsg ("%s: invalid interval for element[%d].\n", routine_zc_main, i);
             goto done;
         }

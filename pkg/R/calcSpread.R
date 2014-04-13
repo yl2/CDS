@@ -7,78 +7,122 @@
 #' 
 
 calcSpread <- function(baseDate,
-                       types,
-                       ## dates,
-                       rates,
-                       ## nInstr,
-                       mmDCC,
+                       currency = "USD",
+                       userCurve = FALSE,
 
-                       fixedSwapFreq,
-                       floatSwapFreq,
-                       fixedSwapDCC,
-                       floatSwapDCC,
-                       badDayConvZC,
-                       holidays,
+                       types = NULL,
+                       rates = NULL,
+                       expiries = NULL,
+                       mmDCC = NULL,
+                       fixedSwapFreq = NULL,
+                       floatSwapFreq = NULL,
+                       fixedSwapDCC = NULL,
+                       floatSwapDCC = NULL,
+                       badDayConvZC = NULL,
+                       holidays = NULL,
                        
                        todayDate, 
                        valueDate, 
-                       benchmarkStartDate,
-                       stepinDate,  
+                       benchmarkDate,
                        startDate,  
                        endDate,  
-
+                       stepinDate,
+                       
                        couponRate, 
                        payAccruedOnDefault, 
+
+                       dccCDS,
                        dateInterval,		  
-                       stubType, 		
-                       accrueDCC,
-                       badDayConv,
-                       calendar,
+                       stubType = "f/s", 		
+                       badDayConvCDS = "F",
+                       calendar = "None",
+
                        upfrontCharge,
-                       recoveryRate,
+                       recoveryRate = 0.4,
                        payAccruedAtStart,
-                       notional
-                       ){
+                       notional = 1e7){
+
+    ratesDate <- baseDate
     ptsUpf <- upfrontCharge / notional
     baseDate <- .separateYMD(baseDate)
     todayDate <- .separateYMD(todayDate)
     valueDate <- .separateYMD(valueDate)
-    benchmarkStartDate <- .separateYMD(benchmarkStartDate)
+    benchmarkDate <- .separateYMD(benchmarkDate)
     startDate <- .separateYMD(startDate)
     endDate <- .separateYMD(endDate)
     stepinDate <- .separateYMD(stepinDate)
-    
-    .Call('calcCdsoneSpread',
-          baseDate,
-          types,
-          ## dates,
-          rates,
-          ## nInstr,
-          mmDCC,
-          
-          fixedSwapFreq,
-          floatSwapFreq,
-          fixedSwapDCC,
-          floatSwapDCC,
-          badDayConvZC,
-          holidays,
 
-          todayDate,
-          valueDate,
-          benchmarkStartDate,
-          stepinDate,
-          startDate,
-          endDate,
 
-          couponRate / 1e4,
-          payAccruedOnDefault,
-          dateInterval,
-          stubType,
-          accrueDCC,
-          badDayConv,
-          calendar,
-          ## upfrontCharge,
-          ptsUpf,
-          recoveryRate,
-          payAccruedAtStart)
+    if (userCurve == FALSE){
+        ratesInfo <- getRates(date = ratesDate, currency = currency)
+        .Call('calcCdsoneSpread',
+              baseDate,
+              types = paste(as.character(ratesInfo[[1]]$type), collapse = ""),
+              rates = as.numeric(as.character(ratesInfo[[1]]$rate)),
+              expiries = as.character(ratesInfo[[1]]$expiry),
+              mmDCC = as.character(ratesInfo[[2]]$mmDCC),
+              
+              fixedSwapFreq = as.character(ratesInfo[[2]]$fixedFreq),
+              floatSwapFreq = as.character(ratesInfo[[2]]$floatFreq),
+              fixedSwapDcc = as.character(ratesInfo[[2]]$fixedDCC),
+              floatSwapDcc = as.character(ratesInfo[[2]]$floatDCC),
+              badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention),
+              holidays = as.character(ratesInfo[[2]]$swapCalendars),
+
+              todayDate,
+              valueDate,
+              benchmarkDate,
+              startDate,
+              endDate,
+              stepinDate,
+              
+              couponRate / 1e4,
+              payAccruedOnDefault,
+              
+              dccCDS,
+              dateInterval,
+              stubType,
+              badDayConvCDS,
+              calendar,
+
+              ptsUpf,
+              recoveryRate,
+              payAccruedAtStart)
+
+    } else {
+        
+        .Call('calcCdsoneSpread',
+              baseDate,
+              types,
+              rates,
+              expiries,
+              mmDCC,
+              
+              fixedSwapFreq,
+              floatSwapFreq,
+              fixedSwapDCC,
+              floatSwapDCC,
+              badDayConvZC,
+              holidays,
+
+              todayDate,
+              valueDate,
+              benchmarkDate,
+              startDate,
+              endDate,
+              stepinDate,
+              
+              couponRate / 1e4,
+              payAccruedOnDefault,
+              
+              dccCDS,
+              dateInterval,
+              stubType,
+              badDayConvCDS,
+              calendar,
+
+              ptsUpf,
+              recoveryRate,
+              payAccruedAtStart)
+    }
 }
