@@ -14,8 +14,6 @@ CDS To-Do's
 
 
 To-Do's
-- Make a function to calculate default probability in decimal (defaultProb)
-- Make functions to calculate RecRisk01
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
 Existing R function files
@@ -25,6 +23,8 @@ Existing R function files
 - calcSpreadDV01.R calculates spread DV 01
 - calcIRDV01.R calculates IR DV 01
 - getRates.R obtains rates to build an interest rate curve for CDS calculation
+- calcRecRisk01 calculates the RecRisk 01
+- approxDefaultProb.R approximates the default probability at time t
 
 Notes
 - Fixed payment from the protection buyer is the "premium leg"
