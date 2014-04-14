@@ -1,9 +1,0 @@
-\docType{class}
-\name{CDSW}
-\alias{CDSW}
-\alias{CDSW,CDSW-class}
-\title{Class definition for the CDS package}
-\description{
-Class definition for the CDS package
-}
-
