@@ -1,0 +1,93 @@
+#' Class definition for the CDS package
+#'
+#' @name CDS
+#' @aliases CDS,CDS-class
+#' @docType class
+#' @rdname CDS-class
+#' @export
+#' 
+
+setClass("CDS",
+         representation = representation(
+             contract = "character",
+             entityName = "character",
+             today = "character",
+             notional = "numeric",
+             currency = "character",
+             TDate = "character",
+             spread = "numeric",
+             couponRate = "numeric",
+             dccCDS = "character",
+             freqCDS ="character",
+             stubCDS ="character",
+             badDayConvCDS ="character",
+             calendarCDS = "character",
+             maturity = "character",
+             payAccOnDefault = "logical",
+             recRate = "numeric",
+             userCurve = "logical",
+             baseDate = "character",
+             valueDate = "character",
+             benchmarkDate = "character",
+             startDate = "character",
+             endDate = "character",
+             stepinDate = "character",
+             types = "character",
+             rates = "numeric",
+             expiries = "character",
+             mmDCC = "character",
+             fixedSwapFreq = "character",
+             floatSwapFreq = "character",
+             fixedSwapDCC = "character",
+             floatSwapDCC = "character",
+             badDayConvZC = "character",
+             holidays = "character",
+             upfront = "numeric",
+             spreadDV01 = "numeric",
+             IRDV01 = "numeric",
+             RecRisk01 = "numeric",
+             defaultProb = "numeric"
+             ),
+         prototype = prototype(
+             contract = character(),
+             entityName = character(),
+             today = character(),
+             notional = numeric(),
+             currency = character(),
+             TDate = character(),
+             spread = numeric(),
+             couponRate = numeric(),
+             dccCDS = character(),
+             freqCDS =character(),
+             stubCDS =character(),
+             badDayConvCDS =character(),
+             calendarCDS = character(),
+             maturity = character(),
+             payAccOnDefault = logical(),
+             recRate = numeric(),
+             userCurve = logical(),
+             baseDate = character(),
+             valueDate = character(),
+             benchmarkDate = character(),
+             startDate = character(),
+             endDate = character(),
+             stepinDate = character(),
+             types = character(),
+             rates = numeric(),
+             expiries = character(),
+             mmDCC = character(),
+             fixedSwapFreq = character(),
+             floatSwapFreq = character(),
+             fixedSwapDCC = character(),
+             floatSwapDCC = character(),
+             badDayConvZC = character(),
+             holidays = character(),
+             upfront = numeric(),
+             spreadDV01 = numeric(),
+             IRDV01 = numeric(),
+             RecRisk01 = numeric(),
+             defaultProb = numeric()
+
+             )
+         )
+
