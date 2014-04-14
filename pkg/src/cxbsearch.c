@@ -96,7 +96,7 @@ int JpmcdsBinarySearchLong
     /* arraySize of 1 we are done */
     if (arraySize == 1)
     {
-        assert (xDesired == ELEMENT(0));
+        // assert (xDesired == ELEMENT(0));
         *exact   = 0;
         *loBound = -1;
         *hiBound = arraySize;
@@ -135,9 +135,9 @@ int JpmcdsBinarySearchLong
      * we know X[N-1] <> xDesired. 
      */
 
-    assert (mid < arraySize);
-    assert (xDesired >= ELEMENT(mid));
-    assert (xDesired <= ELEMENT(mid+1));
+    // assert (mid < arraySize);
+    // assert (xDesired >= ELEMENT(mid));
+    // assert (xDesired <= ELEMENT(mid+1));
 
     lo = mid;
     hi = mid+1;

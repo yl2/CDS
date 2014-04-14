@@ -186,8 +186,8 @@ static int zcInterpRate
     t2   = zc->fArray[hi].fDate - zc->fBaseDate;
     t    = date - zc->fBaseDate;
 
-    assert (t > t1);
-    assert (t2 > t1);
+    // assert (t > t1);
+    // assert (t2 > t1);
 
     if (zcRateCC (zc, lo, &z1) != SUCCESS)
         goto done;

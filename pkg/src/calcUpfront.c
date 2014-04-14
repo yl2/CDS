@@ -315,7 +315,7 @@ SEXP calcUpfrontTest
 				       (char) *pt_badDayConvZC,
 				       pt_holidays);
     
-    if (discCurve == NULL) printf("NULL...\n");
+    if (discCurve == NULL) JpmcdsErrMsg("IR curve not available ... \n");
 
     long dcc_cds;
     TDateInterval ivl_cds;

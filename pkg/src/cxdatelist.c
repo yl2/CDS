@@ -102,7 +102,7 @@ TDateList* JpmcdsDateListAddDates
             }
             else
             {
-                assert (dl->fArray[i] > array[j]);
+                // assert (dl->fArray[i] > array[j]);
                 result->fArray[k] = array[j];
                 ++j;
                 ++k;
@@ -123,7 +123,7 @@ TDateList* JpmcdsDateListAddDates
             k += n;
         }
 
-        assert (k == totalItems);
+        // assert (k == totalItems);
         result->fNumItems = totalItems;
     }
     if (result == NULL)
@@ -367,15 +367,15 @@ TDateList* JpmcdsDateListMakeRegular
             --i;
             --numIntervals;
             ++totalDates;
-            assert (i >= 0);
+            // assert (i >= 0);
             tmpDates[i] = date;
 
             SET_TDATE_INTERVAL(multiInterval, interval->prd * numIntervals, interval->prd_typ);
             if (JpmcdsDtFwdAny(endDate, &multiInterval, &date) != SUCCESS)
                 goto done;
         }
-        assert (totalDates > 0);
-        assert (date <= startDate);
+        // assert (totalDates > 0);
+        // assert (date <= startDate);
         if (date == startDate || totalDates == 1 || !stubType->longStub)
         {
             /* don't change existing tmpDates[] but need to add startDate */
@@ -392,8 +392,8 @@ TDateList* JpmcdsDateListMakeRegular
         }
         else
         {
-            assert (!stubType->stubAtEnd && stubType->longStub);
-            assert (date < startDate);
+            // assert (!stubType->stubAtEnd && stubType->longStub);
+            // assert (date < startDate);
             /* the existing date in tmpDates[] should be changed to be
                the start date */
             tmpDates[i] = startDate;
@@ -421,15 +421,15 @@ TDateList* JpmcdsDateListMakeRegular
                 i = 0;
             }
             ++numIntervals;
-            assert (i < numTmpDates);
+            // assert (i < numTmpDates);
             tmpDates[i] = date;
 
             SET_TDATE_INTERVAL(multiInterval, interval->prd * numIntervals, interval->prd_typ);
             if (JpmcdsDtFwdAny(startDate, &multiInterval, &date) != SUCCESS)
                 goto done;
         }
-        assert (totalDates > 0);
-        assert (date >= endDate);
+        // assert (totalDates > 0);
+        // assert (date >= endDate);
         if (date == endDate || totalDates == 1 || stubType->stubAtEnd && !stubType->longStub)
         {
             /* don't change existing tmpDates[] but need to add endDate */
@@ -446,8 +446,8 @@ TDateList* JpmcdsDateListMakeRegular
         }
         else
         {
-            assert (stubType->stubAtEnd && stubType->longStub);
-            assert (date > endDate);
+            // assert (stubType->stubAtEnd && stubType->longStub);
+            // assert (date > endDate);
             /* the existing date in tmpDates[] should be changed to be
                the end date */
             tmpDates[i] = endDate;
@@ -457,8 +457,8 @@ TDateList* JpmcdsDateListMakeRegular
         if (dl == NULL)
             goto done;
     }
-    ASSERT (totalDates >= 2);
-    ASSERT (dl->fNumItems == totalDates);
+    // ASSERT (totalDates >= 2);
+    // ASSERT (dl->fNumItems == totalDates);
     status = SUCCESS;
 
  done:

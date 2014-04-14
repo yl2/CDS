@@ -24,7 +24,8 @@
 #define DISCONTINUOUS_POINT_ROUTINE_NAME JpmcdsLinInterpLongPoint1Discontinuous
 #define SEARCH_ROUTINE_NAME JpmcdsBSearchLong
 #define ARG_TYPE long
-#include "lintrp1.inc"
+#include "lintrp1inc.h"
+// #include "lintrp1.inc"
 #undef ARRAY_ROUTINE_NAME
 #undef POINT_ROUTINE_NAME
 #undef DISCONTINUOUS_POINT_ROUTINE_NAME
