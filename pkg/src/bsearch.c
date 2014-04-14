@@ -63,7 +63,8 @@ int JpmcdsBSearchDouble
 #define CHECK_ORDER_ROUTINE_NAME JpmcdsCheckDoubleArrayOrder
 #define X_TYPE double
 #define XD_TYPE double
-#include "bsearch.inc"
+// #include "bsearch.inc"
+#include "bsearchinc.h"
 #undef SEARCH_ROUTINE_NAME
 #undef CHECK_ORDER_ROUTINE_NAME
 #undef X_TYPE
@@ -115,7 +116,8 @@ int JpmcdsBSearchLong
 #define CHECK_ORDER_ROUTINE_NAME JpmcdsCheckLongArrayOrder
 #define X_TYPE long
 #define XD_TYPE double
-#include "bsearch.inc"
+// #include "bsearch.inc"
+#include "bsearchinc.h"
 #undef SEARCH_ROUTINE_NAME
 #undef CHECK_ORDER_ROUTINE_NAME
 #undef X_TYPE
