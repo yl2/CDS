@@ -4,10 +4,5 @@ exportPattern("^[[:alpha:]]+")
 ## importFrom("graphics", plot)
 ## import(ggplot2, methods)
 
-exportClasses("CDS"
-              )
-
-## exportMethods(
-
-##               )
-
+exportClasses(CDS)
+exportMethods(summary)

@@ -1,6 +1,7 @@
 #' Build a CDS class object to include info like the Bloomberg deal
 #' and market sections.
 #'
+#' @name CDS
 #' @param contract is the contract type, default SNAC
 #' @param today present date, default is the current date
 #' @param entityName is the name of the reference entity. Optional.
@@ -10,13 +11,11 @@
 #' @param spread CDS par spread in bps
 #' @param couponRate in bps
 #' @param DCC day count convention of the CDS. The default is ACT/360.
-#' @param freq
-#' @param maturity
+#' @param freq date interval of the CDS contract
+#' @param maturity maturity of the CDS contract
 #' @param payAccOnDefault is a partial payment of the premium made to
 #' the protection seller in the event of a default. Default is TRUE.
 #' @param recRate in decimal. Default is 0.4.
-#' @param bizDay
-#' 
 #'
 #' @param userCurve boolean. if TRUE, user has to specify the IR
 #' curve; if FALSE, grab historical data from Markit.
@@ -49,6 +48,7 @@
 #' protection and risk starts in terms of the model. Note the legal
 #' effective date is T-60 or T-90 for standard contract. The default
 #' is T + 1.
+#' @export
 #' 
 #' 
 

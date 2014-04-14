@@ -93,7 +93,8 @@ calcUpfront <- function(baseDate,
               parSpread,
               couponRate,
               recoveryRate,
-              notional)
+              notional,
+              PACKAGE = "CDS")
     } else {
 
         .Call('calcUpfrontTest',
@@ -126,7 +127,8 @@ calcUpfront <- function(baseDate,
               parSpread,
               couponRate,
               recoveryRate,
-              notional)
+              notional,
+              PACKAGE = "CDS")
     }
 
 }

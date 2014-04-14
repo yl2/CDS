@@ -11,8 +11,6 @@
 #' the rates based on the ISDA specifications; the second contains all
 #' the dcc and calendar specifications of the curve.
 #'
-#' @references
-#' \url{"http://www.cdsmodel.com/assets/cds-model/docs/Interest%20Rate%20Curve%20Specification%20-%20All%20Currencies%20%28Updated%20May%202013%29.pdf"}
 #' 
 
 

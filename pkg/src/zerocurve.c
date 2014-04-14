@@ -103,8 +103,8 @@ EXPORT TCurve* JpmcdsBuildIRZeroCurve(
     /* Cash instruments */
     zcurveCash = JpmcdsZCCash(zcurveIni, cashDates, cashRates, nCash, mmDCC);
     if (zcurveCash == NULL){
+	JpmcdsErrMsg("Cash Curve not available ... \n");
         goto done;
-	printf("zcurveCash...\n");
     }
 
     /* Swap instruments */
@@ -121,7 +121,8 @@ EXPORT TCurve* JpmcdsBuildIRZeroCurve(
                             badDayConv,
                             holidayFile);
     if (zcurveSwap == NULL){
-      printf("g...\n");
+      JpmcdsErrMsg("IR curve not available ... \n");
+      // printf("g...\n");
       goto done;
     }
     status = SUCCESS;

@@ -87,7 +87,8 @@ calcSpread <- function(baseDate,
 
               ptsUpf,
               recoveryRate,
-              payAccruedAtStart)
+              payAccruedAtStart,
+              PACKAGE = "CDS")
 
     } else {
         
@@ -123,6 +124,7 @@ calcSpread <- function(baseDate,
 
               ptsUpf,
               recoveryRate,
-              payAccruedAtStart)
+              payAccruedAtStart,
+              PACKAGE = "CDS")
     }
 }

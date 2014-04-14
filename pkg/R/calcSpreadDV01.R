@@ -84,7 +84,8 @@ calcSpreadDV01 <- function(baseDate,
                               parSpread,
                               couponRate,
                               recoveryRate,
-                              notional)
+                              notional,
+                              PACKAGE = "CDS")
 
         upfront.new <- .Call('calcUpfrontTest',
                              baseDate,
@@ -116,7 +117,8 @@ calcSpreadDV01 <- function(baseDate,
                              parSpread + 1,
                              couponRate,
                              recoveryRate,
-                             notional)
+                             notional,
+                             PACKAGE = "CDS")
 
     } else {
 
@@ -150,7 +152,8 @@ calcSpreadDV01 <- function(baseDate,
                               parSpread,
                               couponRate,
                               recoveryRate,
-                              notional)
+                              notional,
+                              PACKAGE = "CDS")
 
 
         upfront.new <- .Call('calcUpfrontTest',
@@ -183,7 +186,8 @@ calcSpreadDV01 <- function(baseDate,
                              parSpread + 1,
                              couponRate,
                              recoveryRate,
-                             notional)
+                             notional,
+                             PACKAGE = "CDS")
 
 
     }

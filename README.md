@@ -14,6 +14,8 @@ CDS To-Do's
 
 
 To-Do's
+- Separate Principal and Accrued amount
+- Generate accural dates, coupon dates, and end date automatically
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
 Existing R function files
