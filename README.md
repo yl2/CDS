@@ -9,11 +9,66 @@ dave.kane at gmail.com
 Yang Lu 
 yang.lu2014 at gmail.com
 
-CDS To-Do's
+CDS Simple Example
 --------------------------------------------------------
 
+```{r, eval = FALSE}
 
-To-Do's
+> result <- CDS(contract = "SNAC",
++               today = "2014-01-14",
++               entityName = "IBM",
++               
++               notional = 1e7,
++               currency = "USD",
++               
++               TDate = "2014-01-14",
++               spread = 21,
++               couponRate = 100,
++               
++               dccCDS = "Act/360",
++               freqCDS = "1Q",
++               stubCDS = "f/s",
++               badDayConvCDS = "F",
++               calendarCDS = "None",
++               
++               maturity = "5Y",
++               payAccOnDefault = TRUE,
++               recRate = 0.4,
++               
++               userCurve = FALSE,
++               baseDate = "2014-01-14",
++               
++               valueDate = "2014-01-17",
++               benchmarkDate = "2013-12-20",
++               startDate = "2013-12-20",
++               endDate = "2019-03-20",
++               stepinDate = "2014-01-15")
+
+> summary(result)
+Deal 
+Contact Type:                        SNAC
+Entity Name:                         IBM
+currency:                            USD
+Trade Date:                          2014-01-14
+Maturity:                            5Y
+Day Cnt:                             Act/360
+Freq:                                1Q
+Trade Spread (bp):                   21
+Coupon (bp):                         100
+Recovery Rate:                       0.4
+
+Calculator 
+Value Date:                          2014-01-17
+Upfront:                             -405582.98
+Spread DV01:                         -5210.9
+IR DV01:                             -106.27
+Rec Risk (percent):                  -60.7
+Default Probability:                 0.018
+
+```
+
+CDS To-Do's
+--------------------------------------------------------
 - Separate Principal and Accrued amount
 - Generate accural dates, coupon dates, and end date automatically
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
