@@ -1,0 +1,57 @@
+\documentclass[a4paper]{article}
+\usepackage[round]{natbib}
+\usepackage{amssymb}
+%% \usepackage{RJournal}
+\usepackage{fancyvrb}
+\usepackage{Sweave, url}
+\usepackage{hyperref}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{url}
+\usepackage{breakurl}
+
+
+\SweaveOpts{echo = TRUE, results = verbatim, keep.source = TRUE}
+\bibliographystyle{abbrvnat}
+
+\begin{document}
+\title{A Guide to the CDS Package (Draft)}
+\author{Heidi Chen\thanks{\href{mailto:s.heidi.chen@gmail.com}{s.heidi.chen@gmail.com}}, David Kane\thanks{\href{mailto:dave.kane@gmail.com}{dave.kane@gmail.com}}, and Yang Lu\thanks{\href{mailto:yang.lu2014@gmail.com}{yang.lu2014@gmail.com}}}
+\maketitle
+
+
+%%\VignetteIndexEntry{Using the CDS package}
+%%\VignetteDepends{CDS}
+
+%% \setkeys{Gin}{width=0.95\textwidth}
+
+
+\section{Introduction}
+
+What's a CDS?
+Common CDS calculation
+ISDA model
+What does this package do?
+
+\section{CDS Basics}
+
+Bloomberg CDSW and Markit CDS Calculator
+
+Explain each input
+
+\section{Using the CDS package}
+\begin{itemize}
+\item How to create a CDS class object
+\item Summary and print
+
+\end{itemize}
+
+\section{Conclusion}
+
+
+
+\end{document}
