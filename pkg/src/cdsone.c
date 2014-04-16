@@ -116,7 +116,7 @@ EXPORT int JpmcdsCdsoneUpfrontCharge
                        payAccruedAtStart,
                        upfrontCharge) != SUCCESS){
 
-      printf("cdsupfrontcharge fail cds price");
+      
       goto done;
     }
     status = SUCCESS;

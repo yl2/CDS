@@ -60,14 +60,17 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 notional = 1e7,
                 currency = "USD",
                 TDate = today, ## T, default same as today
-                spread,
+                parSpread = NULL,
                 couponRate,
+                upfront = NULL,
 
+                isPriceClean = FALSE,
                 dccCDS = "ACT/360",
                 freqCDS = "1Q",
                 stubCDS = "f/s",
                 badDayConvCDS = "F",
                 calendarCDS = "None",
+
 
                 maturity, ## input 5Y or 10Y
                 payAccOnDefault = TRUE,
@@ -91,7 +94,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 benchmarkDate, ## accrual begin date
                 startDate, 
                 endDate, 
-                stepinDate = today + 1 
+                stepinDate = today + 1
 
                 ){
 
@@ -102,7 +105,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                notional = notional,
                currency = currency,
                TDate = TDate,
-               spread = spread,
+               parSpread = parSpread,
                couponRate = couponRate,
                dccCDS = dccCDS,
                freqCDS = freqCDS,
@@ -178,43 +181,49 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                stubCDS = stubCDS,
                                badDayConvCDS = badDayConvCDS,
                                calendar = calendarCDS,
-                               parSpread = spread,
+                               parSpread = parSpread,
                                couponRate = couponRate,
                                recoveryRate = recRate,
+                               isPriceClean = FALSE,
                                notional = notional)
 
-    cds@spreadDV01 <- calcSpreadDV01(baseDate = baseDate,
-                                     currency = currency,
-                                     userCurve = userCurve,
-                                     
-                                     types = types,
-                                     rates = rates,
-                                     expiries = expiries, 
-                                     mmDCC = mmDCC,
-                                     
-                                     fixedSwapFreq = fixedSwapFreq,
-                                     floatSwapFreq = floatSwapFreq,
-                                     fixedSwapDCC = fixedSwapDCC,
-                                     floatSwapDCC = floatSwapDCC,
-                                     badDayConvZC = badDayConvZC,
-                                     holidays = holidays,
-                                     
-                                     today = today,
-                                     valueDate = valueDate,
-                                     benchmarkDate = benchmarkDate,
-                                     startDate = startDate,
-                                     endDate = endDate,
-                                     stepinDate = stepinDate,
-                                     
-                                     dccCDS = dccCDS,
-                                     freqCDS = freqCDS,
-                                     stubCDS = stubCDS,
-                                     badDayConvCDS = badDayConvCDS,
-                                     calendar = calendarCDS,
-                                     parSpread = spread,
-                                     couponRate = couponRate,
-                                     recoveryRate = recRate,
-                                     notional = notional)
+    cds@principal <- calcUpfront(baseDate = baseDate,
+                               currency = currency,
+                               userCurve = userCurve,
+
+                               types = types,
+                               rates = rates,
+                               expiries = expiries, 
+                               mmDCC = mmDCC,
+                               
+                               fixedSwapFreq = fixedSwapFreq,
+                               floatSwapFreq = floatSwapFreq,
+                               fixedSwapDCC = fixedSwapDCC,
+                               floatSwapDCC = floatSwapDCC,
+                               badDayConvZC = badDayConvZC,
+                               holidays = holidays,
+                               
+                               today = today,
+                               valueDate = valueDate,
+                               benchmarkDate = benchmarkDate,
+                               startDate = startDate,
+                               endDate = endDate,
+                               stepinDate = stepinDate,
+                               
+                               dccCDS = dccCDS,
+                               freqCDS = freqCDS,
+                               stubCDS = stubCDS,
+                               badDayConvCDS = badDayConvCDS,
+                               calendar = calendarCDS,
+                               parSpread = parSpread,
+                               couponRate = couponRate,
+                               recoveryRate = recRate,
+                               isPriceClean = TRUE,
+                               notional = notional)
+
+    
+    cds@spreadDV01 <- calcSpreadDV01(cds)
+
 
     cds@IRDV01 <- calcIRDV01(baseDate = baseDate,
                              currency = currency,
@@ -244,7 +253,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                              stubCDS = stubCDS,
                              badDayConvCDS = badDayConvCDS,
                              calendar = calendarCDS,
-                             parSpread = spread,
+                             parSpread = parSpread,
                              couponRate = couponRate,
                              recoveryRate = recRate,
                              notional = notional)
@@ -278,7 +287,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                    stubCDS = stubCDS,
                                    badDayConvCDS = badDayConvCDS,
                                    calendar = calendarCDS,
-                                   parSpread = spread,
+                                   parSpread = parSpread,
                                    couponRate = couponRate,
                                    recoveryRate = recRate,
                                    notional = notional)

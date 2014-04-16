@@ -51,7 +51,7 @@ double CalcUpfrontChargeTest
   long          dcc_cds;
   TStubMethod   stub_cds;
 
-
+  
     if (curve == NULL)
     {
         JpmcdsErrMsg("CalcUpfrontCharge: NULL IR zero curve passed\n");
@@ -133,6 +133,7 @@ SEXP calcUpfrontTest
  SEXP parSpread,
  SEXP couponRate,
  SEXP recoveryRate,
+ SEXP isPriceClean,
  SEXP notional) 
 
 {
@@ -229,6 +230,7 @@ SEXP calcUpfrontTest
   parSpread_for_upf = *REAL(parSpread);
   couponRate_for_upf = *REAL(couponRate);
   recoveryRate_for_upf = *REAL(recoveryRate);
+  isPriceClean = *INTEGER(isPriceClean);
   notional_for_upf = *REAL(notional);
 
   badDayConvZC = AS_CHARACTER(badDayConvZC);
@@ -276,21 +278,18 @@ SEXP calcUpfrontTest
   if (JpmcdsDateIntervalToFreq(&floatSwapIvl_curve, &floatSwapFreq_curve) != SUCCESS)
     goto done;
   
-  
-  // char *expiries[14] = {"1M", "2M", "3M", "6M", "9M", "1Y", "2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y"};
+  //   char *expiries[14] = {"1M", "2M", "3M", "6M", "9M", "1Y", "2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y"};
 
   expiries = coerceVector(expiries, VECSXP);
-
   TDate *dates_main = NULL;
   dates_main = NEW_ARRAY1(TDate, n);
   int i;
   for (i = 0; i < n; i++)
     {
       TDateInterval tmp;
-      
-      // if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
-      if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)
-      {
+      //  if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
+	 if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)
+	{
             JpmcdsErrMsg ("%s: invalid interval for element[%d].\n", routine_zc_main, i);
             goto done;
         }
@@ -349,7 +348,8 @@ SEXP calcUpfrontTest
 						    
 						    parSpread_for_upf, 
 						    recoveryRate_for_upf,
-						    FALSE,
+						    //FALSE,
+						    isPriceClean,
 						    notional_for_upf);
     UNPROTECT(1);
  done:

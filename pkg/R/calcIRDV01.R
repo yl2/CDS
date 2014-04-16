@@ -37,6 +37,7 @@ calcIRDV01 <- function(baseDate,
                            parSpread,
                            couponRate,
                            recoveryRate = 0.4,
+                       isPriceClean = FALSE,
                            notional = 1e7
                            ){
 
@@ -84,6 +85,7 @@ calcIRDV01 <- function(baseDate,
                               parSpread,
                               couponRate,
                               recoveryRate,
+                              isPriceClean,
                               notional,
                               PACKAGE = "CDS")
 
@@ -117,6 +119,7 @@ calcIRDV01 <- function(baseDate,
                              parSpread,
                              couponRate,
                              recoveryRate,
+                             isPriceClean,
                              notional,
                              PACKAGE = "CDS")
 
@@ -152,6 +155,7 @@ calcIRDV01 <- function(baseDate,
                               parSpread,
                               couponRate,
                               recoveryRate,
+                              isPriceClean,
                               notional,
                               PACKAGE = "CDS")
 
@@ -186,13 +190,14 @@ calcIRDV01 <- function(baseDate,
                              parSpread,
                              couponRate,
                              recoveryRate,
+                             isPriceClean,
                              notional,
                               PACKAGE = "CDS")
 
 
     }
     
-    return (upfront.orig - upfront.new)
+    return (upfront.new - upfront.orig)
     
 }
 
