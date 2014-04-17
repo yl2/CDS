@@ -153,6 +153,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
         cds@holidays = holidays
     }
 
+
     cds@upfront <- calcUpfront(baseDate = baseDate,
                                currency = currency,
                                userCurve = userCurve,
@@ -225,74 +226,11 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
     cds@spreadDV01 <- calcSpreadDV01(cds)
 
 
-    cds@IRDV01 <- calcIRDV01(baseDate = baseDate,
-                             currency = currency,
-                             userCurve = userCurve,
-                             
-                             types = types,
-                             rates = rates,
-                             expiries = expiries, 
-                             mmDCC = mmDCC,
-                             
-                             fixedSwapFreq = fixedSwapFreq,
-                             floatSwapFreq = floatSwapFreq,
-                             fixedSwapDCC = fixedSwapDCC,
-                             floatSwapDCC = floatSwapDCC,
-                             badDayConvZC = badDayConvZC,
-                             holidays = holidays,
-                             
-                             today = today,
-                             valueDate = valueDate,
-                             benchmarkDate = benchmarkDate,
-                             startDate = startDate,
-                             endDate = endDate,
-                             stepinDate = stepinDate,
-                             
-                             dccCDS = dccCDS,
-                             freqCDS = freqCDS,
-                             stubCDS = stubCDS,
-                             badDayConvCDS = badDayConvCDS,
-                             calendar = calendarCDS,
-                             parSpread = parSpread,
-                             couponRate = couponRate,
-                             recoveryRate = recRate,
-                             notional = notional)
+    cds@IRDV01 <- calcIRDV01(cds)
 
-    cds@RecRisk01 <- calcRecRisk01(baseDate = baseDate,
-                                   currency = currency,
-                                   
-                                   userCurve = userCurve,
-                                   
-                                   types = types,
-                                   rates = rates,
-                                   expiries = expiries, 
-                                   mmDCC = mmDCC,
-                                   
-                                   fixedSwapFreq = fixedSwapFreq,
-                                   floatSwapFreq = floatSwapFreq,
-                                   fixedSwapDCC = fixedSwapDCC,
-                                   floatSwapDCC = floatSwapDCC,
-                                   badDayConvZC = badDayConvZC,
-                                   holidays = holidays,
-                                   
-                                   today = today,
-                                   valueDate = valueDate,
-                                   benchmarkDate = benchmarkDate,
-                                   startDate = startDate,
-                                   endDate = endDate,
-                                   stepinDate = stepinDate,
-                                   
-                                   dccCDS = dccCDS,
-                                   freqCDS = freqCDS,
-                                   stubCDS = stubCDS,
-                                   badDayConvCDS = badDayConvCDS,
-                                   calendar = calendarCDS,
-                                   parSpread = parSpread,
-                                   couponRate = couponRate,
-                                   recoveryRate = recRate,
-                                   notional = notional)
+    cds@RecRisk01 <- calcRecRisk01(cds)
     
-    cds@defaultProb <- approxDefaultProb(parSpread = spread,
+    cds@defaultProb <- approxDefaultProb(parSpread = parSpread,
                                          t = as.numeric(as.Date(endDate) -
                                              as.Date(today))/360,
                                          recoveryRate = recRate)
