@@ -9,68 +9,21 @@ dave.kane at gmail.com
 Yang Lu 
 yang.lu2014 at gmail.com
 
-CDS Simple Example
---------------------------------------------------------
-
-```{r, eval = FALSE}
-
-> result <- CDS(contract = "SNAC",
-+               today = "2014-01-14",
-+               entityName = "IBM",
-+               
-+               notional = 1e7,
-+               currency = "USD",
-+               
-+               TDate = "2014-01-14",
-+               spread = 21,
-+               couponRate = 100,
-+               
-+               dccCDS = "Act/360",
-+               freqCDS = "1Q",
-+               stubCDS = "f/s",
-+               badDayConvCDS = "F",
-+               calendarCDS = "None",
-+               
-+               maturity = "5Y",
-+               payAccOnDefault = TRUE,
-+               recRate = 0.4,
-+               
-+               userCurve = FALSE,
-+               baseDate = "2014-01-14",
-+               
-+               valueDate = "2014-01-17",
-+               benchmarkDate = "2013-12-20",
-+               startDate = "2013-12-20",
-+               endDate = "2019-03-20",
-+               stepinDate = "2014-01-15")
-
-> summary(result)
-Deal 
-Contact Type:                        SNAC
-Entity Name:                         IBM
-currency:                            USD
-Trade Date:                          2014-01-14
-Maturity:                            5Y
-Day Cnt:                             Act/360
-Freq:                                1Q
-Trade Spread (bp):                   21
-Coupon (bp):                         100
-Recovery Rate:                       0.4
-
-Calculator 
-Value Date:                          2014-01-17
-Upfront:                             -405582.98
-Spread DV01:                         -5210.9
-IR DV01:                             -106.27
-Rec Risk (percent):                  -60.7
-Default Probability:                 0.018
-
-```
 
 CDS To-Do's
 --------------------------------------------------------
-- Separate Principal and Accrued amount
 - Generate accural dates, coupon dates, and end date automatically
+  - "One further point to note, is that the ISDA model is quite general
+about the contact spec- ification. It can be used to price CDSs with
+any maturity date (it knows nothing about IMM dates), start date and
+payment interval. So the contract specifics are inputs to the model -
+for standard contracts, this would be a maturity date on the relevant
+IMM date, a start date of the IMM date immediately before the trade
+date, and quarterly premium payments." (OpenGamma)
+- Standard maturity date are unadjuste – always Mar/Jun/Sep/Dec 20th. [ISDA]("http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Examples.pdf")
+  - Example: As of Feb09, the 1y standard CDS contract would protect the buyer through Sat 20Mar10. 
+
+- Coupon payment dates are like standard maturity dates, but business day adjusted following (ISDA)
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 - Vignette
 
