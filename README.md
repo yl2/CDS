@@ -12,32 +12,25 @@ yang.lu2014 at gmail.com
 
 CDS To-Do's
 --------------------------------------------------------
-- Generate accural dates, coupon dates, and end date automatically
-  - "One further point to note, is that the ISDA model is quite general
-about the contact spec- ification. It can be used to price CDSs with
-any maturity date (it knows nothing about IMM dates), start date and
-payment interval. So the contract specifics are inputs to the model -
-for standard contracts, this would be a maturity date on the relevant
-IMM date, a start date of the IMM date immediately before the trade
-date, and quarterly premium payments." (OpenGamma)
-- Standard maturity date are unadjuste – always Mar/Jun/Sep/Dec 20th. [ISDA]("http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Examples.pdf")
-  - Example: As of Feb09, the 1y standard CDS contract would protect the buyer through Sat 20Mar10. 
-
-- Coupon payment dates are like standard maturity dates, but business day adjusted following (ISDA)
+- CDS.R edit
+- Default exposure function
+- print and summary methods
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 - Vignette
 
 Existing R function files
 - calcUpfront.R calculates cash settlement amount from conventional spread
 - calcSpread.R calculates conventional spread from upfront
-- CDS.R constructs a primitive CDS class object. More to implement once spreadDV01 and IR DV01 functions become available.
+- CDS.R constructs a primitive CDS class object.
 - calcSpreadDV01.R calculates spread DV 01
 - calcIRDV01.R calculates IR DV 01
 - getRates.R obtains rates to build an interest rate curve for CDS calculation
 - calcRecRisk01 calculates the RecRisk 01
 - approxDefaultProb.R approximates the default probability at time t
+- getDates.R get a set of dates relevant for CDS calculation
 
 Notes
+- Standard CDS contract specification [http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf](http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf)
 - Fixed payment from the protection buyer is the "premium leg"
 - Payment of notional less recovery by the protection seller in the event of a default is the "contingent leg"
 - Upfront paymant is often quoted in percent of notional.
@@ -53,6 +46,16 @@ amount (the clean price), which is simply the dirty price with any
 accrued interest added. For a newly issued legacy CDS, there is no
 accrued interest (recall, interest accrues from T+1), so dirty and
 clean price are the same. (OpenGamma)
+- "One further point to note, is that the ISDA model is quite general
+about the contact spec- ification. It can be used to price CDSs with
+any maturity date (it knows nothing about IMM dates), start date and
+payment interval. So the contract specifics are inputs to the model -
+for standard contracts, this would be a maturity date on the relevant
+IMM date, a start date of the IMM date immediately before the trade
+date, and quarterly premium payments." (OpenGamma)
+- Standard maturity date are unadjusted – always Mar/Jun/Sep/Dec 20th. [ISDA]("http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Examples.pdf")
+  - Example: As of Feb09, the 1y standard CDS contract would protect the buyer through Sat 20Mar10. 
+- Coupon payment dates are like standard maturity dates, but business day adjusted following (ISDA)
 
 
 Deal Section (From Bloomberg manual)
