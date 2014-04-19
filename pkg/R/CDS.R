@@ -17,8 +17,6 @@
 #' the protection seller in the event of a default. Default is TRUE.
 #' @param recRate in decimal. Default is 0.4.
 #'
-#' @param userCurve boolean. if TRUE, user has to specify the IR
-#' curve; if FALSE, grab historical data from Markit.
 #' @param types is a string indicating the names of the instruments
 #' used for the yield curve. 'M' means money market rate; 'S' is swap
 #' rate.
