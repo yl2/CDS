@@ -9,6 +9,68 @@ dave.kane at gmail.com
 Yang Lu 
 yang.lu2014 at gmail.com
 
+CDS Simple Example
+--------------------------------------------------------
+
+```{r}
+> library(CDS)
+Loading required package: grid
+Loading required package: Rcpp
+Loading required package: RCurl
+Loading required package: bitops
+Loading required package: XML
+> result1 <- CDS(TDate = "2014-01-14",
++                maturity = "5Y",
++ 
++                parSpread = 32,
++                couponRate = 100,
++                recoveryRate = 0.4,
++                isPriceClean = FALSE,
++                notional = 1e7)
+> result1
+Contract Type:                      SNAC TDate:                       2014-01-14
+Currency:                            USD End Date:                    2019-03-20
+Spread:                               32 Coupon Rate:                        100
+Upfront:                      -348505.14 Spread DV01:                    5162.57
+IR DV01:                           90.88 Rec Risk (1 pct):                 79.12
+
+> summary(result1)
+CDS Contract 
+Contract Type:                      SNAC Currency:                           USD
+TDate:                        2014-01-14 End Date:                    2019-03-20
+Start Date:                   2013-12-20 Backstop Date:               2013-11-15
+1st Coupon:                   2014-03-20 Pen Coupon:                  2018-12-20
+Day Cnt:                         ACT/360 Freq:                                 Q
+
+Calculation 
+Value Date:                   2014-01-17 Price:                           103.41
+Principal:                    -341282.92 Spread DV01:                    5162.57
+Accrual:                        -7222.22 IR DV01:                          90.88
+Upfront:                      -348505.14 Rec Risk (1 pct):                 79.12
+Default Prob:                     0.0276 Default Expo:                6341282.92
+
+Credit Curve 
+ Term     Rate
+   1M 0.001590
+   2M 0.002055
+   3M 0.002368
+   6M 0.003355
+   1Y 0.005681
+   2Y 0.004960
+   3Y 0.008810
+   4Y 0.013220
+   5Y 0.017375
+   6Y 0.020875
+   7Y 0.023840
+   8Y 0.026155
+   9Y 0.028045
+  10Y 0.029695
+  12Y 0.032195
+  15Y 0.034545
+  20Y 0.036550
+  25Y 0.037420
+  30Y 0.037880
+```
 
 CDS To-Do's
 --------------------------------------------------------
