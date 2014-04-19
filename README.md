@@ -12,7 +12,7 @@ yang.lu2014 at gmail.com
 
 CDS To-Do's
 --------------------------------------------------------
-- print and summary methods
+- calcUpfront and calcSpread produce slightly different results.
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 - Vignette
 
@@ -24,7 +24,7 @@ Existing R function files
 - calcIRDV01.R calculates IR DV 01
 - getRates.R obtains rates to build an interest rate curve for CDS calculation
 - calcRecRisk01 calculates the RecRisk 01
-- approxDefaultProb.R approximates the default probability at time t
+- defaultProb.R approximates the default probability at time t
 - getDates.R get a set of dates relevant for CDS calculation
 - defaultExpo.R calculates the default exposure of a CDS contract
 - price.R calculates the price of a CDS contract

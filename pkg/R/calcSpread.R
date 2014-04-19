@@ -86,7 +86,7 @@ calcSpread <- function(TDate,
                        maturity = "5Y",
                        
                        dccCDS = "ACT/360",
-                       freqCDS = "1Q",
+                       freqCDS = "Q",
                        stubCDS = "F",
                        badDayConvCDS = "F",
                        calendar = "None",

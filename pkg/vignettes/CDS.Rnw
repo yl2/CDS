@@ -47,9 +47,18 @@ Explain each input
 \begin{itemize}
 \item How to create a CDS class object
 \item Summary and print
-
 \end{itemize}
 
+<<>>=
+library(CDS)
+cds1 <- CDS(TDate = "2014-01-14",
+            maturity = "5Y",
+            parSpread = 32,
+            couponRate = 100)
+cds1
+summary(cds1)
+
+@ 
 \section{Conclusion}
 
 

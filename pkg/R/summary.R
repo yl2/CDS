@@ -124,6 +124,9 @@ setMethod("summary",
                   )
               cat("\n")
               cat("Credit Curve \n")
+
+              print(data.frame(Term = object@expiries, Rate = object@rates),
+                    row.names = F)
               cat("\n")
           
       }
