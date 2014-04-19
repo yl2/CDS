@@ -59,3 +59,8 @@
 
     return(accrualDate)
 }
+
+
+.checkLength <- function(dat){
+    return(nchar(as.character(dat)))
+}

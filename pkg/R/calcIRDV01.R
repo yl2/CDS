@@ -208,7 +208,7 @@ setMethod("calcIRDV01",
           signature(object = "CDS"),
           function(object){
               baseDate <- .separateYMD(object@baseDate)
-              today <- .separateYMD(object@today)
+              today <- .separateYMD(object@TDate)
               valueDate <- .separateYMD(object@valueDate)
               benchmarkDate <- .separateYMD(object@benchmarkDate)
               startDate <- .separateYMD(object@startDate)
@@ -240,11 +240,11 @@ setMethod("calcIRDV01",
                                    object@freqCDS,
                                    object@stubCDS,
                                    object@badDayConvCDS,
-                                   object@calendarCDS,
+                                   object@calendar,
                                    
                                    object@parSpread,
                                    object@couponRate,
-                                   object@recRate,
+                                   object@recoveryRate,
                                    FALSE,
                                    object@notional,
                                    PACKAGE = "CDS")

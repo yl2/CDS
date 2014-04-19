@@ -1,9 +1,7 @@
-#' Build a CDS class object to include info like the Bloomberg deal
-#' and market sections.
+#' Build a CDS class object to include relevant info about a CDS contract
 #'
-#' @name CDS
 #' @param contract is the contract type, default SNAC
-#' @param today present date, default is the current date
+#' @param TDate 
 #' @param entityName is the name of the reference entity. Optional.
 #' 
 #' @param notional is the notional amount, default is 1e7.
@@ -42,201 +40,199 @@
 #' @param endDate aka maturity date. This is when the contract expires
 #' and protection ends. Any default after this date does not trigger a
 #' payment.
-#' @param stepinDate aka protection effective date. It's when
-#' protection and risk starts in terms of the model. Note the legal
-#' effective date is T-60 or T-90 for standard contract. The default
-#' is T + 1.
+#' @param stepinDate default is T + 1.
 #' @export
-#' 
 #' 
 
 CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
-                today = Sys.Date(), ## present date, default is the current date
                 entityName = NULL,
-                
-                ## deal section
-                notional = 1e7,
+
+                TDate = Sys.Date(), ## Default is the current date
+
+                ## IR curve
+                baseDate = TDate,
                 currency = "USD",
-                TDate = today, ## T, default same as today
-                parSpread = NULL,
-                couponRate,
-                upfront = NULL,
-
-                isPriceClean = FALSE,
-                dccCDS = "ACT/360",
-                freqCDS = "1Q",
-                stubCDS = "f/s",
-                badDayConvCDS = "F",
-                calendarCDS = "None",
-
-
-                maturity, ## input 5Y or 10Y
-                payAccOnDefault = TRUE,
-                recRate = 0.4,
-                
-                ## curve
-                userCurve = FALSE,
-                baseDate = today,
                 types = NULL,
                 rates = NULL,
                 expiries = NULL,
-                mmDCC = NULL,
-                fixedSwapFreq = NULL,
-                floatSwapFreq = NULL,
-                fixedSwapDCC = NULL,
-                floatSwapDCC = NULL,
-                badDayConvZC = NULL,
-                holidays = NULL,
+                mmDCC = "ACT/360",
+                fixedSwapFreq = "6M",
+                floatSwapFreq = "3M",
+                fixedSwapDCC = "30/360",
+                floatSwapDCC = "ACT/360",
+                badDayConvZC = "M",
+                holidays = "None",
 
-                valueDate = today + 3, ## T + 3      
-                benchmarkDate, ## accrual begin date
-                startDate, 
-                endDate, 
-                stepinDate = today + 1
+                ## CDS 
+                valueDate = NULL,
+                benchmarkDate = NULL,
+                startDate = NULL,
+                endDate = NULL,
+                stepinDate = NULL,
+                maturity = "5Y",
+                
+                dccCDS = "ACT/360",
+                freqCDS = "Q",
+                stubCDS = "F",
+                badDayConvCDS = "F",
+                calendar = "None",
 
+                parSpread = NULL,
+                couponRate,
+                recoveryRate = 0.4,
+                upfront = NULL,
+                isPriceClean = FALSE,
+                notional = 1e7,
+                payAccruedOnDefault = TRUE
                 ){
 
+    
+    ratesDate <- baseDate
+    cdsDates <- getDates(TDate = as.Date(TDate), maturity = maturity)
+    if (is.null(valueDate)) valueDate <- cdsDates$valueDate
+    if (is.null(benchmarkDate)) benchmarkDate <- cdsDates$startDate
+    if (is.null(startDate)) startDate <- cdsDates$startDate
+    if (is.null(endDate)) endDate <- cdsDates$endDate
+    if (is.null(stepinDate)) stepinDate <- cdsDates$stepinDate
+    
+    stopifnot(all.equal(length(rates), length(expiries), nchar(types)))    
+    if ((is.null(types) | is.null(rates) | is.null(expiries))){
+        
+        ratesInfo <- getRates(date = ratesDate, currency = currency)
+        types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
+        rates = as.numeric(as.character(ratesInfo[[1]]$rate))
+        expiries = as.character(ratesInfo[[1]]$expiry)
+        mmDCC = as.character(ratesInfo[[2]]$mmDCC)
+        
+        fixedSwapFreq = as.character(ratesInfo[[2]]$fixedFreq)
+        floatSwapFreq = as.character(ratesInfo[[2]]$floatFreq)
+        fixedSwapDCC = as.character(ratesInfo[[2]]$fixedDCC)
+        floatSwapDCC = as.character(ratesInfo[[2]]$floatDCC)
+        badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention)
+        holidays = as.character(ratesInfo[[2]]$swapCalendars)
+    }
+
+    if (is.null(entityName)) entityName <- "Not Provided"
+    
     cds <- new("CDS",
                contract = contract,
                entityName = entityName,
-               today = today,
-               notional = notional,
+               TDate = as.Date(TDate),
+               baseDate = as.Date(baseDate),
                currency = currency,
-               TDate = TDate,
-               parSpread = parSpread,
-               couponRate = couponRate,
+               
+               types = types,
+               rates = rates,
+               expiries = expiries,
+               mmDCC = mmDCC,
+               
+               fixedSwapFreq = fixedSwapFreq,
+               floatSwapFreq = floatSwapFreq,
+               fixedSwapDCC = fixedSwapDCC,
+               floatSwapDCC = floatSwapDCC,
+               badDayConvZC = badDayConvZC,
+               holidays = holidays,
+
+               valueDate = as.Date(valueDate),
+               benchmarkDate = as.Date(benchmarkDate),
+               startDate = as.Date(startDate), 
+               endDate = as.Date(endDate), 
+               stepinDate = as.Date(stepinDate),
+               backstopDate = as.Date(cdsDates$backstopDate),
+               firstcouponDate = as.Date(cdsDates$firstcouponDate),
+               pencouponDate = as.Date(cdsDates$pencouponDate),
+               
                dccCDS = dccCDS,
                freqCDS = freqCDS,
                stubCDS = stubCDS,
                badDayConvCDS = badDayConvCDS,
-               calendarCDS = calendarCDS,
-               maturity = maturity,
-               payAccOnDefault = payAccOnDefault,
-               recRate = recRate,
-               userCurve = userCurve,
-               baseDate = baseDate,
-               valueDate = valueDate,
-               benchmarkDate = benchmarkDate,
-               startDate = startDate, 
-               endDate = endDate, 
-               stepinDate = stepinDate)
+               calendar = calendar,
+               
+               parSpread = parSpread,
+               couponRate = couponRate,
+               recoveryRate = recoveryRate,
+               notional = notional,
+               payAccruedOnDefault = payAccruedOnDefault
+               )
 
-
-    ## user doesn't specify the IR curve
-    if (userCurve == FALSE){
-        ratesInfo <- getRates(date = baseDate, currency = currency)
-        
-        cds@types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
-        cds@rates = as.numeric(as.character(ratesInfo[[1]]$rate))
-        cds@expiries = as.character(ratesInfo[[1]]$expiry)
-        cds@mmDCC = as.character(ratesInfo[[2]]$mmDCC)
-        
-        cds@fixedSwapFreq = as.character(ratesInfo[[2]]$fixedFreq)
-        cds@floatSwapFreq = as.character(ratesInfo[[2]]$floatFreq)
-        cds@fixedSwapDCC = as.character(ratesInfo[[2]]$fixedDCC)
-        cds@floatSwapDCC = as.character(ratesInfo[[2]]$floatDCC)
-        cds@badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention)
-        cds@holidays = as.character(ratesInfo[[2]]$swapCalendars)
-    } else {
-        cds@types = types
-        cds@rates = rates
-        cds@expiries = expiries
-        cds@mmDCC = mmDCC
-        
-        cds@fixedSwapFreq = fixedSwapFreq
-        cds@floatSwapFreq = floatSwapFreq
-        cds@fixedSwapDCC = fixedSwapDCC
-        cds@floatSwapDCC = floatSwapDCC
-        cds@badDayConvZC = badDayConvZC
-        cds@holidays = holidays
-    }
-
-
-    cds@upfront <- calcUpfront(baseDate = baseDate,
-                               currency = currency,
-                               userCurve = userCurve,
-
-                               types = types,
-                               rates = rates,
-                               expiries = expiries, 
-                               mmDCC = mmDCC,
-                               
-                               fixedSwapFreq = fixedSwapFreq,
-                               floatSwapFreq = floatSwapFreq,
-                               fixedSwapDCC = fixedSwapDCC,
-                               floatSwapDCC = floatSwapDCC,
-                               badDayConvZC = badDayConvZC,
-                               holidays = holidays,
-                               
-                               today = today,
-                               valueDate = valueDate,
-                               benchmarkDate = benchmarkDate,
-                               startDate = startDate,
-                               endDate = endDate,
-                               stepinDate = stepinDate,
-                               
-                               dccCDS = dccCDS,
-                               freqCDS = freqCDS,
-                               stubCDS = stubCDS,
-                               badDayConvCDS = badDayConvCDS,
-                               calendar = calendarCDS,
-                               parSpread = parSpread,
-                               couponRate = couponRate,
-                               recoveryRate = recRate,
-                               isPriceClean = FALSE,
-                               notional = notional)
-
-    cds@principal <- calcUpfront(baseDate = baseDate,
-                               currency = currency,
-                               userCurve = userCurve,
-
-                               types = types,
-                               rates = rates,
-                               expiries = expiries, 
-                               mmDCC = mmDCC,
-                               
-                               fixedSwapFreq = fixedSwapFreq,
-                               floatSwapFreq = floatSwapFreq,
-                               fixedSwapDCC = fixedSwapDCC,
-                               floatSwapDCC = floatSwapDCC,
-                               badDayConvZC = badDayConvZC,
-                               holidays = holidays,
-                               
-                               today = today,
-                               valueDate = valueDate,
-                               benchmarkDate = benchmarkDate,
-                               startDate = startDate,
-                               endDate = endDate,
-                               stepinDate = stepinDate,
-                               
-                               dccCDS = dccCDS,
-                               freqCDS = freqCDS,
-                               stubCDS = stubCDS,
-                               badDayConvCDS = badDayConvCDS,
-                               calendar = calendarCDS,
-                               parSpread = parSpread,
-                               couponRate = couponRate,
-                               recoveryRate = recRate,
-                               isPriceClean = TRUE,
-                               notional = notional)
-
+    cds@principal <- calcUpfront(TDate,
+                                 baseDate = baseDate,
+                                 currency = currency,
+                                 types = types,
+                                 rates = rates,
+                                 expiries = expiries,
+                                 mmDCC = mmDCC,
+                                 fixedSwapFreq,
+                                 floatSwapFreq,
+                                 fixedSwapDCC,
+                                 floatSwapDCC,
+                                 badDayConvZC,
+                                 holidays,
+                                 
+                                 valueDate, 
+                                 benchmarkDate, 
+                                 startDate, 
+                                 endDate,
+                                 stepinDate,
+                                 maturity,
+                                 
+                                 dccCDS,
+                                 freqCDS,
+                                 stubCDS,
+                                 badDayConvCDS,
+                                 calendar,
+                        
+                                 parSpread,
+                                 couponRate,
+                                 recoveryRate,
+                                 TRUE,
+                                 notional)
     
+    cds@upfront <- calcUpfront(TDate,
+                               baseDate = baseDate,
+                               currency = currency,
+                               types = types,
+                               rates = rates,
+                               expiries = expiries,
+                               mmDCC = mmDCC,
+                               fixedSwapFreq,
+                               floatSwapFreq,
+                               fixedSwapDCC,
+                               floatSwapDCC,
+                               badDayConvZC,
+                               holidays,
+                               
+                               valueDate, 
+                               benchmarkDate, 
+                               startDate, 
+                               endDate,
+                               stepinDate,
+                               maturity,
+                               
+                               dccCDS,
+                               freqCDS,
+                               stubCDS,
+                               badDayConvCDS,
+                               calendar,
+                               
+                               parSpread,
+                               couponRate,
+                               recoveryRate,
+                               FALSE,
+                               notional)
+
+        
+    cds@accrual <- cds@upfront - cds@principal
     cds@spreadDV01 <- calcSpreadDV01(cds)
-
-
-    cds@IRDV01 <- calcIRDV01(cds)
-
+    cds@IRDV01 <- calcIRDV01(cds) 
     cds@RecRisk01 <- calcRecRisk01(cds)
-    
     cds@defaultProb <- approxDefaultProb(parSpread = parSpread,
                                          t = as.numeric(as.Date(endDate) -
-                                             as.Date(today))/360,
-                                         recoveryRate = recRate)
+                                             as.Date(TDate))/360,
+                                         recoveryRate = recoveryRate)
+    cds@defaultExpo <- defaultExpo(recoveryRate, notional, cds@principal)
+    cds@price <- price(cds@principal, notional)
     
-    
-
-    
-
     return(cds)
     
 }

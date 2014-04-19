@@ -213,7 +213,7 @@ setMethod("calcRecRisk01",
           signature(object = "CDS"),
           function(object){
               baseDate <- .separateYMD(object@baseDate)
-              today <- .separateYMD(object@today)
+              today <- .separateYMD(object@TDate)
               valueDate <- .separateYMD(object@valueDate)
               benchmarkDate <- .separateYMD(object@benchmarkDate)
               startDate <- .separateYMD(object@startDate)
@@ -246,11 +246,11 @@ setMethod("calcRecRisk01",
                                    object@freqCDS,
                                    object@stubCDS,
                                    object@badDayConvCDS,
-                                   object@calendarCDS,
+                                   object@calendar,
                                    
                                    object@parSpread,
                                    object@couponRate,
-                                   object@recRate + 0.01,
+                                   object@recoveryRate + 0.01,
                                    FALSE,
                                    object@notional,
                                    PACKAGE = "CDS")

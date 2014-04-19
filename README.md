@@ -12,8 +12,6 @@ yang.lu2014 at gmail.com
 
 CDS To-Do's
 --------------------------------------------------------
-- CDS.R edit
-- Default exposure function
 - print and summary methods
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 - Vignette
@@ -28,6 +26,8 @@ Existing R function files
 - calcRecRisk01 calculates the RecRisk 01
 - approxDefaultProb.R approximates the default probability at time t
 - getDates.R get a set of dates relevant for CDS calculation
+- defaultExpo.R calculates the default exposure of a CDS contract
+- price.R calculates the price of a CDS contract
 
 Notes
 - Standard CDS contract specification [http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf](http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf)
@@ -53,7 +53,7 @@ payment interval. So the contract specifics are inputs to the model -
 for standard contracts, this would be a maturity date on the relevant
 IMM date, a start date of the IMM date immediately before the trade
 date, and quarterly premium payments." (OpenGamma)
-- Standard maturity date are unadjusted – always Mar/Jun/Sep/Dec 20th. [ISDA]("http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Examples.pdf")
+- Standard maturity date are unadjusted – always Mar/Jun/Sep/Dec 20th. ISDAhttp://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Examples.pdf
   - Example: As of Feb09, the 1y standard CDS contract would protect the buyer through Sat 20Mar10. 
 - Coupon payment dates are like standard maturity dates, but business day adjusted following (ISDA)
 
