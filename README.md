@@ -28,7 +28,7 @@ Spread:                               32 Coupon Rate:                        100
 Upfront:                      -348505.14 Spread DV01:                    5162.57
 IR DV01:                           90.88 Rec Risk (1 pct):                 79.12
 
-> summary(result1)
+> result1
 CDS Contract 
 Contract Type:                      SNAC Currency:                           USD
 TDate:                        2014-01-14 End Date:                    2019-03-20
