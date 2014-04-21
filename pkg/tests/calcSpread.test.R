@@ -61,6 +61,7 @@ library(CDS)
 load("calcSpread.test.RData")
 
 result1 <- calcSpread(TDate = "2014-01-14",
+                      baseDate = "2014-01-13",
                       currency = "USD",
                       
                       types = "MMMMMSSSSSSSSS",
