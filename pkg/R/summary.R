@@ -1,134 +1,60 @@
-#' The summary method for CDS class
+#' The summary method displays only the essential info about the CDS
+#' class object.
 #' 
-#' @name summary
-#' @aliases summary,summary-method
-#' @docType methods
-#' @rdname summary-methods
-#' @param object,... the input CDS class object
-#' @keywords summary
-#' @export
-#' 
+
 setMethod("summary",
           signature(object = "CDS"),
           function(object,
                    ...){
 
-              if (object@entityName == "Not Provided") {
-                  cat("CDS Contract \n")
-              } else {
-                  cat(paste("CDS Contract", object@entityName, sep = " "), "\n")
-              }
-
+              
               cat(sprintf(paste("Contract Type:", object@contract,
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Contract Type:") -
                                     .checkLength(object@contract)), collapse = ""))),
-                  sprintf(paste(" Currency:", object@currency,
+                  sprintf(paste(" TDate:", object@TDate,
+                                sep = paste0(rep(" ", 40-.checkLength(" TDate:") -
+                                    .checkLength(object@TDate)), collapse = ""))), "\n",
+                  sprintf(paste("Currency:", object@currency,
                                 sep = paste0(rep(" ",
-                                    40-.checkLength(" Currency:") -
-                                    .checkLength(object@currency)),
-                                    collapse = ""))), "\n",
-                  sprintf(paste("TDate:", object@TDate,
-                                sep = paste0(rep(" ", 40-.checkLength("TDate:") -
-                                    .checkLength(object@TDate)), collapse = ""))),
+                                    40-.checkLength("Currency:") -
+                                    .checkLength(object@currency)), collapse = ""))),
                   sprintf(paste(" End Date:", object@endDate,
                                 sep = paste0(rep(" ", 40-.checkLength(" End Date:") -
-                                    .checkLength(object@endDate)),
-                                    collapse = ""))), "\n",
-
-                  sprintf(paste("Start Date:", object@startDate,
-                                sep = paste0(rep(" ", 40-.checkLength("Start Date:") -
-                                    .checkLength(object@startDate)), collapse = ""))),
-                  sprintf(paste(" Backstop Date:", object@backstopDate,
-                                sep = paste0(rep(" ", 40-
-                                    .checkLength(" Backstop Date:") -
-                                    .checkLength(object@backstopDate)),
-                                    collapse = ""))), "\n",
-
-                  sprintf(paste("1st Coupon:", object@firstcouponDate,
-                                sep = paste0(rep(" ", 40-.checkLength("1st Coupon:") -
-                                    .checkLength(object@firstcouponDate)),
-                                    collapse = ""))),
-                  sprintf(paste(" Pen Coupon:", object@pencouponDate,
-                                sep = paste0(rep(" ", 40-
-                                    .checkLength(" Pen Coupon:") -
-                                    .checkLength(object@pencouponDate)),
-                                    collapse = ""))), "\n",
-
-                  sprintf(paste("Day Cnt:", object@dccCDS,
+                                    .checkLength(object@endDate)), collapse = ""))), "\n",
+                  sprintf(paste("Spread:", object@parSpread,
                                 sep = paste0(rep(" ",
-                                    40-.checkLength("Day Cnt:") -
-                                    .checkLength(object@dccCDS)), collapse = ""))),
-                  sprintf(paste(" Freq:", object@freqCDS,
-                                sep = paste0(rep(" ", 40-.checkLength(" Freq:") -
-                                    .checkLength(object@freqCDS)),
+                                    40-.checkLength("Spread:") -
+                                    .checkLength(object@parSpread)), collapse = ""))),
+                  sprintf(paste(" Coupon Rate:", object@couponRate,
+                                sep = paste0(rep(" ", 40-.checkLength(" Coupon Rate:") -
+                                    .checkLength(object@couponRate)),
                                     collapse = ""))), "\n",
-                  sep = ""
-                  )
-
-              cat("\n")
-              cat("Calculation \n")
-              
-              cat(sprintf(paste("Value Date:", object@valueDate,
+                  
+                  sprintf(paste("Upfront:", round(object@upfront, 2),
                                 sep = paste0(rep(" ",
-                                    40-.checkLength("Value Date:") -
-                                    .checkLength(object@valueDate)),
-                                    collapse = ""))),
-                  sprintf(paste(" Price:", round(object@price, 2),
-                                sep = paste0(rep(" ", 40-.checkLength(" Price:") -
-                                    .checkLength(round(object@price, 2))),
-                                    collapse = ""))), "\n",
-
-                  sprintf(paste("Principal:", round(object@principal, 2),
-                                sep = paste0(rep(" ",
-                                    40-.checkLength("Principal:") -
-                                    .checkLength(round(object@principal, 2))),
+                                    40-.checkLength("Upfront:") -
+                                    .checkLength(round(object@upfront, 2))),
                                     collapse = ""))),
                   sprintf(paste(" Spread DV01:", round(object@spreadDV01, 2),
                                 sep = paste0(rep(" ", 40-.checkLength(" Spread DV01:") -
                                     .checkLength(round(object@spreadDV01, 2))),
                                     collapse = ""))), "\n",
-                  
-                  sprintf(paste("Accrual:", round(object@accrual, 2),
-                                sep = paste0(rep(" ",
-                                    40-.checkLength("Accrual:") -
-                                    .checkLength(round(object@accrual, 2))),
-                                    collapse = ""))), 
-                  sprintf(paste(" IR DV01:", round(object@IRDV01, 2),
-                                sep = paste0(rep(" ",
-                                    40-.checkLength(" IR DV01:") -
-                                    .checkLength(round(object@IRDV01, 2))),
-                                    collapse = ""))), "\n",
 
-                  sprintf(paste("Upfront:", round(object@upfront, 2),
+                  sprintf(paste("IR DV01:", round(object@IRDV01, 2),
                                 sep = paste0(rep(" ",
-                                    40-.checkLength("Upfront:") -
-                                    .checkLength(round(object@upfront, 2))),
-                                    collapse = ""))), 
+                                    40-.checkLength("IR DV01:") -
+                                    .checkLength(round(object@IRDV01, 2))),
+                                    collapse = ""))),
                   sprintf(paste(" Rec Risk (1 pct):", round(object@RecRisk01, 2),
                                 sep = paste0(rep(" ", 40-.checkLength(" Rec Risk (1 pct):") -
                                     .checkLength(round(object@RecRisk01, 2))),
                                     collapse = ""))), "\n",
-
-                  sprintf(paste("Default Prob:", round(object@defaultProb, 4),
-                                sep = paste0(rep(" ",
-                                    40-.checkLength("Default Prob:") -
-                                    .checkLength(round(object@defaultProb, 4))),
-                                    collapse = ""))), 
-                  sprintf(paste(" Default Expo:", round(object@defaultExpo, 2),
-                                sep = paste0(rep(" ", 40-.checkLength(" Default Expo:") -
-                                    .checkLength(round(object@defaultExpo, 2))),
-                                    collapse = ""))), "\n",
-
                   sep = ""
                   )
+              
               cat("\n")
-              cat("Credit Curve \n")
+          }
+          )
 
-              print(data.frame(Term = object@expiries, Rate = object@rates),
-                    row.names = F)
-              cat("\n")
-          
-      }
-)
 
