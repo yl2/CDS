@@ -21,82 +21,6 @@
 ***************************************************************************
 ** Calculate upfront charge.
 ***************************************************************************
-*/
-/* double CalcUpfrontChargeTest */
-/* (TCurve*       curve,  */
-/*  double        couponRate, */
-/*  TDate         today, */
-/*  TDate         valueDate, */
-/*  TDate         startDate, */
-/*  TDate         benchmarkDate, */
-/*  TDate         stepinDate, */
-/*  TDate         endDate, */
-/*  TBoolean      payAccOnDefault, // = TRUE, */
-/*  char*         dcc, */
-/*  char*         stub, */
-/*  char*         ivl, */
-
-/*  char          badDayConv, */
-/*  char*         calendar, */
-
-/*  double        parSpread, //  = 3600, */
-/*  double        recoveryRate, // = 0.4, */
-/*  TBoolean      isPriceClean, // = FALSE, */
-/*  double        notional //= 1e7 */
-/*  ) */
-/* { */
-/*   static char  *routine = "CalcUpfrontCharge"; */
-/*   double        result = -1.0; */
-/*   TDateInterval ivl_cds; */
-/*   long          dcc_cds; */
-/*   TStubMethod   stub_cds; */
-
-  
-/*     if (curve == NULL) */
-/*     { */
-/*         JpmcdsErrMsg("CalcUpfrontCharge: NULL IR zero curve passed\n"); */
-/*         goto done; */
-/*     } */
-
-/*     /\* if (JpmcdsStringToDayCountConv("Act/360", &dcc_cds) != SUCCESS) *\/ */
-/*     /\*     goto done; *\/ */
-    
-/*     /\* if (JpmcdsStringToDateInterval("1S", routine, &ivl_cds) != SUCCESS) *\/ */
-/*     /\*     goto done; *\/ */
-
-/*     /\* if (JpmcdsStringToStubMethod("f/s", &stub_cds) != SUCCESS) *\/ */
-/*     /\*     goto done; *\/ */
-
-/*     if (JpmcdsStringToDayCountConv(dcc, &dcc_cds) != SUCCESS) */
-/*         goto done; */
-    
-/*     if (JpmcdsStringToDateInterval(ivl, routine, &ivl_cds) != SUCCESS) */
-/*         goto done; */
-
-/*     if (JpmcdsStringToStubMethod(stub, &stub_cds) != SUCCESS) */
-/*         goto done; */
-
-/*     if (JpmcdsCdsoneUpfrontCharge(today, */
-/*                                   valueDate, */
-/*                                   benchmarkDate, */
-/*                                   stepinDate, */
-/*                                   startDate, */
-/*                                   endDate, */
-/*                                   couponRate / 10000.0, */
-/*                                   payAccOnDefault, */
-/*                                   &ivl_cds, */
-/*                                   &stub_cds, */
-/*                                   dcc_cds, */
-/* 				  badDayConv,// 'F', */
-/* 				  calendar,// "None", */
-/* 				  curve, */
-/*                                   parSpread / 10000.0, */
-/*                                   recoveryRate, */
-/*                                   isPriceClean, */
-/*                                   &result) != SUCCESS) goto done; */
-/*  done: */
-/*     return result * notional; */
-/* } */
 
 
 //EXPORT int JpmcdsCdsoneUpfrontCharge(cdsone.c)
@@ -345,7 +269,7 @@ SEXP calcUpfrontTest
         goto done;
 
     double result = -1.0;
-    /* TStubMethod stub; */
+
     PROTECT(upfrontPayment = allocVector(REALSXP, 1));
     if (JpmcdsCdsoneUpfrontCharge(today,
 				  valueDate,
@@ -367,8 +291,6 @@ SEXP calcUpfrontTest
 				  &result) != SUCCESS) 
       goto done;
  done:
-    printf("notional_for_upf----%f\n", notional_for_upf);
-    printf("result----%f\n", result);
     REAL(upfrontPayment)[0] = result * notional_for_upf;
     UNPROTECT(1);
     FREE(dates_main);
