@@ -14,14 +14,8 @@ CDS Simple Example
 
 ```{r}
 > library(CDS)
-Loading required package: grid
-Loading required package: Rcpp
-Loading required package: RCurl
-Loading required package: bitops
-Loading required package: XML
 > result1 <- CDS(TDate = "2014-01-14",
 +                maturity = "5Y",
-+ 
 +                parSpread = 32,
 +                couponRate = 100,
 +                recoveryRate = 0.4,
