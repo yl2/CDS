@@ -16,7 +16,7 @@
     files <- unzip(tf , exdir = td)
     
     ## the 2nd file of the unzipped directory contains the rates info
-    doc <- xmlTreeParse(files[2], getDTD = F)
+    doc <- xmlTreeParse(files[grep(".xml", files)], getDTD = F)
     r <- xmlRoot(doc)
     return(r)
 }
@@ -52,9 +52,13 @@
 
     ## get the remainder X after dividing it by 3 and then move back X
     ## month
-    date$mon <- date$mon - (as.numeric(format(date, "%m")) %% 3)
+    if (date$mon %in% c(2, 5, 8, 11)){
+        if (date$mday < 20)
+            date$mon <- date$mon - 3
+    } else { 
+        date$mon <- date$mon - (as.numeric(format(date, "%m")) %% 3)
+    }
     date$mday <- 20
-    
     accrualDate <- .adjNextBusDay(as.Date(as.POSIXct(date)))
 
     return(accrualDate)
