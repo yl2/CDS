@@ -21,7 +21,7 @@ CDS Simple Example
 +                recoveryRate = 0.4,
 +                isPriceClean = FALSE,
 +                notional = 1e7)
-> result1
+> summary(result1)
 Contract Type:                      SNAC TDate:                       2014-01-14
 Currency:                            USD End Date:                    2019-03-20
 Spread:                               32 Coupon Rate:                        100
