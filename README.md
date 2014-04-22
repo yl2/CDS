@@ -68,9 +68,8 @@ Credit Curve
 
 CDS To-Do's
 --------------------------------------------------------
-- calcUpfront and calcSpread produce slightly different results.
-- Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 - Vignette
+- Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
 Existing R function files
 - calcUpfront.R calculates cash settlement amount from conventional spread
@@ -81,8 +80,8 @@ Existing R function files
 - getRates.R obtains rates to build an interest rate curve for CDS calculation
 - calcRecRisk01 calculates the RecRisk 01
 - defaultProb.R approximates the default probability at time t
-- getDates.R get a set of dates relevant for CDS calculation
 - defaultExpo.R calculates the default exposure of a CDS contract
+- getDates.R get a set of dates relevant for CDS calculation
 - price.R calculates the price of a CDS contract
 
 Notes
@@ -146,7 +145,7 @@ Calculator Section (From Bloomberg manual)
 - Cash Amount: MTM value future valued 3 business days to the Cash Settled on Date.
 - Spread DV01: Dollar value change in Market Value if the CDS Spread goes up by 1 bp at every point on the Spread Curve.
 - IR DV01: Dollar value change in Market Value if the benchmark interest rate goes up by 1 bp every point on the curve.
-- Rec Risk (1%): Dollar value change in Market Value if the recovery rate in the spreads section were shift by 1%.
+- Rec Risk (1%): Dollar value change in Market Value if the recovery rate in the spreads section were increased by 1%.
 - Default Exposure: (1-Recovery Rate)*Notional - Principal
 
 

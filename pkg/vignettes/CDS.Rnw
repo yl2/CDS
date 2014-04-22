@@ -50,16 +50,80 @@ returns given a time series of spread quotations.
 
 \section{CDS Basics}
 
-We introduce an overview of CDS contracts and terminologies in this section.\footnote{Much of this is quoted from the appendix to \emph{The MarkIt Credit Indices Primer}, \emph{The Bloomberg Guide}, writings by Richard Newman and conversations with Neil.}
+We introduce an overview of CDS contracts and terminologies in this
+section.\footnote{Much of this is quoted from the appendix to
+  \emph{The MarkIt Credit Indices Primer}, and \emph{The Bloomberg
+    Guide}}
 
 \begin{description}
-    \item[Long Credit]: The position of the CDS Protection Seller who is exposed to credit risk and who receives periodic payment from the Protection Buyer. Economically, selling the CDS generates the same cash flows as owning the bond --- periodic, coupon-like payments, with a risk of principal impairement. Since you are obviously ``long credit'' if you own the bond, then it follows that you are long credit if you sell the CDS. Also referred to as being \textbf{long risk} or as having \textbf{wrote protection} or \textbf{sold protection} or \textbf{bought risk}. Example: ``Protection seller is long credit.'' 
-  \item[Short Credit]: This is the credit risk position of the Protection Buyer, who sold the credit risk of a bond to the Protection Seller. Similar terms meaning the same thing are \textbf{long CDS}, \textbf{short risk} and having \textbf{bought protection} or \textbf{sold risk}. This is sometimes abbrieviated all the way to just \textbf{short}. That is, ``short CDX IG" means buy protection on CDX IG.  Another way to think about this is that, any time you ``sell'' something, you are ``short'' that something. In this case, you sold the credit risk, so you are short credit. ``Short (or long) credit \emph{risk}'' is also common phrasing. Another way to think about this as being short credit ``quality''. As credit quality goes down --- i.e., as spreads increase --- protection buyers win. Example usage: ``A long CDS position corresponds to being long protection and short credit.'' 
-  \item[Points Upfront] or just `points' refer to the upfront fee as a percentage of the notional.  For example, a CDS might be quoted as 3 `points upfront' to buy protection.  This means the upfront fee (excluding the accrual payment) is 3\% of the notional.  `Points upfront' have a sign: if the points are quoted as a negative then the protection buyer is paid the upfront fee by the protection seller.  If the points are positive it's the other way around. Anoter way to think of this is that the protection buyer is the one, you know, doing the buying. So, points upfront of \$10,000 is what he has to pay. This is the \emph{normal} understanding of what a ``buyer'' is: someone who pays a positive dollar price for something. Only in a weird situation would a ``buyer'' get paid, hence the need for a negative price in that example.
-  \item[Price] With price we quote ‘like a bond’: price = 100 – points.  So in the example above where a CDS is quoted as 3 points to buy protection, the price will be 97.   The protection buyer still pays the 3\% as an upfront fee of course. A CDS has price greater than 100 if the points upfront are negative, that is, if the CDS buyer needs to receive money to get protection because he is promising to pay a coupon of, say,  100 even if the spread is 60. (Note that points are measured in percentages while spreads are in basis points.) This is analogous to a bond investor paying more than the face value of a bond because current interest rates are lower than the coupon rate on the bond.
-  \item[Spread] is the standard unit for quoting non-distressed CDS. Spreads are always in basis points.
-    \item[Quoted Spread] is the spread as defined with the standard ISDA model, meaning 40\% recovery rate and flat term structure. ``Par Spread'' is mostly the same, except in cases of distress. In that case, the quoted spread won't be a good guide since the recovery rate that the market is anticipating might be very different from 40\% (this is the major issue) and the shape of the curve might be far from flat. This may be connected to the fact that CMA can/does change the recovery rate assumption used in its daily pricing feed. HH then checks for, and reports on, these changes. Ought to learn more about this.
-  \item[Probability of Default]: Is it true that probability of default is just annualized CDS spread divided by loss severity, where the latter is 1 minus the recovery rate? Also, is it true (as the Bloomberg help files tell us) that, for a flat CDS curve, the default probability measured in years from the valuation date is:
+    \item[Long Credit]: The position of the CDS Protection Seller who
+      is exposed to credit risk and who receives periodic payment from
+      the Protection Buyer. Economically, selling the CDS generates
+      the same cash flows as owning the bond --- periodic, coupon-like
+      payments, with a risk of principal impairement. Since you are
+      obviously ``long credit'' if you own the bond, then it follows
+      that you are long credit if you sell the CDS. Also referred to
+      as being \textbf{long risk} or as having \textbf{wrote
+        protection} or \textbf{sold protection} or \textbf{bought
+        risk}. Example: ``Protection seller is long credit.''
+  \item[Short Credit]: This is the credit risk position of the
+    Protection Buyer, who sold the credit risk of a bond to the
+    Protection Seller. Similar terms meaning the same thing are
+    \textbf{long CDS}, \textbf{short risk} and having \textbf{bought
+      protection} or \textbf{sold risk}. This is sometimes
+    abbrieviated all the way to just \textbf{short}. That is, ``short
+    CDX IG" means buy protection on CDX IG.  Another way to think
+    about this is that, any time you ``sell'' something, you are
+    ``short'' that something. In this case, you sold the credit risk,
+    so you are short credit. ``Short (or long) credit \emph{risk}'' is
+    also common phrasing. Another way to think about this as being
+    short credit ``quality''. As credit quality goes down --- i.e., as
+    spreads increase --- protection buyers win. Example usage: ``A
+    long CDS position corresponds to being long protection and short
+    credit.''
+  \item[Points Upfront] or just `points' refer to the upfront fee as a
+    percentage of the notional.  For example, a CDS might be quoted as
+    3 `points upfront' to buy protection.  This means the upfront fee
+    (excluding the accrual payment) is 3\% of the notional.  `Points
+    upfront' have a sign: if the points are quoted as a negative then
+    the protection buyer is paid the upfront fee by the protection
+    seller.  If the points are positive it's the other way
+    around. Anoter way to think of this is that the protection buyer
+    is the one, you know, doing the buying. So, points upfront of
+    \$10,000 is what he has to pay. This is the \emph{normal}
+    understanding of what a ``buyer'' is: someone who pays a positive
+    dollar price for something. Only in a weird situation would a
+    ``buyer'' get paid, hence the need for a negative price in that
+    example.
+  \item[Price] With price we quote ‘like a bond’: price = 100 –
+    points.  So in the example above where a CDS is quoted as 3 points
+    to buy protection, the price will be 97.  The protection buyer
+    still pays the 3\% as an upfront fee of course. A CDS has price
+    greater than 100 if the points upfront are negative, that is, if
+    the CDS buyer needs to receive money to get protection because he
+    is promising to pay a coupon of, say, 100 even if the spread is
+    60. (Note that points are measured in percentages while spreads
+    are in basis points.) This is analogous to a bond investor paying
+    more than the face value of a bond because current interest rates
+    are lower than the coupon rate on the bond.
+  \item[Spread] is the standard unit for quoting non-distressed
+    CDS. Spreads are always in basis points.
+    \item[Quoted Spread] is the spread as defined with the standard
+      ISDA model, meaning 40\% recovery rate and flat term
+      structure. ``Par Spread'' is mostly the same, except in cases of
+      distress. In that case, the quoted spread won't be a good guide
+      since the recovery rate that the market is anticipating might be
+      very different from 40\% (this is the major issue) and the shape
+      of the curve might be far from flat. This may be connected to
+      the fact that CMA can/does change the recovery rate assumption
+      used in its daily pricing feed. HH then checks for, and reports
+      on, these changes. Ought to learn more about this.
+  \item[Probability of Default]: Is it true that probability of
+    default is just annualized CDS spread divided by loss severity,
+    where the latter is 1 minus the recovery rate? Also, is it true
+    (as the Bloomberg help files tell us) that, for a flat CDS curve,
+    the default probability measured in years from the valuation date
+    is:
 
 
 \begin{displaymath}
@@ -68,21 +132,58 @@ We introduce an overview of CDS contracts and terminologies in this section.\foo
 
 where S is the spread and R is the recovery rate.
 
-  \item[Duration]: Recall that duration is a fixed income term with two different meanings, measured in two different units but with (confusingly!) similar numeric values. \textbf{Macaulay duration} is the weighted average time until repayment, measured in years. For a zero-coupon bond, Macaulay duration equals maturity. I don't \emph{think} that this type of duration is used much in CDS. \textbf{Modified duration} is normally the percent change in price for a one percent change in yield. (Note that this is not the same thing as the derivative because it is not the instaneous slope. A 1\% change in yield is often a big change.)
+  \item[Duration]: Recall that duration is a fixed income term with
+    two different meanings, measured in two different units but with
+    (confusingly!) similar numeric values. \textbf{Macaulay duration}
+    is the weighted average time until repayment, measured in
+    years. For a zero-coupon bond, Macaulay duration equals
+    maturity. I don't \emph{think} that this type of duration is used
+    much in CDS. \textbf{Modified duration} is normally the percent
+    change in price for a one percent change in yield. (Note that this
+    is not the same thing as the derivative because it is not the
+    instaneous slope. A 1\% change in yield is often a big change.)
 
 
-  \item[RED Codes] are a Markit product. RED stands for Reference Entity Database. Each entity/seniority pair has a unique 6 digit RED code. Each deliverable bond has a 9 digit RED code, the first 6 digits of which match the 6 digit code of the associated entity/seniority. Each entity also has a ``preferred reference obligation'' that is the default reference obligation for CDS trades.
+  \item[RED Codes] are a Markit product. RED stands for Reference
+    Entity Database. Each entity/seniority pair has a unique 6 digit
+    RED code. Each deliverable bond has a 9 digit RED code, the first
+    6 digits of which match the 6 digit code of the associated
+    entity/seniority. Each entity also has a ``preferred reference
+    obligation'' that is the default reference obligation for CDS
+    trades.
   
-  \item[PV01]: Also known as \textbf{dollar duration}, \textbf{CDS duration} or \textbf{risky duration}. Unlike the two durations above (which are measured in years and percent, respectively), PV01 is measured in dollars. It is the change in value of the CDS for a small change in spread.  So, if the spread on a CDS goes up by 1 bps, the value of the CDS (to the owner of protection) goes up by PV01. Another way to think about this is that PV01 is the present value of a 1 bps payment at each coupon date. 
+  \item[PV01]: Also known as \textbf{dollar duration}, \textbf{CDS
+    duration} or \textbf{risky duration}. Unlike the two durations
+    above (which are measured in years and percent, respectively),
+    PV01 is measured in dollars. It is the change in value of the CDS
+    for a small change in spread.  So, if the spread on a CDS goes up
+    by 1 bps, the value of the CDS (to the owner of protection) goes
+    up by PV01. Another way to think about this is that PV01 is the
+    present value of a 1 bps payment at each coupon date.
 
 \begin{displaymath}
   Upfront Points (in dollars) = (Spread - Coupon) * PV01
 \end{displaymath}
 
 
-Conceptually, if the spread goes up by 1 bps, then the protection buyer is better off. How much better off is he? Well, by assumption, nothing else has changed, including probability of default, recovery rate and so on. He just gets (the benefit of an extra bps of coverage, ``payable'' over time). The present value of that stream is PV01. Might this also be known as \textbf{Risky PV01} or \textbf{Risky Annuity}?
+Conceptually, if the spread goes up by 1 bps, then the protection
+buyer is better off. How much better off is he? Well, by assumption,
+nothing else has changed, including probability of default, recovery
+rate and so on. He just gets (the benefit of an extra bps of coverage,
+``payable'' over time). The present value of that stream is
+PV01. Might this also be known as \textbf{Risky PV01} or \textbf{Risky
+  Annuity}?
    
-  \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01}, \textbf{Spread DV01}, \textbf{Credit DV01} and, maybe, \textbf{Spread Delta}. The change in the mark-to-market value of a CDS trade for a 1 bp parallel shift upward in CDS spreads. (This should always (?) be a positive number (if you are buying protection) because, if you own the CDS, you are short credit. A rising spread is a sign of credit deterioration, which makes you money. Being short credit is like being short a stock. Going down is good for you.) Starting with PV01 and taking the derivative with respect to spread give us:
+  \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01},
+    \textbf{Spread DV01}, \textbf{Credit DV01} and, maybe,
+    \textbf{Spread Delta}. The change in the mark-to-market value of a
+    CDS trade for a 1 bp parallel shift upward in CDS spreads. (This
+    should always (?) be a positive number (if you are buying
+    protection) because, if you own the CDS, you are short credit. A
+    rising spread is a sign of credit deterioration, which makes you
+    money. Being short credit is like being short a stock. Going down
+    is good for you.) Starting with PV01 and taking the derivative
+    with respect to spread give us:
 
 %% What a hack! Must be a better way to typeset this.
 
@@ -98,39 +199,155 @@ Conceptually, if the spread goes up by 1 bps, then the protection buyer is bette
   DV01 = PV01 + (S - C) \frac{\partial PV01}{\partial S}
 \end{displaymath}
   
-Both DV01 and PV01 are measured in dollars and are equal if the spread equals the coupon. In other words, the relationship between spread (on the x-axis) and dollars (on the y-axis) is identical when the spread equals the coupon. That is where these two lines cross, and (therefore?), have the same slope. DV01 will be great than PV01 when spread is greater than coupon, I guess.
+Both DV01 and PV01 are measured in dollars and are equal if the spread
+equals the coupon. In other words, the relationship between spread (on
+the x-axis) and dollars (on the y-axis) is identical when the spread
+equals the coupon. That is where these two lines cross, and
+(therefore?), have the same slope. DV01 will be great than PV01 when
+spread is greater than coupon, I guess.
   
-  \item[IR DV01] is the change in value of the CDS contract for a 1 bps parallel increase in the interest rate curve. Spread DV01 in Bloomberg is, typically, a much larger dollar value than IR DV01 because moves in overall interest rates, which is what the ``IR'' stands for, have a much smaller effect on CDS value than does a move in the CDS spread itself. 
-  \item[Rec Risk (1\%)]
-  \item[Def Exposure]
+  \item[IR DV01] is the change in value of the CDS contract for a 1
+    bps parallel increase in the interest rate curve. Spread DV01 in
+    Bloomberg is, typically, a much larger dollar value than IR DV01
+    because moves in overall interest rates, which is what the ``IR''
+    stands for, have a much smaller effect on CDS value than does a
+    move in the CDS spread itself.
+  \item[Rec Risk (1\%)] is the dollar value change in market value of
+    the CDS contract if the recovery rate in the spreads section were
+    increased by 1\%.
+  \item[Def Exposure] is the loss in dollar amount in the event of a
+    default the following day and can be calculated by the formula (1
+    - Recovery Rate) * Notional - Principal.
+  \item[Z-spread]: Short for zero-volatlity spread. Spread over spot
+    treasuries if held to maturity. A simple spread is only the
+    difference between bond yield and treasuries at a single point in
+    time. Z-spread aggregates over the entire curve.
+  \item[OAS]: Abbreviation for option-adjusted spread. If rates were
+    guaranteed to be stable, the OAS would equal the Z-Spread. But
+    rates can move. If they do, then the bond holder (and/or issuer?)
+    may be able to take advantage of this movement by putting/calling
+    the bond. So, Z-Spread equal the OAS plus the cost of the option,
+    which might be positive or negative. If there are no options, then
+    Z-Spread equals OAS.
+  \item[DTS]: is \textbf{d}uration \textbf{t}imes \textbf{s}pread. We
+    want a measure of bond riskiness. Bonds with longer duration are
+    riskier because a lot of stuff can happen before we get
+    paid. Bonds with larger spreads are riskier because the market has
+    doubts about whether or not we are going to get paid back. Bonds
+    with both large duration and high spreads are especially
+    risky. Bonds with low duration and low spreads (think commercial
+    paper for a AAA issuer) are very safe. Carvalho argues that low
+    DTS bonds outperform high DTS bonds around the world. We suspect
+    the same is true for CDS.
+
+    \item[Gamma]: Recall that delta is the change in value of the
+      derivative for a small change in value of the underlying. Gamma
+      is the second derivative. It is unclear to me how to use this
+      concept in CDS.
   
-  \item[Z-spread]: Short for zero-volatlity spread. Spread over spot treasuries if held to maturity. A simple spread is only the difference between bond yield and treasuries at a single point in time. Z-spread aggregates over the entire curve.
-  \item[OAS]: Abbreviation for option-adjusted spread. If rates were guaranteed to be stable, the OAS would equal the Z-Spread. But rates can move. If they do, then the bond holder (and/or issuer?) may be able to take advantage of this movement by putting/calling the bond. So, Z-Spread equal the OAS plus the cost of the option, which might be positive or negative. If there are no options, then Z-Spread equals OAS.  
-  \item[DTS]: is \textbf{d}uration \textbf{t}imes \textbf{s}pread. We want a measure of bond riskiness. Bonds with longer duration are riskier because a lot of stuff can happen before we get paid. Bonds with larger spreads are riskier because the market has doubts about whether or not we are going to get paid back. Bonds with both large duration and high spreads are especially risky. Bonds with low duration and low spreads (think commercial paper for a AAA issuer) are very safe. Carvalho argues that low DTS bonds outperform high DTS bonds around the world. We suspect the same is true for CDS.
-
-    \item[Gamma]: Recall that delta is the change in value of the derivative for a small change in value of the underlying. Gamma is the second derivative. It is unclear to me how to use this concept in CDS.
+  \item[Convexity]: Another word for gamma. In practice, most
+    important kind of convexity is bond convexity: the second
+    derivative of the change in price with respect to the change in
+    interest rates. Recall that duration (besides being the weighted
+    average time until repayment) is also the (first) derivative of
+    price with respect to yield. (I am using duration colloquially )
   
-  \item[Convexity]: Another word for gamma. In practice, most important kind of convexity is bond convexity: the second derivative of the change in price with respect to the change in interest rates. Recall that duration (besides being the weighted average time until repayment) is also the (first) derivative of price with respect to yield. (I am using duration colloquially )
+  \item[Skew] is the difference between the market and ``fair'' values
+    of the CDX index --- that is, comparing the index with the
+    underlying single name CDS spreads, sometimes call the
+    `intrinsic.'' That is, index minus intrinsic equals skew, at least
+    according to BAML. It is a sort of basis for a CDS index. Most
+    times, the skew is low because of arbitrage. But, sometimes, the
+    spreads on individual CDS names widen significantly. Trading dries
+    up since no one wants to pay those big transaction costs, but the
+    indices are still traded. When that happens, we get fat tails at
+    the rich-CDX --- negative spread skew, positive price skew ---
+    point of the skew distribution. The wide spreads of the single
+    name CDS prevent arbitrage activity from making the skew go
+    away. I read that during the financial crisis, the skew was very
+    positive (?) because the price of the index was much higher
+    (spread was lower) then the price of the constituents because no
+    one wanted to sell protection on individual names. The risks were
+    too great. A negative skew is sometimes considered a bullish
+    indicator since it suggests (?) that there are more sellers of
+    index protection than there are buyers of single name
+    protection. Positive skew is bearish since all those people are
+    buying index protection. ``Skew'' also seems to be used in an
+    volatility/options sense, but this is less common.
+
+  \item[Curve Shape]: There is a fair amount of discussion about curve
+    steepness/flatness. Lingo is along the lines of ``IBM 3y5y are
+    steep at 120.'' 3y5y is a comparison of the spread for the 3-year
+    and 5-year CDS. It is the 5-year minus the 3-year, so the bigger
+    the number the steeper the curve. When you see a steep curve you
+    can buy CDS on the 3-year and sell CDS on the 5-year. This is a
+    ``flattener'' trade. We won't do many of these (?) but it
+    certainly makes sense to not own 5-year CDS on a steep curve
+    because of the flattener effect. Two things to care about in such
+    a flattener trade are, first, the trades total DV01 (which you
+    would like to be as close to zero as possible) and, second, the
+    trade's carry. BAML organizes these two factors by looking at
+    trades were the ratio of 3s to 5s is such that DV01 is zero, and
+    then looking at the resulting trade's carry.
+
+
+  \item[Curve trade]: holds long/short positions at different tenors
+    in a single CDS. Relevant terminology includes ``steepener'' and
+    ``flattener.'' These trades are referred to with phrasing like
+    ``IBM 5s10s DV01-neutral steepener.'' In this case, we are trading
+    IBM CDS, the 5-year and 10-year tenors. We think that the curve is
+    too flat. So, we sell protection on the 5-year and buy protection
+    on the 10-year. We engineer the notional amounts of the two
+    positions to be DV01-neutral. If the curve shifts uniformly up or
+    down from its current position, we should stay flat. But, if the
+    10-year spread increases \emph{relative} to the 5-year spread ---
+    that is, if the curve steepens --- we make money. Trade ideas come
+    from looking at current outliers in a universe of CDS. Which
+    curves are currently the flattest or steepest? Those curves are
+    likely to revert. For our portfolio of 5-year CDS, we should
+    consider buying protection on steep (relative to 10-year) curves
+    and selling protection on flat curves. When looking at the 3s5s,
+    the opposite trades would be recommended.
+  \item[Big Bang] was April 2009. Small Bang was June 2009. Since
+    then, the ``look back'' has been 60 days from the current
+    day. North America (SNAC) trades with no restructuring (XR) while
+    Europe (STEC) trades with restructuring (MMR, which stands for
+    modified, modified restructuring). Coupons in NA are 100/500. In
+    Europe, they are 25/100/500/1000.
   
-  \item[Skew] is the difference between the market and ``fair'' values of the CDX index --- that is, comparing the index with the underlying single name CDS spreads, sometimes call the `intrinsic.'' That is, index minus intrinsic equals skew, at least according to BAML. It is a sort of basis for a CDS index. Most times, the skew is low because of arbitrage. But, sometimes, the spreads on individual CDS names widen significantly. Trading dries up since no one wants to pay those big transaction costs, but the indices are still traded. When that happens, we get fat tails at the rich-CDX --- negative spread skew, positive price skew --- point of the skew distribution. The wide spreads of the single name CDS prevent arbitrage activity from making the skew go away. I read that during the financial crisis, the skew was very positive (?) because the price of the index was much higher (spread was lower) then the price of the constituents because no one wanted to sell protection on individual names. The risks were too great. A negative skew is sometimes considered a bullish indicator since it suggests (?) that there are more sellers of index protection than there are buyers of single name protection. Positive skew is bearish since all those people are buying index protection. ``Skew'' also seems to be used in an volatility/options sense, but this is less common. 
+  \item[Fallen angels] are once investment grade bonds whose ratings
+    have fallen so much that they are now junk. \textbf{Rising stars}
+    are the opposite.
 
-  \item[Curve Shape]: There is a fair amount of discussion about curve steepness/flatness. Lingo is along the lines of ``IBM 3y5y are steep at 120.'' 3y5y is a comparison of the spread for the 3-year and 5-year CDS. It is the 5-year minus the 3-year, so the bigger the number the steeper the curve. When you see a steep curve you can buy CDS on the 3-year and sell CDS on the 5-year. This is a ``flattener'' trade. We won't do many of these (?) but it certainly makes sense to not own 5-year CDS on a steep curve because of the flattener effect. Two things to care about in such a flattener trade are, first, the trades total DV01 (which you would like to be as close to zero as possible) and, second, the trade's carry. BAML organizes these two factors by looking at trades were the ratio of 3s to 5s is such that DV01 is zero, and then looking at the resulting trade's carry.
+  \item[Sector] is an interesting term in CDS. First, financial firms
+    are much more special in CDS than they are in equities. In many
+    reports, summary statistics are given for all financial versus
+    non-financial firms. Second, the sectors are not just GIC
+    sectors. The cause, I think, is that CDS are not evenly
+    distributed across GIC sectors, which were, after all, designed
+    for the equity markets. So, for a good distribution, most people
+    use (different?) sector schemes of their own design. (But, also,
+    some people in some reporting do just use GICs.) Third, the issue
+    of ratings complicates things. Sometimes, a rating category (like
+    single A and above) is referred to or treated as a sector. Also,
+    the CDS in a given sector (like Banks) are sometimes split into
+    two ratings buckets. So, Banks BBB and below is a ``sector.''
+
+\end{description}
 
 
-  \item[Curve trade]: holds long/short positions at different tenors in a single CDS. Relevant terminology includes ``steepener'' and ``flattener.'' These trades are referred to with phrasing like ``IBM 5s10s DV01-neutral steepener.'' In this case, we are trading IBM CDS, the 5-year and 10-year tenors. We think that the curve is too flat. So, we sell protection on the 5-year and buy protection on the 10-year. We engineer the notional amounts of the two positions to be DV01-neutral. If the curve shifts uniformly up or down from its current position, we should stay flat. But, if the 10-year spread increases \emph{relative} to the 5-year spread --- that is, if the curve steepens --- we make money. Trade ideas come from looking at current outliers in a universe of CDS. Which curves are currently the flattest or steepest? Those curves are likely to revert. For our portfolio of 5-year CDS, we should consider buying protection on steep (relative to 10-year) curves and selling protection on flat curves. When looking at the 3s5s, the opposite trades would be recommended.
-  \item[Big Bang] was April 2009. Small Bang was June 2009. Since then, the ``look back'' has been 60 days from the current day. North America (SNAC) trades with no restructuring (XR) while Europe (STEC) trades with restructuring (MMR, which stands for modified, modified restructuring). Coupons in NA are 100/500. In Europe, they are 25/100/500/1000.
-  
-  \item[Fallen angels] are once investment grade bonds whose ratings have fallen so much that they are now junk. \textbf{Rising stars} are the opposite.
-
-  \item[Sector] is an interesting term in CDS. First, financial firms are much more special in CDS than they are in equities. In many reports, summary statistics are given for all financial versus non-financial firms. Second, the sectors are not just GIC sectors. The cause, I think, is that CDS are not evenly distributed across GIC sectors, which were, after all, designed for the equity markets. So, for a good distribution, most people use (different?) sector schemes of their own design. (But, also, some people in some reporting do just use GICs.) Third, the issue of ratings complicates things. Sometimes, a rating category (like single A and above) is referred to or treated as a sector. Also, the CDS in a given sector (like Banks) are sometimes split into two ratings buckets. So, Banks BBB and below is a ``sector.''
-
-    \end{description}
-
-Bloomberg CDSW and Markit CDS Calculator
 
 Explain each input
 
 \section{Using the CDS package}
+
+Currently, a portfolio manager can conduct CDS-related calculations by
+using the \textbf{CDSW Calculator} on a Bloomberg Terminal or the
+Markit CDS
+Calculator\footnote{\url{http://www.markit.com/markit.jsp?jsppage=pv.jsp}}.
+
+
+
 \begin{itemize}
 \item How to create a CDS class object
 \item Summary and print
@@ -139,12 +356,15 @@ Explain each input
 <<>>=
 library(CDS)
 cds1 <- CDS(TDate = "2014-01-14",
+            baseDate = "2014-01-13",
             maturity = "5Y",
             parSpread = 32,
             couponRate = 100)
-cds1
 summary(cds1)
+@ 
 
+<<>>=
+cds1
 @ 
 \section{Conclusion}
 
