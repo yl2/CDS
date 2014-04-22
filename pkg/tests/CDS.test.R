@@ -15,7 +15,6 @@ library(CDS)
 load("CDS.test.RData")
 result1 <- CDS(TDate = "2014-01-14",
                maturity = "5Y",
-
                parSpread = 32,
                couponRate = 100,
                recoveryRate = 0.4,
