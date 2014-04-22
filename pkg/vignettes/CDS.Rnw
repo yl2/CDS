@@ -1,4 +1,5 @@
 \documentclass[a4paper]{article}
+\linespread{1.3}
 \usepackage[round]{natbib}
 \usepackage{amssymb}
 %% \usepackage{RJournal}
@@ -52,7 +53,7 @@ returns given a time series of spread quotations.
 
 We introduce an overview of CDS contracts and terminologies in this
 section.\footnote{Much of this is quoted from the appendix to
-  \emph{The MarkIt Credit Indices Primer}, and \emph{The Bloomberg
+  \emph{The Markit Credit Indices Primer}, and \emph{The Bloomberg
     Guide}}
 
 \begin{description}
@@ -156,58 +157,40 @@ where S is the spread and R is the recovery rate.
     duration} or \textbf{risky duration}. Unlike the two durations
     above (which are measured in years and percent, respectively),
     PV01 is measured in dollars. It is the change in value of the CDS
-    for a small change in spread.  So, if the spread on a CDS goes up
-    by 1 bps, the value of the CDS (to the owner of protection) goes
-    up by PV01. Another way to think about this is that PV01 is the
-    present value of a 1 bps payment at each coupon date.
+    (to the owner of protection) when the spread on a CDS goes up by 1
+    bps. Another way to think about this is that PV01 is the present
+    value of a 1 bp payment at each coupon date.
 
-\begin{displaymath}
-  Upfront Points (in dollars) = (Spread - Coupon) * PV01
-\end{displaymath}
+\begin{center}
+  Upfront Payment (in dollars) = (Spread - Coupon) * PV01
+\end{center}
 
-
-Conceptually, if the spread goes up by 1 bps, then the protection
-buyer is better off. How much better off is he? Well, by assumption,
-nothing else has changed, including probability of default, recovery
-rate and so on. He just gets (the benefit of an extra bps of coverage,
-``payable'' over time). The present value of that stream is
-PV01. Might this also be known as \textbf{Risky PV01} or \textbf{Risky
-  Annuity}?
-   
   \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01},
-    \textbf{Spread DV01}, \textbf{Credit DV01} and, maybe,
-    \textbf{Spread Delta}. The change in the mark-to-market value of a
-    CDS trade for a 1 bp parallel shift upward in CDS spreads. (This
-    should always (?) be a positive number (if you are buying
-    protection) because, if you own the CDS, you are short credit. A
-    rising spread is a sign of credit deterioration, which makes you
-    money. Being short credit is like being short a stock. Going down
-    is good for you.) Starting with PV01 and taking the derivative
-    with respect to spread give us:
+    \textbf{Spread DV01}, \textbf{Credit DV01} and, \textbf{Spread
+      Delta}. The change in the mark-to-market value of a CDS trade
+    for a 1 bp parallel shift upward in CDS spreads. (This should
+    always (?) be a positive number (if you are buying protection)
+    because, if you own the CDS, you are short credit. A rising spread
+    is a sign of credit deterioration, which makes you money. Being
+    short credit is like being short a stock. Going down is good for
+    you.) Starting with PV01 and taking the derivative with respect to
+    spread give us:
+\begin{eqnarray}
+  PV & = & (S - C) * PV01 \nonumber \\
+  DV01 & = & \frac{\partial PV}{\partial S} \nonumber \\ 
+  & = & PV01 + (S - C) \frac{\partial PV01}{\partial S}. \nonumber
+\end{eqnarray}
 
-%% What a hack! Must be a better way to typeset this.
-
-\begin{displaymath}
-  PV = (S - C) * PV01
-\end{displaymath}
-  
-\begin{displaymath}
-  DV01 = \frac{\partial PV}{\partial S}
-\end{displaymath}
-
-\begin{displaymath}
-  DV01 = PV01 + (S - C) \frac{\partial PV01}{\partial S}
-\end{displaymath}
-  
 Both DV01 and PV01 are measured in dollars and are equal if the spread
 equals the coupon. In other words, the relationship between spread (on
 the x-axis) and dollars (on the y-axis) is identical when the spread
-equals the coupon. That is where these two lines cross, and
-(therefore?), have the same slope. DV01 will be great than PV01 when
-spread is greater than coupon, I guess.
+equals the coupon. That is where these two lines cross. DV01 will be
+great than PV01 when spread is greater than coupon, I guess?.
   
-  \item[IR DV01] is the change in value of the CDS contract for a 1
-    bps parallel increase in the interest rate curve. Spread DV01 in
+%% , and (therefore?), have the same slope.
+
+  \item[IR DV01] is the change in value of the CDS contract for a 1 bp
+    parallel increase in the interest rate curve. Spread DV01 in
     Bloomberg is, typically, a much larger dollar value than IR DV01
     because moves in overall interest rates, which is what the ``IR''
     stands for, have a much smaller effect on CDS value than does a
@@ -240,132 +223,71 @@ spread is greater than coupon, I guess.
     DTS bonds outperform high DTS bonds around the world. We suspect
     the same is true for CDS.
 
-    \item[Gamma]: Recall that delta is the change in value of the
-      derivative for a small change in value of the underlying. Gamma
-      is the second derivative. It is unclear to me how to use this
-      concept in CDS.
-  
+  \item[Gamma]: Recall that delta is the change in value of the
+    derivative for a small change in value of the underlying. Gamma
+    is the second derivative. It is unclear to me how to use this
+    concept in CDS.
+    
   \item[Convexity]: Another word for gamma. In practice, most
     important kind of convexity is bond convexity: the second
     derivative of the change in price with respect to the change in
     interest rates. Recall that duration (besides being the weighted
     average time until repayment) is also the (first) derivative of
     price with respect to yield. (I am using duration colloquially )
-  
-  \item[Skew] is the difference between the market and ``fair'' values
-    of the CDX index --- that is, comparing the index with the
-    underlying single name CDS spreads, sometimes call the
-    `intrinsic.'' That is, index minus intrinsic equals skew, at least
-    according to BAML. It is a sort of basis for a CDS index. Most
-    times, the skew is low because of arbitrage. But, sometimes, the
-    spreads on individual CDS names widen significantly. Trading dries
-    up since no one wants to pay those big transaction costs, but the
-    indices are still traded. When that happens, we get fat tails at
-    the rich-CDX --- negative spread skew, positive price skew ---
-    point of the skew distribution. The wide spreads of the single
-    name CDS prevent arbitrage activity from making the skew go
-    away. I read that during the financial crisis, the skew was very
-    positive (?) because the price of the index was much higher
-    (spread was lower) then the price of the constituents because no
-    one wanted to sell protection on individual names. The risks were
-    too great. A negative skew is sometimes considered a bullish
-    indicator since it suggests (?) that there are more sellers of
-    index protection than there are buyers of single name
-    protection. Positive skew is bearish since all those people are
-    buying index protection. ``Skew'' also seems to be used in an
-    volatility/options sense, but this is less common.
-
-  \item[Curve Shape]: There is a fair amount of discussion about curve
-    steepness/flatness. Lingo is along the lines of ``IBM 3y5y are
-    steep at 120.'' 3y5y is a comparison of the spread for the 3-year
-    and 5-year CDS. It is the 5-year minus the 3-year, so the bigger
-    the number the steeper the curve. When you see a steep curve you
-    can buy CDS on the 3-year and sell CDS on the 5-year. This is a
-    ``flattener'' trade. We won't do many of these (?) but it
-    certainly makes sense to not own 5-year CDS on a steep curve
-    because of the flattener effect. Two things to care about in such
-    a flattener trade are, first, the trades total DV01 (which you
-    would like to be as close to zero as possible) and, second, the
-    trade's carry. BAML organizes these two factors by looking at
-    trades were the ratio of 3s to 5s is such that DV01 is zero, and
-    then looking at the resulting trade's carry.
-
-
-  \item[Curve trade]: holds long/short positions at different tenors
-    in a single CDS. Relevant terminology includes ``steepener'' and
-    ``flattener.'' These trades are referred to with phrasing like
-    ``IBM 5s10s DV01-neutral steepener.'' In this case, we are trading
-    IBM CDS, the 5-year and 10-year tenors. We think that the curve is
-    too flat. So, we sell protection on the 5-year and buy protection
-    on the 10-year. We engineer the notional amounts of the two
-    positions to be DV01-neutral. If the curve shifts uniformly up or
-    down from its current position, we should stay flat. But, if the
-    10-year spread increases \emph{relative} to the 5-year spread ---
-    that is, if the curve steepens --- we make money. Trade ideas come
-    from looking at current outliers in a universe of CDS. Which
-    curves are currently the flattest or steepest? Those curves are
-    likely to revert. For our portfolio of 5-year CDS, we should
-    consider buying protection on steep (relative to 10-year) curves
-    and selling protection on flat curves. When looking at the 3s5s,
-    the opposite trades would be recommended.
-  \item[Big Bang] was April 2009. Small Bang was June 2009. Since
-    then, the ``look back'' has been 60 days from the current
-    day. North America (SNAC) trades with no restructuring (XR) while
-    Europe (STEC) trades with restructuring (MMR, which stands for
-    modified, modified restructuring). Coupons in NA are 100/500. In
-    Europe, they are 25/100/500/1000.
-  
-  \item[Fallen angels] are once investment grade bonds whose ratings
-    have fallen so much that they are now junk. \textbf{Rising stars}
-    are the opposite.
-
-  \item[Sector] is an interesting term in CDS. First, financial firms
-    are much more special in CDS than they are in equities. In many
-    reports, summary statistics are given for all financial versus
-    non-financial firms. Second, the sectors are not just GIC
-    sectors. The cause, I think, is that CDS are not evenly
-    distributed across GIC sectors, which were, after all, designed
-    for the equity markets. So, for a good distribution, most people
-    use (different?) sector schemes of their own design. (But, also,
-    some people in some reporting do just use GICs.) Third, the issue
-    of ratings complicates things. Sometimes, a rating category (like
-    single A and above) is referred to or treated as a sector. Also,
-    the CDS in a given sector (like Banks) are sometimes split into
-    two ratings buckets. So, Banks BBB and below is a ``sector.''
-
 \end{description}
 
-
-
-Explain each input
 
 \section{Using the CDS package}
 
 Currently, a portfolio manager can conduct CDS-related calculations by
 using the \textbf{CDSW Calculator} on a Bloomberg Terminal or the
-Markit CDS
-Calculator\footnote{\url{http://www.markit.com/markit.jsp?jsppage=pv.jsp}}.
+Markit CDS Calculator.\footnote{The Markit CDS Calculator is available
+  at \url{http://www.markit.com/markit.jsp?jsppage=pv.jsp}.} The
+\textbf{CDS} package provides tools for valuing a single-name CDS
+contract based on the ISDA standard model. The user can also specify
+her own set of parameters to customize the calculation. In this
+section, we will demonstrate the use of the \textbf{CDS} package with
+a series of examples.
 
+For illustrative purposes, we call the function \texttt{CDS} to
+construct an object of class \texttt{CDS}. Below we use the
+specifications according to the ISDA Standard Model.
 
-
-\begin{itemize}
-\item How to create a CDS class object
-\item Summary and print
-\end{itemize}
+<<echo = FALSE, results = hide>>=
+options(width = 100)
+library(CDS)
+@ 
 
 <<>>=
-library(CDS)
 cds1 <- CDS(TDate = "2014-01-14",
-            baseDate = "2014-01-13",
+            currency = "USD",
             maturity = "5Y",
-            parSpread = 32,
-            couponRate = 100)
+            dccCDS = "ACT/360",
+            freqCDS = "Q",
+            stubCDS = "F",
+            badDayConvCDS = "F",
+            calendar = "None",
+            parSpread = 50,
+            couponRate = 100,
+            recoveryRate = 0.4,
+            isPriceClean = FALSE,
+            notional = 1e7,
+            payAccruedOnDefault = TRUE)
 summary(cds1)
+@ 
+
+<<>>=
+cds1Rates <- getRates(date = "2014-01-13", currency = "USD")
+cds1Rates[[1]]
+t(cds1Rates[[2]])
 @ 
 
 <<>>=
 cds1
 @ 
+
+
+
 \section{Conclusion}
 
 

@@ -14,21 +14,47 @@ CDS Simple Example
 
 ```{r}
 > library(CDS)
-> result1 <- CDS(TDate = "2014-01-14",
-+                maturity = "5Y",
-+                parSpread = 32,
-+                couponRate = 100,
-+                recoveryRate = 0.4,
-+                isPriceClean = FALSE,
-+                notional = 1e7)
-> summary(result1)
+> cds1 <- CDS(TDate = "2014-01-14", parSpread = 32, couponRate = 100)
+> summary(cds1)
 Contract Type:                      SNAC TDate:                       2014-01-14
 Currency:                            USD End Date:                    2019-03-20
 Spread:                               32 Coupon Rate:                        100
 Upfront:                      -348505.14 Spread DV01:                    5162.57
 IR DV01:                           90.88 Rec Risk (1 pct):                 79.12
 
-> result1
+> cds1Rates <- getRates("2014-01-14")
+> cds1Rates[[1]]
+   expiry matureDate     rate type
+1      1M 2014-02-17  0.00159    M
+2      2M 2014-03-17 0.002055    M
+3      3M 2014-04-17 0.002368    M
+4      6M 2014-07-17 0.003355    M
+5      1Y 2015-01-19 0.005681    M
+6      2Y 2016-01-17  0.00496    S
+7      3Y 2017-01-17  0.00881    S
+8      4Y 2018-01-17  0.01322    S
+9      5Y 2019-01-17 0.017375    S
+10     6Y 2020-01-17 0.020875    S
+11     7Y 2021-01-17  0.02384    S
+12     8Y 2022-01-17 0.026155    S
+13     9Y 2023-01-17 0.028045    S
+14    10Y 2024-01-17 0.029695    S
+15    12Y 2026-01-17 0.032195    S
+16    15Y 2029-01-17 0.034545    S
+17    20Y 2034-01-17  0.03655    S
+18    25Y 2039-01-17  0.03742    S
+19    30Y 2044-01-17  0.03788    S
+> t(cds1Rates[[2]])
+                 text     
+badDayConvention "M"      
+mmDCC            "ACT/360"
+mmCalendars      "none"   
+fixedDCC         "30/360" 
+floatDCC         "ACT/360"
+fixedFreq        "6M"     
+floatFreq        "3M"     
+swapCalendars    "none"   
+> cds1
 CDS Contract 
 Contract Type:                      SNAC Currency:                           USD
 TDate:                        2014-01-14 End Date:                    2019-03-20
@@ -68,6 +94,7 @@ Credit Curve
 
 CDS To-Do's
 --------------------------------------------------------
+- calcUpfront.c, one option is hard-coded
 - Vignette
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
@@ -97,6 +124,8 @@ SNAC
 - PV01 is the PV of a stream of 1 bp payments at each CDS coupon date.
 - MTM = (current par spread - original par spread) * current PV01.
 - Upfront payment = (par spread - coupon rate) * PV01
+- Quoted spread for low spread (IG) names, and points upfront for high spread (HY) names
+
 
 
 
