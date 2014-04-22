@@ -21,13 +21,12 @@
 ***************************************************************************
 ** Calculate upfront charge.
 ***************************************************************************
-
+*/
 
 //EXPORT int JpmcdsCdsoneUpfrontCharge(cdsone.c)
 SEXP calcUpfrontTest
 (SEXP baseDate_input,  /* (I) Value date  for zero curve       */
  SEXP types, //"MMMMMSSSSSSSSS"
-
  SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
 
  SEXP expiries,
