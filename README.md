@@ -84,8 +84,25 @@ Existing R function files
 - getDates.R get a set of dates relevant for CDS calculation
 - price.R calculates the price of a CDS contract
 
-Notes
+SNAC
 - Standard CDS contract specification [http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf](http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf)
+- Contracts are always traded with a maturity date falling on one of the four roll dates, March/July/Sept/Dec 20. The maturity date is rounded up to the next roll date. 
+- If the maturity date falls on a non-business day, then it's moved to the following business day.
+- Coupons are paid on a quarterly basis.
+- The size of the coupon payment is calculated on ACT/360. 
+- Full first coupon is paid on the next available roll date.
+- The protection seller pays the protection buyer accrued interest prportional to the time between the last roll date and trade date.
+- Backstop date is the date from which protection is provided. Backstop date = current date - 60 calendar days
+- For an all-running contract, the spread quoted is the par spread and it is precisely the coupon that is agreed for the premium leg in return for credit event protection.
+- PV01 is the PV of a stream of 1 bp payments at each CDS coupon date.
+- MTM = (current par spread - original par spread) * current PV01.
+- Upfront payment = (par spread - coupon rate) * PV01
+
+
+
+
+
+Notes
 - Fixed payment from the protection buyer is the "premium leg"
 - Payment of notional less recovery by the protection seller in the event of a default is the "contingent leg"
 - Upfront paymant is often quoted in percent of notional.
