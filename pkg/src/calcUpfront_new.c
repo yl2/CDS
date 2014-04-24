@@ -27,8 +27,9 @@
 SEXP calcUpfrontTest
 (SEXP baseDate_input,  /* (I) Value date  for zero curve       */
  SEXP types, //"MMMMMSSSSSSSSS"
- SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
-
+ SEXP rates, /* rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9,
+		1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/\* (I)
+		Array of swap rates *\/ */
  SEXP expiries,
  SEXP mmDCC,          /* (I) DCC of MM instruments            */
 
@@ -42,8 +43,8 @@ SEXP calcUpfrontTest
  // input for upfront charge calculation
  SEXP todayDate_input, /*today: T (Where T = trade date)*/
  SEXP valueDate_input, /* value date: T+3 Business Days*/
- SEXP benchmarkDate_input,/* start date of benchmark CDS for
-				     ** internal clean spread bootstrapping;
+ SEXP benchmarkDate_input,/* start date of benchmark CDS for internal
+				     ** clean spread bootstrapping;
 				     ** accrual Begin Date  */
  SEXP startDate_input,/* Accrual Begin Date */
  SEXP endDate_input,/*  Maturity (Fixed) */
@@ -59,6 +60,7 @@ SEXP calcUpfrontTest
  SEXP couponRate,
  SEXP recoveryRate,
  SEXP isPriceClean,
+ SEXP payAccruedOnDefault,
  SEXP notional) 
 
 {
@@ -156,6 +158,7 @@ SEXP calcUpfrontTest
   couponRate_for_upf = *REAL(couponRate);
   recoveryRate_for_upf = *REAL(recoveryRate);
   isPriceClean = *INTEGER(isPriceClean);
+  payAccruedOnDefault = *INTEGER(payAccruedOnDefault);
   notional_for_upf = *REAL(notional);
 
   badDayConvZC = AS_CHARACTER(badDayConvZC);
@@ -203,8 +206,6 @@ SEXP calcUpfrontTest
   if (JpmcdsDateIntervalToFreq(&floatSwapIvl_curve, &floatSwapFreq_curve) != SUCCESS)
     goto done;
   
-  //   char *expiries[14] = {"1M", "2M", "3M", "6M", "9M", "1Y", "2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y"};
-
   expiries = coerceVector(expiries, VECSXP);
   TDate *dates_main = NULL;
   dates_main = NEW_ARRAY1(TDate, n);
@@ -277,7 +278,7 @@ SEXP calcUpfrontTest
 				  startDate,
 				  endDate,
 				  couponRate_for_upf / 10000.0,
-				  TRUE,
+				  payAccruedOnDefault, //TRUE,
 				  &ivl,
 				  &stub, 
 				  dcc,

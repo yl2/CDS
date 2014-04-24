@@ -86,7 +86,9 @@ SEXP calcCdsoneSpread
  SEXP baseDate_input,  /* (I) Value date  for zero curve       */
  SEXP types, //"MMMMMSSSSSSSSS"
 
- SEXP rates, //rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/* (I) Array of swap rates              */
+ SEXP rates, /* rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9,
+		1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/\* (I)
+		Array of swap rates *\/ */
  
  SEXP expiries, 
  SEXP mmDCC, /* (I) DCC of MM instruments            */
@@ -293,7 +295,7 @@ SEXP calcCdsoneSpread
 				     pt_types,
 				     dates_main,
 				     REAL(rates),
-				     (long)n,
+				     (long) n,
 				     (long) mmDCC_zc_main,
 				     (long) fixedSwapFreq_curve,
 				     (long) floatSwapFreq_curve,
