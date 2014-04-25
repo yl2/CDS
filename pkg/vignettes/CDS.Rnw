@@ -56,6 +56,8 @@ section.\footnote{Much of this is quoted from the appendix to
   \emph{The Markit Credit Indices Primer}, and \emph{The Bloomberg
     Guide}}
 
+\subsection{Terminologies}
+
 \begin{description}
     \item[Long Credit]: The position of the CDS Protection Seller who
       is exposed to credit risk and who receives periodic payment from
@@ -235,6 +237,27 @@ great than PV01 when spread is greater than coupon, I guess?.
     average time until repayment) is also the (first) derivative of
     price with respect to yield. (I am using duration colloquially )
 \end{description}
+
+
+\section{The ISDA Standard CDS}
+
+This section provides a specification of an ISDA standard CDS contract
+and an introduction of the ISDA standard CDS model. The default
+calculations and parameters in the \textbf{CDS} package strictly
+follow the ISDA standard.
+
+\subsection{The ISDA Standard CDS Contract}
+\begin{itemize}
+  
+  \item Date Conventions:
+    \begin{itemize}
+      \item Trade Date (T): the date of the trade; default to the
+        current business day.
+      \item Maturity: 5 years.
+      \item 
+      
+      \end{itemize}
+  \end{itemize}
 
 
 \section{Using the CDS package}
