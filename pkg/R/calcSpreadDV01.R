@@ -96,6 +96,8 @@ calcSpreadDV01 <- function(object = NULL,
                            parSpread,
                            couponRate,
                            recoveryRate = 0.4,
+                           isPriceClean = FALSE,
+                           payAccruedOnDefault = TRUE,                         
                            notional = 1e7
                            ){
 
@@ -162,7 +164,8 @@ calcSpreadDV01 <- function(object = NULL,
                           parSpread,
                           couponRate,
                           recoveryRate,
-                          FALSE,
+                          isPriceClean,
+                          payAccruedOnDefault,
                           notional,
                           PACKAGE = "CDS")
 
@@ -197,7 +200,8 @@ calcSpreadDV01 <- function(object = NULL,
                          parSpread + 1,
                          couponRate,
                          recoveryRate,
-                         FALSE,
+                         isPriceClean,
+                         payAccruedOnDefault,
                          notional,
                          PACKAGE = "CDS")
 
@@ -248,7 +252,8 @@ setMethod("calcSpreadDV01",
                                    object@parSpread + 1,
                                    object@couponRate,
                                    object@recoveryRate,
-                                   FALSE,
+                                   object@isPriceClean,
+                                   object@payAccruedOnDefault,
                                    object@notional,
                                    PACKAGE = "CDS")
               return (upfront.new - object@upfront)

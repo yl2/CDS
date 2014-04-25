@@ -221,6 +221,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                        couponRate,
                                        recoveryRate,
                                        FALSE,
+                                       payAccuredOnDefault,
                                        notional)
         } else {
             cds@upfront <- upfront
@@ -252,6 +253,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                          couponRate,
                                          recoveryRate,
                                          TRUE,
+                                         payAccruedOnDefault,
                                          notional)
         }
     } else {
@@ -288,6 +290,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                      couponRate,
                                      recoveryRate,
                                      TRUE,
+                                     payAccruedOnDefault,
                                      notional)
         
         cds@upfront <- calcUpfront(TDate,
@@ -321,6 +324,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                    couponRate,
                                    recoveryRate,
                                    FALSE,
+                                   payAccruedOnDefault,
                                    notional)
     }
     cds@accrual <- cds@upfront - cds@principal

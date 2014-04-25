@@ -95,6 +95,8 @@ calcIRDV01 <- function(object = NULL,
                        parSpread,
                        couponRate,
                        recoveryRate = 0.4,
+                       isPriceClean = FALSE,
+                       payAccruedOnDefault = TRUE,                       
                        notional = 1e7
                        ){
 
@@ -161,7 +163,8 @@ calcIRDV01 <- function(object = NULL,
                           parSpread,
                           couponRate,
                           recoveryRate,
-                          FALSE,
+                          isPriceClean,
+                          payAccruedOnDefault,
                           notional,
                           PACKAGE = "CDS")
 
@@ -196,7 +199,8 @@ calcIRDV01 <- function(object = NULL,
                          parSpread,
                          couponRate,
                          recoveryRate,
-                         FALSE,
+                         isPriceClean,
+                         payAccruedOnDefault,
                          notional,
                          PACKAGE = "CDS")
 
@@ -245,7 +249,8 @@ setMethod("calcIRDV01",
                                    object@parSpread,
                                    object@couponRate,
                                    object@recoveryRate,
-                                   FALSE,
+                                   object@isPriceClean,
+                                   object@payAccruedOnDefault,
                                    object@notional,
                                    PACKAGE = "CDS")
 

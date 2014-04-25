@@ -99,6 +99,7 @@ calcUpfront <- function(TDate,
                         couponRate,
                         recoveryRate = 0.4,
                         isPriceClean = FALSE,
+                        payAccruedOnDefault = TRUE,
                         notional = 1e7){
 
     ratesDate <- baseDate
@@ -165,6 +166,7 @@ calcUpfront <- function(TDate,
           couponRate,
           recoveryRate,
           isPriceClean,
+          payAccruedOnDefault,
           notional,
           PACKAGE = "CDS")
 

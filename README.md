@@ -94,7 +94,7 @@ Credit Curve
 
 CDS To-Do's
 --------------------------------------------------------
-- calcUpfront.c, one option is hard-coded
+- update function
 - Vignette
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
