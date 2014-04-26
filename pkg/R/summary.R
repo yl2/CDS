@@ -12,22 +12,22 @@ setMethod("summary",
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Contract Type:") -
                                     .checkLength(object@contract)), collapse = ""))),
-                  sprintf(paste(" TDate:", object@TDate,
-                                sep = paste0(rep(" ", 40-.checkLength(" TDate:") -
+                  sprintf(paste("   TDate:", object@TDate,
+                                sep = paste0(rep(" ", 40-.checkLength("   TDate:") -
                                     .checkLength(object@TDate)), collapse = ""))), "\n",
                   sprintf(paste("Currency:", object@currency,
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Currency:") -
                                     .checkLength(object@currency)), collapse = ""))),
-                  sprintf(paste(" End Date:", object@endDate,
-                                sep = paste0(rep(" ", 40-.checkLength(" End Date:") -
+                  sprintf(paste("   End Date:", object@endDate,
+                                sep = paste0(rep(" ", 40-.checkLength("   End Date:") -
                                     .checkLength(object@endDate)), collapse = ""))), "\n",
                   sprintf(paste("Spread:", object@parSpread,
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Spread:") -
                                     .checkLength(object@parSpread)), collapse = ""))),
-                  sprintf(paste(" Coupon Rate:", object@couponRate,
-                                sep = paste0(rep(" ", 40-.checkLength(" Coupon Rate:") -
+                  sprintf(paste("   Coupon Rate:", object@couponRate,
+                                sep = paste0(rep(" ", 40-.checkLength("   Coupon Rate:") -
                                     .checkLength(object@couponRate)),
                                     collapse = ""))), "\n",
                   
@@ -36,8 +36,8 @@ setMethod("summary",
                                     40-.checkLength("Upfront:") -
                                     .checkLength(round(object@upfront, 2))),
                                     collapse = ""))),
-                  sprintf(paste(" Spread DV01:", round(object@spreadDV01, 2),
-                                sep = paste0(rep(" ", 40-.checkLength(" Spread DV01:") -
+                  sprintf(paste("   Spread DV01:", round(object@spreadDV01, 2),
+                                sep = paste0(rep(" ", 40-.checkLength("   Spread DV01:") -
                                     .checkLength(round(object@spreadDV01, 2))),
                                     collapse = ""))), "\n",
 
@@ -46,8 +46,8 @@ setMethod("summary",
                                     40-.checkLength("IR DV01:") -
                                     .checkLength(round(object@IRDV01, 2))),
                                     collapse = ""))),
-                  sprintf(paste(" Rec Risk (1 pct):", round(object@RecRisk01, 2),
-                                sep = paste0(rep(" ", 40-.checkLength(" Rec Risk (1 pct):") -
+                  sprintf(paste("   Rec Risk (1 pct):", round(object@RecRisk01, 2),
+                                sep = paste0(rep(" ", 40-.checkLength("   Rec Risk (1 pct):") -
                                     .checkLength(round(object@RecRisk01, 2))),
                                     collapse = ""))), "\n",
                   sep = ""

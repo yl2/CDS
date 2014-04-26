@@ -46,7 +46,6 @@
 
 CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 entityName = NULL,
-
                 TDate = Sys.Date(), ## Default is the current date
 
                 ## IR curve
@@ -81,12 +80,15 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 couponRate,
                 recoveryRate = 0.4,
                 upfront = NULL,
+                ptsUpfront = NULL,
                 isPriceClean = FALSE,
                 notional = 1e7,
                 payAccruedOnDefault = TRUE
                 ){
 
-    ## TDate <- baseDate <- "2014-01-14"
+    if ((is.null(upfront)) & (is.null(ptsUpfront)) & (is.null(parSpread)))
+        stop("Please input spread, upfront or pts upfront")
+
     ratesDate <- baseDate
     cdsDates <- getDates(TDate = as.Date(TDate), maturity = maturity)
     if (is.null(valueDate)) valueDate <- cdsDates$valueDate
@@ -156,59 +158,58 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                )
 
     if (is.null(parSpread)){
-        stopifnot(!is.null(upfront))
-        ## if parSpread is not given, i.e. parSpread == NULL, user
-        ## gives a principal (when isPriceClean == TRUE) or
-        ## principal+accrual (when isPriceClean == FALSE)
-        cds@parSpread <- calcSpread(TDate,
-                                    baseDate,
-                                    currency,
-                                    types,
-                                    rates,
-                                    expiries,
-                                    mmDCC,
-                                    fixedSwapFreq,
-                                    floatSwapFreq,
-                                    fixedSwapDCC,
-                                    floatSwapDCC,
-                                    badDayConvZC,
-                                    holidays,
-                                    valueDate,
-                                    benchmarkDate,
-                                    startDate,
-                                    endDate,
-                                    stepinDate,
-                                    maturity,
-                                    dccCDS,
-                                    freqCDS,
-                                    stubCDS,
-                                    badDayConvCDS,
-                                    calendar,
-                                    upfront,
-                                    couponRate, 
-                                    recoveryRate,
-                                    isPriceClean,
-                                    notional,
-                                    payAccruedOnDefault)
-        
-        if (isPriceClean == TRUE) {
-            cds@principal <- upfront
+
+        if (!is.null(ptsUpfront)){
+            cds@ptsUpfront <- ptsUpfront
+            cds@parSpread <- calcSpread(TDate,
+                                        baseDate,
+                                        currency,
+                                        types,
+                                        rates,
+                                        expiries,
+                                        mmDCC,
+                                        fixedSwapFreq,
+                                        floatSwapFreq,
+                                        fixedSwapDCC,
+                                        floatSwapDCC,
+                                        badDayConvZC,
+                                        holidays,
+                                        valueDate,
+                                        benchmarkDate,
+                                        startDate,
+                                        endDate,
+                                        stepinDate,
+                                        maturity,
+                                        dccCDS,
+                                        freqCDS,
+                                        stubCDS,
+                                        badDayConvCDS,
+                                        calendar,
+                                        upfront,
+                                        ptsUpfront,
+                                        couponRate, 
+                                        recoveryRate,
+                                        isPriceClean,
+                                        notional,
+                                        payAccruedOnDefault)
+            cds@principal <- notional * ptsUpfront
+
             cds@upfront <- calcUpfront(TDate,
-                                       baseDate = baseDate,
-                                       currency = currency,
-                                       types = types,
-                                       rates = rates,
-                                       expiries = expiries,
-                                       mmDCC = mmDCC,
+                                       baseDate,
+                                       currency,
+                                       types,
+                                       rates,
+                                       expiries,
+                                       mmDCC,
                                        fixedSwapFreq,
                                        floatSwapFreq,
                                        fixedSwapDCC,
                                        floatSwapDCC,
                                        badDayConvZC,
                                        holidays,
-                                       valueDate, 
-                                       benchmarkDate, 
-                                       startDate, 
+                                       valueDate,
+                                       benchmarkDate,
+                                       startDate,
                                        endDate,
                                        stepinDate,
                                        maturity,
@@ -218,43 +219,82 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                        badDayConvCDS,
                                        calendar,
                                        cds@parSpread,
-                                       couponRate,
+                                       couponRate, 
                                        recoveryRate,
                                        FALSE,
-                                       payAccuredOnDefault,
+                                       payAccruedOnDefault,
                                        notional)
+            
         } else {
-            cds@upfront <- upfront
-            cds@principal <- calcUpfront(TDate,
-                                         baseDate,
-                                         currency,
-                                         types,
-                                         rates,
-                                         expiries,
-                                         mmDCC,
-                                         fixedSwapFreq,
-                                         floatSwapFreq,
-                                         fixedSwapDCC,
-                                         floatSwapDCC,
-                                         badDayConvZC,
-                                         holidays,
-                                         valueDate, 
-                                         benchmarkDate, 
-                                         startDate, 
-                                         endDate,
-                                         stepinDate,
-                                         maturity,
-                                         dccCDS,
-                                         freqCDS,
-                                         stubCDS,
-                                         badDayConvCDS,
-                                         calendar,
-                                         cds@parSpread,
-                                         couponRate,
-                                         recoveryRate,
-                                         TRUE,
-                                         payAccruedOnDefault,
-                                         notional)
+            
+            if (isPriceClean == TRUE) {
+                cds@principal <- upfront
+                cds@ptsUpfront <- upfront / notional
+                cds@upfront <- calcUpfront(TDate,
+                                           baseDate = baseDate,
+                                           currency = currency,
+                                           types = types,
+                                           rates = rates,
+                                           expiries = expiries,
+                                           mmDCC = mmDCC,
+                                           fixedSwapFreq,
+                                           floatSwapFreq,
+                                           fixedSwapDCC,
+                                           floatSwapDCC,
+                                           badDayConvZC,
+                                           holidays,
+                                           valueDate, 
+                                           benchmarkDate, 
+                                           startDate, 
+                                           endDate,
+                                           stepinDate,
+                                           maturity,
+                                           dccCDS,
+                                           freqCDS,
+                                           stubCDS,
+                                           badDayConvCDS,
+                                           calendar,
+                                           cds@parSpread,
+                                           couponRate,
+                                           recoveryRate,
+                                           FALSE,
+                                           payAccuredOnDefault,
+                                           notional)
+            } else {
+                ## dirty upfront
+                cds@upfront <- upfront
+                cds@principal <- calcUpfront(TDate,
+                                             baseDate,
+                                             currency,
+                                             types,
+                                             rates,
+                                             expiries,
+                                             mmDCC,
+                                             fixedSwapFreq,
+                                             floatSwapFreq,
+                                             fixedSwapDCC,
+                                             floatSwapDCC,
+                                             badDayConvZC,
+                                             holidays,
+                                             valueDate, 
+                                             benchmarkDate, 
+                                             startDate, 
+                                             endDate,
+                                             stepinDate,
+                                             maturity,
+                                             dccCDS,
+                                             freqCDS,
+                                             stubCDS,
+                                             badDayConvCDS,
+                                             calendar,
+                                             cds@parSpread,
+                                             couponRate,
+                                             recoveryRate,
+                                             TRUE,
+                                             payAccruedOnDefault,
+                                             notional)
+                cds@ptsUpfront <- cds@principal / notional
+            }
         }
     } else {
         ## if parSpread is given, calculate principal and accrual
@@ -292,12 +332,12 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                      TRUE,
                                      payAccruedOnDefault,
                                      notional)
-        
+        cds@ptsUpfront <- cds@principal / notional
         cds@upfront <- calcUpfront(TDate,
                                    baseDate = baseDate,
                                    currency = currency,
                                    types = types,
-                                   rates = rates,
+                                       rates = rates,
                                    expiries = expiries,
                                    mmDCC = mmDCC,
                                    fixedSwapFreq,
@@ -327,9 +367,10 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                    payAccruedOnDefault,
                                    notional)
     }
+    
     cds@accrual <- cds@upfront - cds@principal
-
-
+    
+    
     cds@spreadDV01 <- calcSpreadDV01(cds)
     cds@IRDV01 <- calcIRDV01(cds) 
     cds@RecRisk01 <- calcRecRisk01(cds)
@@ -343,3 +384,4 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
     return(cds)
     
 }
+    

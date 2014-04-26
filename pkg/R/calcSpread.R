@@ -51,10 +51,14 @@
 #' @param calendar refers to any calendar adjustment for the CDS
 #' contract. Default is "None".
 #' @param upfront the dollar amount for upfront payment
+#' @param ptsUpfront the fraction of clean upfront
+#' payment. \code{upfront} and \code{ptsUpfront} cannot be NULL at the
+#' same time. It is in decimal.
 #' @param couponRate in bps.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param payAccruedAtStart determines to whether a clean upfront or a
-#' dirty upfront is supplied. When TRUE, clean upfront supplied.
+#' dirty upfront is supplied. When TRUE, clean upfront supplied. When
+#' FALSE, dirty upfront is supplied. Default is FALSE.
 #' @param notional default is 10mm (1e7)
 #' @param payAccruedOnDefault determines whether accrued interest is
 #' paid on a default. Default is TRUE, which means that accrued
@@ -91,15 +95,25 @@ calcSpread <- function(TDate,
                        badDayConvCDS = "F",
                        calendar = "None",
                        
-                       upfront,
+                       upfront = NULL,
+                       ptsUpfront = NULL,
                        couponRate, 
                        recoveryRate = 0.4,
-                       payAccruedAtStart = TRUE,
+                       payAccruedAtStart = FALSE,
                        notional = 1e7,
                        payAccruedOnDefault = TRUE){
 
+    if (is.null(upfront) & is.null(ptsUpfront))
+        stop("Please input upfront or pts upfront")
+    
     ratesDate <- baseDate
-    ptsUpf <- upfront / notional
+    if (is.null(ptsUpfront)) {
+        ptsUpfront <- upfront / notional
+        payAccruedAtStart <- FALSE
+    } else {
+        payAccruedAtStart <- TRUE
+    }
+    
     cdsDates <- getDates(TDate = as.Date(TDate), maturity = maturity)
     if (is.null(valueDate)) valueDate <- cdsDates$valueDate
     if (is.null(benchmarkDate)) benchmarkDate <- cdsDates$startDate
@@ -163,7 +177,7 @@ calcSpread <- function(TDate,
           badDayConvCDS,
           calendar,
 
-          ptsUpf,
+          ptsUpfront,
           recoveryRate,
           payAccruedAtStart,
           PACKAGE = "CDS")
