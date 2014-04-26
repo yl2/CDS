@@ -16,11 +16,11 @@ CDS Simple Example
 > library(CDS)
 > cds1 <- CDS(TDate = "2014-01-14", parSpread = 32, couponRate = 100)
 > summary(cds1)
-Contract Type:                      SNAC TDate:                       2014-01-14
-Currency:                            USD End Date:                    2019-03-20
-Spread:                               32 Coupon Rate:                        100
-Upfront:                      -348505.14 Spread DV01:                    5162.57
-IR DV01:                           90.88 Rec Risk (1 pct):                 79.12
+Contract Type:                      SNAC   TDate:                     2014-01-14
+Currency:                            USD   End Date:                  2019-03-20
+Spread:                               32   Coupon Rate:                      100
+Upfront:                      -348505.14   Spread DV01:                  5162.57
+IR DV01:                           90.88   Rec Risk (1 pct):               79.12
 
 > cds1Rates <- getRates("2014-01-14")
 > cds1Rates[[1]]
@@ -56,18 +56,19 @@ floatFreq        "3M"
 swapCalendars    "none"   
 > cds1
 CDS Contract 
-Contract Type:                      SNAC Currency:                           USD
-TDate:                        2014-01-14 End Date:                    2019-03-20
-Start Date:                   2013-12-20 Backstop Date:               2013-11-15
-1st Coupon:                   2014-03-20 Pen Coupon:                  2018-12-20
-Day Cnt:                         ACT/360 Freq:                                 Q
+Contract Type:                      SNAC   Currency:                         USD
+TDate:                        2014-01-14   End Date:                  2019-03-20
+Start Date:                   2013-12-20   Backstop Date:             2013-11-15
+1st Coupon:                   2014-03-20   Pen Coupon:                2018-12-20
+Day Cnt:                         ACT/360   Freq:                               Q
 
 Calculation 
-Value Date:                   2014-01-17 Price:                           103.41
-Principal:                    -341282.92 Spread DV01:                    5162.57
-Accrual:                        -7222.22 IR DV01:                          90.88
-Upfront:                      -348505.14 Rec Risk (1 pct):                 79.12
-Default Prob:                     0.0276 Default Expo:                6341282.92
+Value Date:                   2014-01-17   Price:                         103.41
+Spread:                               32   Pts Upfront:                  -0.0341
+Principal:                    -341282.92   Spread DV01:                  5162.57
+Accrual:                        -7222.22   IR DV01:                        90.88
+Upfront:                      -348505.14   Rec Risk (1 pct):               79.12
+Default Prob:                     0.0276   Default Expo:              6341282.92
 
 Credit Curve 
  Term     Rate
@@ -94,7 +95,6 @@ Credit Curve
 
 CDS To-Do's
 --------------------------------------------------------
-- update function
 - Vignette
 - Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
