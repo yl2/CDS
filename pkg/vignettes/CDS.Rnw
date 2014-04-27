@@ -74,31 +74,26 @@ what are some of the key terms used in a single-name CDS contract?
 %% \subsection{Terminologies}
 
 \begin{description}
-    \item[Long Credit]: The position of the CDS Protection Seller who
-      is exposed to credit risk and who receives periodic payment from
-      the Protection Buyer. Economically, selling the CDS generates
-      the same cash flows as owning the bond --- periodic, coupon-like
-      payments, with a risk of principal impairement. Since you are
-      obviously ``long credit'' if you own the bond, then it follows
-      that you are long credit if you sell the CDS. Also referred to
-      as being \textbf{long risk} or as having \textbf{wrote
-        protection} or \textbf{sold protection} or \textbf{bought
-        risk}. Example: ``Protection seller is long credit.''
-  \item[Short Credit]: This is the credit risk position of the
-    Protection Buyer, who sold the credit risk of a bond to the
-    Protection Seller. Similar terms meaning the same thing are
-    \textbf{long CDS}, \textbf{short risk} and having \textbf{bought
-      protection} or \textbf{sold risk}. This is sometimes
-    abbrieviated all the way to just \textbf{short}. That is, ``short
-    CDX IG" means buy protection on CDX IG.  Another way to think
-    about this is that, any time you ``sell'' something, you are
-    ``short'' that something. In this case, you sold the credit risk,
-    so you are short credit. ``Short (or long) credit \emph{risk}'' is
-    also common phrasing. Another way to think about this as being
-    short credit ``quality''. As credit quality goes down --- i.e., as
-    spreads increase --- protection buyers win. Example usage: ``A
-    long CDS position corresponds to being long protection and short
-    credit.''
+  %%   \item[Long Credit]: The position of the CDS Protection Seller who
+  %%     is exposed to credit risk and who receives periodic payment from
+  %%     the Protection Buyer. Economically, selling the CDS generates
+  %%     the same cash flows as owning the bond --- periodic, coupon-like
+  %%     payments, with a risk of principal impairement. Also referred to
+  %%     as being \textbf{long risk} or as having \textbf{wrote
+  %%       protection} or \textbf{sold protection} or \textbf{bought
+  %%       risk}. Example: ``Protection seller is long credit.''
+  %% \item[Short Credit]: This is the credit risk position of the
+  %%   Protection Buyer, who sold the credit risk of a bond to the
+  %%   Protection Seller. Similar terms meaning the same thing are
+  %%   \textbf{long CDS}, \textbf{short risk} and having \textbf{bought
+  %%     protection} or \textbf{sold risk}. This is sometimes
+  %%   abbrieviated to just \textbf{short}. That is, ``short CDX IG"
+  %%   means buy protection on CDX IG. ``Short (or long) credit
+  %%   \emph{risk}'' is also common phrasing. Another way to think about
+  %%   this as being short credit ``quality''. As credit quality goes
+  %%   down --- i.e., as spreads increase --- protection buyers
+  %%   benefit. Example usage: ``A long CDS position corresponds to being
+  %%   long protection and short credit.''
   \item[Points Upfront] or just `points' refer to the upfront fee as a
     percentage of the notional.  For example, a CDS might be quoted as
     3 `points upfront' to buy protection.  This means the upfront fee
@@ -106,77 +101,24 @@ what are some of the key terms used in a single-name CDS contract?
     upfront' have a sign: if the points are quoted as a negative then
     the protection buyer is paid the upfront fee by the protection
     seller.  If the points are positive it's the other way
-    around. Anoter way to think of this is that the protection buyer
-    is the one, you know, doing the buying. So, points upfront of
-    \$10,000 is what he has to pay. This is the \emph{normal}
-    understanding of what a ``buyer'' is: someone who pays a positive
-    dollar price for something. Only in a weird situation would a
-    ``buyer'' get paid, hence the need for a negative price in that
-    example.
-  \item[Price] With price we quote ‘like a bond’: price = 100 –
-    points.  So in the example above where a CDS is quoted as 3 points
-    to buy protection, the price will be 97.  The protection buyer
-    still pays the 3\% as an upfront fee of course. A CDS has price
-    greater than 100 if the points upfront are negative, that is, if
-    the CDS buyer needs to receive money to get protection because he
-    is promising to pay a coupon of, say, 100 even if the spread is
-    60. (Note that points are measured in percentages while spreads
-    are in basis points.) This is analogous to a bond investor paying
-    more than the face value of a bond because current interest rates
-    are lower than the coupon rate on the bond.
-  \item[Spread] is the standard unit for quoting non-distressed
-    CDS. Spreads are always in basis points.
-    \item[Quoted Spread] is the spread as defined with the standard
-      ISDA model, meaning 40\% recovery rate and flat term
-      structure. ``Par Spread'' is mostly the same, except in cases of
-      distress. In that case, the quoted spread won't be a good guide
-      since the recovery rate that the market is anticipating might be
-      very different from 40\% (this is the major issue) and the shape
-      of the curve might be far from flat. This may be connected to
-      the fact that CMA can/does change the recovery rate assumption
-      used in its daily pricing feed. HH then checks for, and reports
-      on, these changes. Ought to learn more about this.
-  \item[Probability of Default]: Is it true that probability of
-    default is just annualized CDS spread divided by loss severity,
-    where the latter is 1 minus the recovery rate? Also, is it true
-    (as the Bloomberg help files tell us) that, for a flat CDS curve,
-    the default probability measured in years from the valuation date
-    is:
+    around. 
 
-
-\begin{displaymath}
-  dp = 1 - e^{\frac{-S * t}{1-R}}
-\end{displaymath}
-
-where S is the spread and R is the recovery rate.
-
-  \item[Duration]: Recall that duration is a fixed income term with
-    two different meanings, measured in two different units but with
-    (confusingly!) similar numeric values. \textbf{Macaulay duration}
-    is the weighted average time until repayment, measured in
-    years. For a zero-coupon bond, Macaulay duration equals
-    maturity. I don't \emph{think} that this type of duration is used
-    much in CDS. \textbf{Modified duration} is normally the percent
-    change in price for a one percent change in yield. (Note that this
-    is not the same thing as the derivative because it is not the
-    instaneous slope. A 1\% change in yield is often a big change.)
-
-
-  \item[RED Codes] are a Markit product. RED stands for Reference
-    Entity Database. Each entity/seniority pair has a unique 6 digit
-    RED code. Each deliverable bond has a 9 digit RED code, the first
-    6 digits of which match the 6 digit code of the associated
-    entity/seniority. Each entity also has a ``preferred reference
-    obligation'' that is the default reference obligation for CDS
-    trades.
+  \item[Quoted Spread and Par Spread]: Spread is the stanard unit for
+    quoting non-distressed CDS. Quoted spread is the spread as defined
+    with the standard ISDA model, meaning 40\% recovery rate and flat
+    term structure. Par Spread is mostly the same, except in cases of
+    distress. In that case, the quoted spread won't be a good guide
+    since the recovery rate that the market is anticipating might be
+    very different from 40\% (this is the major issue) and the shape
+    of the curve might be far from flat. Spreads are expressed in
+    basis points.
   
   \item[PV01]: Also known as \textbf{dollar duration}, \textbf{CDS
-    duration} or \textbf{risky duration}. Unlike the two durations
-    above (which are measured in years and percent, respectively),
-    PV01 is measured in dollars. It is the change in value of the CDS
-    (to the owner of protection) when the spread on a CDS goes up by 1
-    bps. Another way to think about this is that PV01 is the present
-    value of a 1 bp payment at each coupon date.
+    duration} or \textbf{risky duration}. PV01 is measured in
+    dollars. It is the change in value of the CDS (to the owner of
+    protection) when the spread on a CDS goes up by 1 bps. Another way
+    to think about this is that PV01 is the present value of a 1 bp
+    payment at each coupon date.
 
 \begin{center}
   Upfront Payment (in dollars) = (Spread - Coupon) * PV01
@@ -185,13 +127,9 @@ where S is the spread and R is the recovery rate.
   \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01},
     \textbf{Spread DV01}, \textbf{Credit DV01} and, \textbf{Spread
       Delta}. The change in the mark-to-market value of a CDS trade
-    for a 1 bp parallel shift upward in CDS spreads. (This should
-    always (?) be a positive number (if you are buying protection)
-    because, if you own the CDS, you are short credit. A rising spread
-    is a sign of credit deterioration, which makes you money. Being
-    short credit is like being short a stock. Going down is good for
-    you.) Starting with PV01 and taking the derivative with respect to
-    spread give us:
+    for a 1 bp parallel shift upward in CDS spreads. Spread DV01
+    should always positive because a rising spread is a sign of credit deterioration, which results in higher CDS price.
+    
 \begin{eqnarray}
   PV & = & (S - C) * PV01 \nonumber \\
   DV01 & = & \frac{\partial PV}{\partial S} \nonumber \\ 
@@ -199,13 +137,9 @@ where S is the spread and R is the recovery rate.
 \end{eqnarray}
 
 Both DV01 and PV01 are measured in dollars and are equal if the spread
-equals the coupon. In other words, the relationship between spread (on
-the x-axis) and dollars (on the y-axis) is identical when the spread
-equals the coupon. That is where these two lines cross. DV01 will be
-great than PV01 when spread is greater than coupon, I guess?.
+equals the coupon. DV01 will be greater than PV01 when spread is
+greater than coupon.
   
-%% , and (therefore?), have the same slope.
-
   \item[IR DV01] is the change in value of the CDS contract for a 1 bp
     parallel increase in the interest rate curve. Spread DV01 in
     Bloomberg is, typically, a much larger dollar value than IR DV01
