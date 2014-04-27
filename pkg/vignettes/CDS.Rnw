@@ -26,7 +26,6 @@
 \author{Heidi Chen\thanks{\href{mailto:s.heidi.chen@gmail.com}{s.heidi.chen@gmail.com}}, David Kane\thanks{\href{mailto:dave.kane@gmail.com}{dave.kane@gmail.com}}, and Yang Lu\thanks{\href{mailto:yang.lu2014@gmail.com}{yang.lu2014@gmail.com}}}
 \maketitle
 
-
 %%\VignetteIndexEntry{Using the CDS package}
 %%\VignetteDepends{CDS}
 
@@ -34,6 +33,8 @@
 
 
 \section{Introduction}
+
+%% 1 paragraph
 
 A Credit Default Swap (CDS) is a financial swap agreement between two
 counterparties in which the buyer pays a fixed periodic coupon to the
@@ -44,19 +45,33 @@ Model.'' This allows market participants to calculate cash settlement
 from conventional spread quotations, convert between conventional
 spread and upfront payments, and build the yield curve of a CDS. The
 \textbf{CDS} package implements the ISDA Standard Model, allowing
-users to value credit default swaps, to calculate various risk
-measures associated with these instruments and to compute rates of
-returns given a time series of spread quotations.
+users to value credit default swaps and calculate various risk
+measures associated with these instruments.
+
+%% and to compute rates of returns given a time series of spread
+%% quotations.
 
 
 \section{CDS Basics}
 
-We introduce an overview of CDS contracts and terminologies in this
+%% give an overview of CDS including a graph on premium leg, that
+%% stuff.
+
+We introduce  an overview of CDS contracts and terminologies in this
 section.\footnote{Much of this is quoted from the appendix to
   \emph{The Markit Credit Indices Primer}, and \emph{The Bloomberg
     Guide}}
 
-\subsection{Terminologies}
+what's a CDS
+
+why do we need CDS
+
+mechanics of a single-name CDS contract
+
+what are some of the key terms used in a single-name CDS contract?
+
+
+%% \subsection{Terminologies}
 
 \begin{description}
     \item[Long Credit]: The position of the CDS Protection Seller who
@@ -241,6 +256,12 @@ great than PV01 when spread is greater than coupon, I guess?.
 
 \section{The ISDA Standard CDS}
 
+
+the origins of the ISDA standard model 
+
+specifications of the ISDA standard CDS contract
+
+
 This section provides a specification of an ISDA standard CDS contract
 and an introduction of the ISDA standard CDS model. The default
 calculations and parameters in the \textbf{CDS} package strictly
@@ -261,6 +282,16 @@ follow the ISDA standard.
 
 
 \section{Using the CDS package}
+
+we implement the ISDA model
+
+how to build a CDS class object
+
+what each of the terms means
+
+how to update
+
+
 
 Currently, a portfolio manager can conduct CDS-related calculations by
 using the \textbf{CDSW Calculator} on a Bloomberg Terminal or the
@@ -309,9 +340,9 @@ t(cds1Rates[[2]])
 cds1
 @ 
 
-
-
 \section{Conclusion}
+
+\section{Bibliography}
 
 
 
