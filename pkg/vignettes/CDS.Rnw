@@ -223,7 +223,10 @@ t(cds1Rates[[2]])
 <<>>=
 cds1
 @
-
+<<>>=
+cds2 <- update(cds1, spread = 40)
+cds2
+@ 
 \section{Conclusion}
 
 \section{Bibliography}
