@@ -14,7 +14,7 @@
 \setcounter{tocdepth}{2}
 \usepackage{url}
 \usepackage{breakurl}
-\usepackage[utf8]{inputenc} 
+\usepackage[utf8]{inputenc}
 
 
 
@@ -44,9 +44,9 @@ set of standard terms for CDS contracts, the so-called ``Standard
 Model.'' This allows market participants to calculate cash settlement
 from conventional spread quotations, convert between conventional
 spread and upfront payments, and build the yield curve of a CDS. The
-\textbf{CDS} package implements the ISDA Standard Model, allowing
-users to value credit default swaps and calculate various risk
-measures associated with these instruments.
+\textbf{CDS} package implements the Standard Model, allowing users to
+value credit default swaps and calculate various risk measures
+associated with these instruments.
 
 %% and to compute rates of returns given a time series of spread
 %% quotations.
@@ -54,210 +54,94 @@ measures associated with these instruments.
 
 \section{CDS Basics}
 
-%% give an overview of CDS including a graph on premium leg, that
-%% stuff.
 
-We introduce  an overview of CDS contracts and terminologies in this
-section.\footnote{Much of this is quoted from the appendix to
-  \emph{The Markit Credit Indices Primer}, and \emph{The Bloomberg
-    Guide}}
+%% what's a CDS
 
-what's a CDS
+A CDS is a simple and popular form of credit derivative. It was
+invented by Blythe Masters from J.P. Morgan in 1994. The CDS market
+started to develop in the 1990s as banks used CDS contracts to hedge
+their credit exposures on the balance sheets. Many different types of
+CDS have since emerged including basket default swaps (DBSs), index
+CDSs, credit-linked notes, et cetera. In the \textbf{CDS} package, we
+focus on calculations related to a single-name CDS contract.
 
-why do we need CDS
-
-mechanics of a single-name CDS contract
-
-what are some of the key terms used in a single-name CDS contract?
+%% mechanics of a single-name CDS contract
 
 
-%% \subsection{Terminologies}
+A single-name CDS contract a private contract between two parties,
+which provides a transfer of credit risk. The buyer of a CDS contract
+transfers the credit risk to the seller by paying a series of payments
+before the contract terminates. In other words, the protection buyer
+is short credit by selling the credit risk of an underlying loan to
+the protection seller. As shown in the diagram(?), the buyer pays a
+stream of coupon payments, called the premium leg in order to receive
+a one-off, contingent payment (protection leg) in the case of a credit
+event.\footnote{We will explain credit events in detail in Section ?.}
 
+%% add a diagram on buyer and seller of CDS?
+
+A CDS contract between two counterparties typically specifies the
+following key terms:\footnote{Partially adatped from \textit{Credit
+    Derivatives Glossary} by Markit and \textit{Standard Corporate CDS
+    Handbook} by Barclays.}
 \begin{description}
-    \item[Long Credit]: The position of the CDS Protection Seller who
-      is exposed to credit risk and who receives periodic payment from
-      the Protection Buyer. Economically, selling the CDS generates
-      the same cash flows as owning the bond --- periodic, coupon-like
-      payments, with a risk of principal impairement. Since you are
-      obviously ``long credit'' if you own the bond, then it follows
-      that you are long credit if you sell the CDS. Also referred to
-      as being \textbf{long risk} or as having \textbf{wrote
-        protection} or \textbf{sold protection} or \textbf{bought
-        risk}. Example: ``Protection seller is long credit.''
-  \item[Short Credit]: This is the credit risk position of the
-    Protection Buyer, who sold the credit risk of a bond to the
-    Protection Seller. Similar terms meaning the same thing are
-    \textbf{long CDS}, \textbf{short risk} and having \textbf{bought
-      protection} or \textbf{sold risk}. This is sometimes
-    abbrieviated all the way to just \textbf{short}. That is, ``short
-    CDX IG" means buy protection on CDX IG.  Another way to think
-    about this is that, any time you ``sell'' something, you are
-    ``short'' that something. In this case, you sold the credit risk,
-    so you are short credit. ``Short (or long) credit \emph{risk}'' is
-    also common phrasing. Another way to think about this as being
-    short credit ``quality''. As credit quality goes down --- i.e., as
-    spreads increase --- protection buyers win. Example usage: ``A
-    long CDS position corresponds to being long protection and short
-    credit.''
-  \item[Points Upfront] or just `points' refer to the upfront fee as a
-    percentage of the notional.  For example, a CDS might be quoted as
-    3 `points upfront' to buy protection.  This means the upfront fee
-    (excluding the accrual payment) is 3\% of the notional.  `Points
-    upfront' have a sign: if the points are quoted as a negative then
-    the protection buyer is paid the upfront fee by the protection
-    seller.  If the points are positive it's the other way
-    around. Anoter way to think of this is that the protection buyer
-    is the one, you know, doing the buying. So, points upfront of
-    \$10,000 is what he has to pay. This is the \emph{normal}
-    understanding of what a ``buyer'' is: someone who pays a positive
-    dollar price for something. Only in a weird situation would a
-    ``buyer'' get paid, hence the need for a negative price in that
-    example.
-  \item[Price] With price we quote ‘like a bond’: price = 100 –
-    points.  So in the example above where a CDS is quoted as 3 points
-    to buy protection, the price will be 97.  The protection buyer
-    still pays the 3\% as an upfront fee of course. A CDS has price
-    greater than 100 if the points upfront are negative, that is, if
-    the CDS buyer needs to receive money to get protection because he
-    is promising to pay a coupon of, say, 100 even if the spread is
-    60. (Note that points are measured in percentages while spreads
-    are in basis points.) This is analogous to a bond investor paying
-    more than the face value of a bond because current interest rates
-    are lower than the coupon rate on the bond.
-  \item[Spread] is the standard unit for quoting non-distressed
-    CDS. Spreads are always in basis points.
-    \item[Quoted Spread] is the spread as defined with the standard
-      ISDA model, meaning 40\% recovery rate and flat term
-      structure. ``Par Spread'' is mostly the same, except in cases of
-      distress. In that case, the quoted spread won't be a good guide
-      since the recovery rate that the market is anticipating might be
-      very different from 40\% (this is the major issue) and the shape
-      of the curve might be far from flat. This may be connected to
-      the fact that CMA can/does change the recovery rate assumption
-      used in its daily pricing feed. HH then checks for, and reports
-      on, these changes. Ought to learn more about this.
-  \item[Probability of Default]: Is it true that probability of
-    default is just annualized CDS spread divided by loss severity,
-    where the latter is 1 minus the recovery rate? Also, is it true
-    (as the Bloomberg help files tell us) that, for a flat CDS curve,
-    the default probability measured in years from the valuation date
-    is:
+\item[Reference Entity] refers to the legal entity which is the
+  subject of a CDS contract. 
+\item[Notional] is the amount of the underlying asset on which the
+  payments are based.
+\item[Maturity] a.k.a tenor. It refers to length of a CDS
+  contract. Most CDSs are written within 5 years maturity. The
+  protection buyer continues to make payments to the protection sell
+  till maturity of the contract or the occurrence of a credit event.
+\item[Coupon] is often quoted in basis points. It specifies the amount
+  of payment from the protection buyer to the seller on a regular
+  basis.
+\item[Seniority] specifies the order of which the debt will be paid in
+  liquidation or bankruptcy. In general, there are four different
+  levels of seniority - Senior, Subordinated, Junior, and Preferred.
+\item[Credit Event] triggers the settlement under a CDS
+  contract. Possible credit events specified by the ISDA Credit
+  Derivatives Definitions include: 
+  \begin{itemize}
+  \item Bankruptcy - It typically occurs when the reference entity has
+    filed under bankruptcy law (or equivalent law).
+  \item Failuer to pay - The reference entity fails to make interest
+    or principal payments when due after the applicable grace period
+    expires.
+  \item Debt restructuring - The specifications of the debt
+    obligations are changed such that the protection buyer is
+    unfavorably affected.
+  \item Obligation acceleration - A debt obligation becomes due before
+    it would otherwise have been because of a default.
+  \item Obligation default - A debt obligation becomes capable ofbeing
+    declared due before it would otherwise have been because of a
+    default.
+  \item Repudiation/Moratorium - The reference entity announces
+    repudiation or moratorium on debt obligation and subsequently
+    fails to pay.
+  \end{itemize}
 
-
-\begin{displaymath}
-  dp = 1 - e^{\frac{-S * t}{1-R}}
-\end{displaymath}
-
-where S is the spread and R is the recovery rate.
-
-  \item[Duration]: Recall that duration is a fixed income term with
-    two different meanings, measured in two different units but with
-    (confusingly!) similar numeric values. \textbf{Macaulay duration}
-    is the weighted average time until repayment, measured in
-    years. For a zero-coupon bond, Macaulay duration equals
-    maturity. I don't \emph{think} that this type of duration is used
-    much in CDS. \textbf{Modified duration} is normally the percent
-    change in price for a one percent change in yield. (Note that this
-    is not the same thing as the derivative because it is not the
-    instaneous slope. A 1\% change in yield is often a big change.)
-
-
-  \item[RED Codes] are a Markit product. RED stands for Reference
-    Entity Database. Each entity/seniority pair has a unique 6 digit
-    RED code. Each deliverable bond has a 9 digit RED code, the first
-    6 digits of which match the 6 digit code of the associated
-    entity/seniority. Each entity also has a ``preferred reference
-    obligation'' that is the default reference obligation for CDS
-    trades.
-  
-  \item[PV01]: Also known as \textbf{dollar duration}, \textbf{CDS
-    duration} or \textbf{risky duration}. Unlike the two durations
-    above (which are measured in years and percent, respectively),
-    PV01 is measured in dollars. It is the change in value of the CDS
-    (to the owner of protection) when the spread on a CDS goes up by 1
-    bps. Another way to think about this is that PV01 is the present
-    value of a 1 bp payment at each coupon date.
-
-\begin{center}
-  Upfront Payment (in dollars) = (Spread - Coupon) * PV01
-\end{center}
-
-  \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01},
-    \textbf{Spread DV01}, \textbf{Credit DV01} and, \textbf{Spread
-      Delta}. The change in the mark-to-market value of a CDS trade
-    for a 1 bp parallel shift upward in CDS spreads. (This should
-    always (?) be a positive number (if you are buying protection)
-    because, if you own the CDS, you are short credit. A rising spread
-    is a sign of credit deterioration, which makes you money. Being
-    short credit is like being short a stock. Going down is good for
-    you.) Starting with PV01 and taking the derivative with respect to
-    spread give us:
-\begin{eqnarray}
-  PV & = & (S - C) * PV01 \nonumber \\
-  DV01 & = & \frac{\partial PV}{\partial S} \nonumber \\ 
-  & = & PV01 + (S - C) \frac{\partial PV01}{\partial S}. \nonumber
-\end{eqnarray}
-
-Both DV01 and PV01 are measured in dollars and are equal if the spread
-equals the coupon. In other words, the relationship between spread (on
-the x-axis) and dollars (on the y-axis) is identical when the spread
-equals the coupon. That is where these two lines cross. DV01 will be
-great than PV01 when spread is greater than coupon, I guess?.
-  
-%% , and (therefore?), have the same slope.
-
-  \item[IR DV01] is the change in value of the CDS contract for a 1 bp
-    parallel increase in the interest rate curve. Spread DV01 in
-    Bloomberg is, typically, a much larger dollar value than IR DV01
-    because moves in overall interest rates, which is what the ``IR''
-    stands for, have a much smaller effect on CDS value than does a
-    move in the CDS spread itself.
-  \item[Rec Risk (1\%)] is the dollar value change in market value of
-    the CDS contract if the recovery rate in the spreads section were
-    increased by 1\%.
-  \item[Def Exposure] is the loss in dollar amount in the event of a
-    default the following day and can be calculated by the formula (1
-    - Recovery Rate) * Notional - Principal.
-  \item[Z-spread]: Short for zero-volatlity spread. Spread over spot
-    treasuries if held to maturity. A simple spread is only the
-    difference between bond yield and treasuries at a single point in
-    time. Z-spread aggregates over the entire curve.
-  \item[OAS]: Abbreviation for option-adjusted spread. If rates were
-    guaranteed to be stable, the OAS would equal the Z-Spread. But
-    rates can move. If they do, then the bond holder (and/or issuer?)
-    may be able to take advantage of this movement by putting/calling
-    the bond. So, Z-Spread equal the OAS plus the cost of the option,
-    which might be positive or negative. If there are no options, then
-    Z-Spread equals OAS.
-  \item[DTS]: is \textbf{d}uration \textbf{t}imes \textbf{s}pread. We
-    want a measure of bond riskiness. Bonds with longer duration are
-    riskier because a lot of stuff can happen before we get
-    paid. Bonds with larger spreads are riskier because the market has
-    doubts about whether or not we are going to get paid back. Bonds
-    with both large duration and high spreads are especially
-    risky. Bonds with low duration and low spreads (think commercial
-    paper for a AAA issuer) are very safe. Carvalho argues that low
-    DTS bonds outperform high DTS bonds around the world. We suspect
-    the same is true for CDS.
-
-  \item[Gamma]: Recall that delta is the change in value of the
-    derivative for a small change in value of the underlying. Gamma
-    is the second derivative. It is unclear to me how to use this
-    concept in CDS.
-    
-  \item[Convexity]: Another word for gamma. In practice, most
-    important kind of convexity is bond convexity: the second
-    derivative of the change in price with respect to the change in
-    interest rates. Recall that duration (besides being the weighted
-    average time until repayment) is also the (first) derivative of
-    price with respect to yield. (I am using duration colloquially )
 \end{description}
+
+
+
+\section{CDS Pricing} 
+
+coupon 
+upfront
+spread
+
+pv01
+spreaddv01
+irdv01
+rec risk 01
+
 
 
 \section{The ISDA Standard CDS}
 
 
-the origins of the ISDA standard model 
+the origins of the ISDA standard model
 
 specifications of the ISDA standard CDS contract
 
@@ -275,7 +159,7 @@ follow the ISDA standard.
       \item Trade Date (T): the date of the trade; default to the
         current business day.
       \item Maturity: 5 years.
-      \item 
+      \item
       
       \end{itemize}
   \end{itemize}
@@ -310,7 +194,7 @@ specifications according to the ISDA Standard Model.
 <<echo = FALSE, results = hide>>=
 options(width = 100)
 library(CDS)
-@ 
+@
 
 <<>>=
 cds1 <- CDS(TDate = "2014-01-14",
@@ -328,22 +212,121 @@ cds1 <- CDS(TDate = "2014-01-14",
             notional = 1e7,
             payAccruedOnDefault = TRUE)
 summary(cds1)
-@ 
+@
 
 <<>>=
 cds1Rates <- getRates(date = "2014-01-13", currency = "USD")
 cds1Rates[[1]]
 t(cds1Rates[[2]])
-@ 
+@
 
 <<>>=
 cds1
-@ 
+@
 
 \section{Conclusion}
 
 \section{Bibliography}
+  \emph{The Markit Credit Indices Primer}
+  
+  \emph{The Bloomberg Guide}
 
 
 
 \end{document}
+
+%% \begin{description}
+%%   \item[Points Upfront] or just `points' refer to the upfront fee as a
+%%     percentage of the notional. For example, a CDS might be quoted as
+%%     3 `points upfront' to buy protection. This means the upfront fee
+%%     (excluding the accrual payment) is 3\% of the notional. `Points
+%%     upfront' have a sign: if the points are quoted as a negative then
+%%     the protection buyer is paid the upfront fee by the protection
+%%     seller. If the points are positive it's the other way
+%%     around.
+
+%%   \item[Quoted Spread and Par Spread]: Spread is the stanard unit for
+%%     quoting non-distressed CDS. Quoted spread is the spread as defined
+%%     with the standard ISDA model, meaning 40\% recovery rate and flat
+%%     term structure. Par Spread is mostly the same, except in cases of
+%%     distress. In that case, the quoted spread won't be a good guide
+%%     since the recovery rate that the market is anticipating might be
+%%     very different from 40\% (this is the major issue) and the shape
+%%     of the curve might be far from flat. Spreads are expressed in
+%%     basis points.
+  
+%%   \item[PV01]: Also known as \textbf{dollar duration}, \textbf{CDS
+%%     duration} or \textbf{risky duration}. PV01 is measured in
+%%     dollars. It is the change in value of the CDS (to the owner of
+%%     protection) when the spread on a CDS goes up by 1 bps. Another way
+%%     to think about this is that PV01 is the present value of a 1 bp
+%%     payment at each coupon date.
+
+%% \begin{center}
+%%   Upfront Payment (in dollars) = (Spread - Coupon) * PV01
+%% \end{center}
+
+%%   \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01},
+%%     \textbf{Spread DV01}, \textbf{Credit DV01} and, \textbf{Spread
+%%       Delta}. The change in the mark-to-market value of a CDS trade
+%%     for a 1 bp parallel shift upward in CDS spreads. Spread DV01
+%%     should always positive because a rising spread is a sign of credit deterioration, which results in higher CDS price.
+    
+%% \begin{eqnarray}
+%%   PV & = & (S - C) * PV01 \nonumber \\
+%%   DV01 & = & \frac{\partial PV}{\partial S} \nonumber \\
+%%   & = & PV01 + (S - C) \frac{\partial PV01}{\partial S}. \nonumber
+%% \end{eqnarray}
+
+%% Both DV01 and PV01 are measured in dollars and are equal if the spread
+%% equals the coupon. DV01 will be greater than PV01 when spread is
+%% greater than coupon.
+  
+%%   \item[IR DV01] is the change in value of the CDS contract for a 1 bp
+%%     parallel increase in the interest rate curve. Spread DV01 in
+%%     Bloomberg is, typically, a much larger dollar value than IR DV01
+%%     because moves in overall interest rates, which is what the ``IR''
+%%     stands for, have a much smaller effect on CDS value than does a
+%%     move in the CDS spread itself.
+%%   \item[Rec Risk (1\%)] is the dollar value change in market value of
+%%     the CDS contract if the recovery rate in the spreads section were
+%%     increased by 1\%.
+%%   \item[Def Exposure] is the loss in dollar amount in the event of a
+%%     default the following day and can be calculated by the formula (1
+%%     - Recovery Rate) * Notional - Principal.
+%%   \item[Z-spread]: Short for zero-volatlity spread. Spread over spot
+%%     treasuries if held to maturity. A simple spread is only the
+%%     difference between bond yield and treasuries at a single point in
+%%     time. Z-spread aggregates over the entire curve.
+%%   \item[OAS]: Abbreviation for option-adjusted spread. If rates were
+%%     guaranteed to be stable, the OAS would equal the Z-Spread. But
+%%     rates can move. If they do, then the bond holder (and/or issuer?)
+%%     may be able to take advantage of this movement by putting/calling
+%%     the bond. So, Z-Spread equal the OAS plus the cost of the option,
+%%     which might be positive or negative. If there are no options, then
+%%     Z-Spread equals OAS.
+%%   \item[DTS]: is \textbf{d}uration \textbf{t}imes \textbf{s}pread. We
+%%     want a measure of bond riskiness. Bonds with longer duration are
+%%     riskier because a lot of stuff can happen before we get
+%%     paid. Bonds with larger spreads are riskier because the market has
+%%     doubts about whether or not we are going to get paid back. Bonds
+%%     with both large duration and high spreads are especially
+%%     risky. Bonds with low duration and low spreads (think commercial
+%%     paper for a AAA issuer) are very safe. Carvalho argues that low
+%%     DTS bonds outperform high DTS bonds around the world. We suspect
+%%     the same is true for CDS.
+
+%%   \item[Gamma]: Recall that delta is the change in value of the
+%%     derivative for a small change in value of the underlying. Gamma
+%%     is the second derivative. It is unclear to me how to use this
+%%     concept in CDS.
+    
+%%   \item[Convexity]: Another word for gamma. In practice, most
+%%     important kind of convexity is bond convexity: the second
+%%     derivative of the change in price with respect to the change in
+%%     interest rates. Recall that duration (besides being the weighted
+%%     average time until repayment) is also the (first) derivative of
+%%     price with respect to yield. (I am using duration colloquially )
+%% \end{description}
+
+
