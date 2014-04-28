@@ -1,9 +1,0 @@
-useDynLib(CDS)
-exportPattern("^[[:alpha:]]+")
-
-## importFrom("graphics", plot)
-## import(ggplot2, methods)
-
-exportClasses(CDS)
-exportMethods(summary, calcSpreadDV01)
-
