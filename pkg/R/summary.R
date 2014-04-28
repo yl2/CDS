@@ -22,10 +22,10 @@ setMethod("summary",
                   sprintf(paste("   End Date:", object@endDate,
                                 sep = paste0(rep(" ", 40-.checkLength("   End Date:") -
                                     .checkLength(object@endDate)), collapse = ""))), "\n",
-                  sprintf(paste("Spread:", object@parSpread,
+                  sprintf(paste("Spread:", round(object@parSpread, 4),
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Spread:") -
-                                    .checkLength(object@parSpread)), collapse = ""))),
+                                    .checkLength(round(object@parSpread, 4))), collapse = ""))),
                   sprintf(paste("   Coupon Rate:", object@couponRate,
                                 sep = paste0(rep(" ", 40-.checkLength("   Coupon Rate:") -
                                     .checkLength(object@couponRate)),
