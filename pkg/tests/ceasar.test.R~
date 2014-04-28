@@ -1,0 +1,4 @@
+rates <- getRates("2014-04-14")
+
+calcUpfront(TDate="2014-04-15", types = paste(rates[[1]]$type, collapse = ""),
+            
