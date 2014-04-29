@@ -70,7 +70,6 @@ focus on calculations related to a single-name CDS contract.
 
 %% mechanics of a single-name CDS contract
 
-
 A single-name CDS contract a private contract between two parties,
 which provides a transfer of credit risk. The buyer of a CDS contract
 transfers the credit risk to the seller by paying a series of payments
@@ -79,7 +78,7 @@ is short credit by selling the credit risk of an underlying loan to
 the protection seller. As shown in the diagram(?), the buyer pays a
 stream of coupon payments, called the premium leg in order to receive
 a one-off, contingent payment (protection leg) in the case of a credit
-event.\footnote{We will explain credit events in detail in Section ?.}
+event.
 
 %% add a diagram on buyer and seller of CDS?
 
@@ -99,15 +98,13 @@ following key terms:\footnote{Partially adatped from \textit{Credit
 \item[Coupon] is often quoted in basis points. It specifies the amount
   of payment from the protection buyer to the seller on a regular
   basis. 
-  
-  %% is often quoted in basis points per annum. It specifies the
-  %% amount of payment from the protection buyer to the sellter and is
-  %% most often paid in quarterly installments. The quarterly payment
-  %% is adjusted based on %% weekends and holidays on an ACT/360 day
-  %% count.
+\item [Premium Leg] refers to the cashflows of the fixed payments made
+  by the protection buyer.
+\item [Contingent Leg], a.k.a. \textbf{Protection Leg}, is the payment
+  of notional less recovery amount by the protection seller after a
+  credit event.
 \item[Par spread] is quoted in basis points per annum. It represents
   the fair rate for a contract of 1 year beginning on the trade date.
-  
 \item[Seniority] specifies the order of which the debt will be paid in
   liquidation or bankruptcy. In general, there are four different
   levels of seniority - Senior, Subordinated, Junior, and Preferred.
@@ -132,112 +129,187 @@ following key terms:\footnote{Partially adatped from \textit{Credit
     repudiation or moratorium on debt obligation and subsequently
     fails to pay.
   \end{itemize}
-
 \end{description}
 
 
 
-\section{The ISDA Standard CDS}
+\section{The ISDA Standard Model}
+
+%% the origins of the ISDA standard model
+In April 2009 in North America and June 2009 in Europe, the ISDA
+introduced a series of mandatory modifications to the CDS contract
+known as the ``Big Bang Protocol.'' Among these changes were the
+standardization of the first accrual dates, fixed coupon (100 bps or
+500 bps), and recovery rate (40 \%).
+
+%% specifications of the ISDA standard CDS contract
+
+This section provides the specifications of an ISDA standard CDS
+contract and an introduction of the ISDA standard CDS
+model.\footnote{Refer to the \textit{ISDA Standard CDS Converter
+    Specification} for details.} The default calculations and
+parameters in the \textbf{CDS} package follow the ISDA Standard
+Model. Additional default settings in the package that are not
+specified by the Standard Model, such as the default notional amount,
+are also listed.
+
+\subsection{Standard Model Specifications}
+The ISDA Standard CDS Contract specifies the following:
+\begin{description}
+\item [Trade Date] refers to the date of the trade.
+\item [Maturity]: most of the standard contracts have a maturity of 5
+  years.
+\item [Maturity Date] falls on one of the four dates (Mar/Jun/Sep/Dec
+  20th) in a year. One can add the maturity of the contract to the
+  trade date and find the next available date among those four dates.
+\item [Backstop Date] is the date from which protection is
+  provided. 
+  \begin{center}
+    Backstop Date = T - 60 Calender Days.
+  \end{center}
+\item [Notional Amount] is denoted in millions.
+\item [Standard Coupon] is quoted either 100 bps or 500 bps per
+  annum for CDS contracts in North America, and 25 bps, 100 bps, 500
+  bps or 1000 bps in Europe.
+\item [Recovery Rate] is the estimated percentage of par value that
+  bondholders will receive after a credit event. It is commonly
+  reported in percentages. A CDS for investment grade bonds are
+  assumed a 40\% recovery rate when it is valued. The recovery rate is
+  assumed to be 20\% when valuing a subordinate level CDS. 25\% is
+  assumed for emerging markets' CDSs (both senior and subordinate).
+\item [Par Spread] is the spread value which makes the present value
+  of a CDS contract zero. It is quoted in basis points.  
+\item [Upfront Payment] or \textbf{Cash Settlement Amount} is quoted
+  in the currency amount. Since a standard contract is traded with
+  fixed coupons, upfront payment is introduced to reconcile the
+  difference in contract value due to the difference between the fixed
+  coupon and the conventional par spread. The protection buyer pays
+  the upfront payment if points upfront are positive, and the buyer is
+  paid by the seller if the points are negative. There are two types
+  of upfront, dirty and clean. Dirty upfront refers to the market
+  value of a CDS contract. Clean upfront is dirty upfront less any
+  accrued interest payment.
+\item [Points Upfront] are quoted as a percentage of the notional
+  amount. They represent the upfront payment excluding the accrual
+  payment. High Yield (HY) CDS contracts are often quoted in points
+  upfront.
+\end{description}
+
+\subsection{Standard Model Pricing}
+
+The ISDA Standard Model allows market participants to convert between
+the par spread and the upfront payment, and compute the cash
+settlement amount for a standard contract. A few key assumptions and
+definitions used when valuing a Standard CDS contract are the
+following:\footnote{Please refer to \url{http://bit.ly/1kg5qPw} for
+  more infrmation on the ISDA standard CDS model assumptions.}
+
+%% cds converter specification pdf original
+%% url. http://www.cdsmodel.com/assets/cds-model/docs/ISDA\%20Standard\%20CDS\%20Contract\%20Converter\%20Specification\%20-\%20Sept\%204,\%202009.pdf}
+
+\begin{description}
+\item [Trade Date (T)] means 11:59pm on the trade date.
+\item [Days of Protection] is the difference in the number of days
+  from Maturity Date to Trade Date.
+\item [Mark-to-market (MTM)] represents the contract value to the
+  protection buyer. It is computed by discounting the expected
+  protection leg and premium leg cashflows to T.
+\item [Accrued Premium] is the premium that has accrued from accrual
+  begin date to T where both dates are inclusive.
+\end{description}
+
+The ISDA also standardizes the interest rates used by the Standard
+Model in valuting a CDS contract.\footnote{See
+  \url{http://bit.ly/1iuI8ZA} for the specifications on the interest
+  rate curves used by the Standard Model.}
+
+%% http://www.cdsmodel.com/assets/cds-model/docs/Interest%20Rate%20Curve%20Specification%20-%20All%20Currencies%20%28Updated%20May%202013%29.pdf
 
 
-the origins of the ISDA standard model
+ACT/360 - Actual - 360 Day Count Convention 
 
-specifications of the ISDA standard CDS contract
+30/360 - 30 - 360 Day Count Convention 
 
-In April 2009 in North America and June 2009 in Euope, the ISDA
-introduced a series of compulsory modifications to the CDS contract
-known as the ``Big Bang Protocol''. Among these changes were the
-standardization of first accrual dates, fixed coupon (100 bp or 500
-bp), and recovery rate (40 \%).
-
-This section provides a specification of an ISDA standard CDS contract
-and an introduction of the ISDA standard CDS model\footnote{Partially
-  adatped from the \textit{ISDA Standard CDS Converter Specification}.}. The default calculations and parameters in the
-\textbf{CDS} package strictly follow the ISDA standard. Additional
-default settings in the package that are not specified by the ISDA
-standard contract, such as the default notional amount, are also
-listed.
-
-\subsection{The ISDA Standard CDS Contract}
-
-An ISDA Standard CDS Contract specifies the following:
-
-\begin{itemize}
-\item Trade Date: the date of the trade
-\item Maturity: 5 years
-\item Maturity Date:
-  \begin{itemize}
-  \item Specified by year and month (one of Mar/Jun/Sep/Dec)
-  \item 20\ts{th} of month is assumed. If the maturity date falls on a non-business day, then it's moved to the following business day
-  \end{itemize}
-\item Notional Amount (MM)
-\item Standard Coupon: 100 bps or 500 bps per annum
-\item Recovery Rate (\%): 40\% is used for senior unsecured. 20\% is
-  used for subordinate. 25\% is used for emerging markets (both senior
-  and subordinate).
-\item Par Spread (bp), Upfront Payment/Cash Settlement Amount (currency value) or Points Upfront (\%)
-  \begin{itemize}
-  \item Upfront Payment/Cash Settlement Amount - Since the ISDA
-    standard CDS contract are traded with fixed coupons, upfront
-    payment is introduced to reconcile the difference in contract
-    value due to the difference between the fixed coupon and the
-    conventional par spread. The protection buyer pays the the upfront
-    payment if the sign of points upfront are positive, and the buyer
-    is paid by the seller if the points are negative.
-  \item Points Upfront - Points upfront are quoted as a percentage of
-    the notional amount. They represent the upfront payment excluding the
-    accrual payment. High yield names (HY) are often quoted in points upfront.\\
-  \end{itemize}
-\end{itemize}
-
-
-A default CDS contract in the \textbf{CDS} package follows the ISDA standard CDS specifications and is defined as follows:
-
-\begin{itemize}
-\item Trade Date: the current business day
-\item Maturity: 5 years
-\item Currency: USD
-\item Notional Amount (MM): 1MM
-\item Standard Coupon: 100 bp
-\item Recovery Rate (\%): 40\%
-\item Par Spread (bp), Points Upfront (\%), or Upfront Payment/Cash Settlement Amount (currency value): User has to input one of the three.
-\end{itemize}
-  
-  
-\subsection{ISDA Standard CDS Pricing}
-
-The ISDA standard CDS model allows market participants to vert between
-the par spread and the upfront payment and compute cash settlement
-amount for a standard CDS contract. A few key assumptions and
-definitions used when valuing the Standard CDS are the
-following:\footnote{Please refer to
-  \url{http://www.cdsmodel.com/assets/cds-model/docs/ISDA\%20Standard\%20CDS\%20Contract\%20Converter\%20Specification\%20-\%20Sept\%204,\%202009.pdf}
-  for more infrmation on the ISDA standard CDS model assumptions.}
+Business Day Calendar - To avoid calendar maintenance , distri bution,
+and agreement issues, all computations not involving JPY will assume a
+business day calendar of weekdays (Monday to Friday) only; weekends
+(Saturday, Sunday) will be the only non - business days.  Computations
+involving JPY will use a holiday calendar published on cdsmodel.com (s
+ee references [1 ])
 
 %% anything we want to mention about the rates?
 
-\begin{itemize}
-\item Trade Date (T) - T means T at 11:59pm
-\item Number of days of protection = Protection Maturity Date - T
-\item Backstop Date - the date from which protection is provided. Backstop Date = T - 60 calender days
-\item Premium accrued is paid on default
-\item Mark-to-market (MTM) - MTM represents the contract value to the protection buyer. It is computed by discounting the expected protection leg and premium leg cashflows to T.
-\item PV01 - The present value of a stream of 1bp payments at each CDS coupon date. It is sometimes also referred to as the CDS duration.
-\item The upfront payment from the protection buyer to the protection seller can be calculated as:
-  \bc
-  Upfront Payment = (Par Spread - Fixed Coupon) $\times$ PV01
-  \ed
-\item Accrued Premium - the premium that has accrued from accrual begin date to T where both dates are inclusive.\\
-\end{itemize}
+The \textbf{CDS} package also calculates the main risks (exposures) of
+a CDS position. These CDS exposures are defined as follows:
 
-The \textbf{CDS} package also calculates the main risks (exposures) of a CDS position. These CDS exposures are defined as follows:
+  \item[Price] With price we quote ‘like a bond’: price = 100 –
+    points.  So in the example above where a CDS is quoted as 3 points
+    to buy protection, the price will be 97.  The protection buyer
+    still pays the 3\% as an upfront fee of course. A CDS has price
+    greater than 100 if the points upfront are negative, that is, if
+    the CDS buyer needs to receive money to get protection because he
+    is promising to pay a coupon of, say, 100 even if the spread is
+    60. (Note that points are measured in percentages while spreads
+    are in basis points.) This is analogous to a bond investor paying
+    more than the face value of a bond because current interest rates
+    are lower than the coupon rate on the bond.
 
 \begin{itemize}
+  
+  
+
+\item [PV01] is the present value of a stream of 1 basis point
+  payments at each CDS coupon date. It is sometimes referred to as the
+  \textbf{CDS duration} or \textbf{risky duration}.
+\item The upfront payment from the protection buyer to the protection
+  seller can be calculated as:
+  \begin{center}
+  Principal Amount = (Par Spread - Coupon) $\times$ PV01.
+  \end{center}
+
+    \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01},
+    \textbf{Spread DV01}, \textbf{Credit DV01} and, maybe,
+    \textbf{Spread Delta}. The change in the mark-to-market value of a
+    CDS trade for a 1 bp parallel shift upward in CDS spreads. (This
+    should always (?) be a positive number (if you are buying
+    protection) because, if you own the CDS, you are short credit. A
+    rising spread is a sign of credit deterioration, which makes you
+    money. Being short credit is like being short a stock. Going down
+    is good for you.) Starting with PV01 and taking the derivative
+    with respect to spread give us:
+
+%% What a hack! Must be a better way to typeset this.
+
+\begin{displaymath}
+  PV = (S - C) * PV01
+\end{displaymath}
+ 
+\begin{displaymath}
+  DV01 = \frac{\partial PV}{\partial S}
+\end{displaymath}
+
+\begin{displaymath}
+  DV01 = PV01 + (S - C) \frac{\partial PV01}{\partial S}
+\end{displaymath}
+ 
+Both DV01 and PV01 are measured in dollars and are equal if the spread
+equals the coupon. In other words, the relationship between spread (on
+the x-axis) and dollars (on the y-axis) is identical when the spread
+equals the coupon. That is where these two lines cross, and
+(therefore?), have the same slope. DV01 will be great than PV01 when
+spread is greater than coupon, I guess.
+ 
+  \item[IR DV01] is the change in value of the CDS contract for a 1
+    bps parallel increase in the interest rate curve. Spread DV01 in
+    Bloomberg is, typically, a much larger dollar value than IR DV01
+    because moves in overall interest rates, which is what the ``IR''
+    stands for, have a much smaller effect on CDS value than does a
+    move in the CDS spread itself.
+
 \item Spread DV01 (spread delta) - Spread DV01 measures the sensitivity of a CDS contract MTM to a parallel shift in the term structure of the par spread. 
 \end{itemize}
 %% Date Conventions:
 %% \begin{itemize}
-%% \item Trade Date (T): T means T at 11:59pm
 %% \item Protection Leg:
 %%   \begin{itemize}
 %%   \item Protection Effective Date: T + 1
@@ -264,23 +336,41 @@ The \textbf{CDS} package also calculates the main risks (exposures) of a CDS pos
 %% \end{itemize}
 
 
-\subsection{ISDA Standard CDS Pricing} 
-
-coupon 
-upfront
-spread
-
-pv01
-spreaddv01
-irdv01
 rec risk 01
 
 
+  \item[Probability of Default]: Is it true that probability of
+    default is just annualized CDS spread divided by loss severity,
+    where the latter is 1 minus the recovery rate? Also, is it true
+    (as the Bloomberg help files tell us) that, for a flat CDS curve,
+    the default probability measured in years from the valuation date
+    is:
+\begin{displaymath}
+  dp = 1 - e^{\frac{-S * t}{1-R}}
+\end{displaymath}
+
+where S is the spread and R is the recovery rate.
 
 
 
 \section{Using the CDS package}
 
+
+The default settings of a CDS contract in the \textbf{CDS} package
+follow the ISDA Standard Model and are defined as follows:
+\begin{itemize}
+\item Trade Date: the current business day
+\item Maturity: 5 years
+\item Currency: USD
+\item Notional Amount (MM): 10MM
+\item Standard Coupon: 100 bps
+\item Recovery Rate (\%): 40\%
+\item Par Spread (bp), Points Upfront (\%), or Upfront Payment/Cash
+  Settlement Amount (currency value): User has to input one of the
+  three.
+\end{itemize}
+  
+  
 we implement the ISDA model
 
 how to build a CDS class object
