@@ -218,96 +218,187 @@ following:\footnote{Please refer to \url{http://bit.ly/1kg5qPw} for
   begin date to T where both dates are inclusive.
 \end{description}
 
-The ISDA also standardizes the interest rates used by the Standard
-Model in valuting a CDS contract.\footnote{See
-  \url{http://bit.ly/1iuI8ZA} for the specifications on the interest
-  rate curves used by the Standard Model.}
-
 %% http://www.cdsmodel.com/assets/cds-model/docs/Interest%20Rate%20Curve%20Specification%20-%20All%20Currencies%20%28Updated%20May%202013%29.pdf
 
 
-ACT/360 - Actual - 360 Day Count Convention 
-
-30/360 - 30 - 360 Day Count Convention 
-
-Business Day Calendar - To avoid calendar maintenance , distri bution,
-and agreement issues, all computations not involving JPY will assume a
-business day calendar of weekdays (Monday to Friday) only; weekends
-(Saturday, Sunday) will be the only non - business days.  Computations
-involving JPY will use a holiday calendar published on cdsmodel.com (s
-ee references [1 ])
-
-%% anything we want to mention about the rates?
-
-The \textbf{CDS} package also calculates the main risks (exposures) of
-a CDS position. These CDS exposures are defined as follows:
-
-  \item[Price] With price we quote ‘like a bond’: price = 100 –
-    points.  So in the example above where a CDS is quoted as 3 points
-    to buy protection, the price will be 97.  The protection buyer
-    still pays the 3\% as an upfront fee of course. A CDS has price
-    greater than 100 if the points upfront are negative, that is, if
-    the CDS buyer needs to receive money to get protection because he
-    is promising to pay a coupon of, say, 100 even if the spread is
-    60. (Note that points are measured in percentages while spreads
-    are in basis points.) This is analogous to a bond investor paying
-    more than the face value of a bond because current interest rates
-    are lower than the coupon rate on the bond.
-
+The ISDA also standardizes the interest rates used by the Standard
+Model in valuting a CDS contract. There are two types of rates used in
+valuing a USD denominated CDS contract - cash rates and swap
+rates. Cash rates are of maturity 1, 2, 3, 6 months, and 1 year. They
+are provided by the British Bankers' Association (BBA). Swap rates are
+of maturity 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30 years and
+are provided by ICAP. The Standard Model follows the conventions below
+for interpolation of the entire USD yield curve:\footnote{See
+  \url{http://bit.ly/1iuI8ZA} for details on the interest rate sources
+  and calculation used by the Standard Model.}
 \begin{itemize}
-  
-  
+\item The day count convention (DCC) for money market instruments and the
+  floating legs of swaps is \textbf{ACT/360}.
+\item DCC for the floating legs of swaps is \textbf{30/360}.
+\item Payment frequency for fixed legs of swaps is 6 months.
+\item Payment frequency for floating legs of swaps is 3
+  months.\footnote{See
+    \url{http://www.fincad.com/derivatives-resources/wiki/swap-pricing.aspx}
+    for details on floating and fixed legs calculation.}
+\item A business day calendar of weekdays (Monday to Friday) is
+  assumed. Saturdays and Sundays will be the only non-business days.
+\item If a date falls on a non-business day, the convention used for
+  adjusting coupon payment dates is \textbf{M} (Modified Following).
+\end{itemize}
 
-\item [PV01] is the present value of a stream of 1 basis point
-  payments at each CDS coupon date. It is sometimes referred to as the
-  \textbf{CDS duration} or \textbf{risky duration}.
-\item The upfront payment from the protection buyer to the protection
-  seller can be calculated as:
-  \begin{center}
+
+One component essential to the MTM calculation of a CDS contract is
+the PV01. It is the present value of a stream of 1 basis point
+payments at each CDS coupon date. It is sometimes referred to as the
+\textbf{CDS duration} or \textbf{risky duration}.
+
+Analytically, $PV01$ can be calculated by
+\begin{displaymath}
+PV01 =  \sum_tDf(t_i)S(t_i)B(t_i), \nonumber\\
+\end{displaymath}
+where 
+\begin{itemize}
+\item $i =$ coupon index,
+\item $t_i =$ coupon date,
+\item $Df(f_i) =$ discount factor until $t_i$,
+\item $S(t_i) =$ survival probability until $t_i$,
+\item $B(t_i) =$ day count fraction at $t_i$.
+\end{itemize}
+
+We can thus calculate the principal amount paid from the protection
+buyer to the seller using the following formula:
+\begin{center}
   Principal Amount = (Par Spread - Coupon) $\times$ PV01.
-  \end{center}
+\end{center}
 
-    \item[DV01]: Risky Duration, also known as \textbf{Sprd DV01},
-    \textbf{Spread DV01}, \textbf{Credit DV01} and, maybe,
-    \textbf{Spread Delta}. The change in the mark-to-market value of a
-    CDS trade for a 1 bp parallel shift upward in CDS spreads. (This
-    should always (?) be a positive number (if you are buying
-    protection) because, if you own the CDS, you are short credit. A
-    rising spread is a sign of credit deterioration, which makes you
-    money. Being short credit is like being short a stock. Going down
-    is good for you.) Starting with PV01 and taking the derivative
-    with respect to spread give us:
+Using the concept of PV01, we show the calculation of the main risks
+(exposures) of a CDS position, which are also called
+\textbf{DV01}. DV01 reflects the risk duration of a CDS trade, also
+known as \textbf{Sprd DV01}, \textbf{Spread DV01}, \textbf{Credit
+  DV01}, and \textbf{Spread Delta}. It is the sensitivity of the CDS
+contract to a parallel shift in the CDS spreads. This should always be
+positive if you are a protection buyer because, if you own the CDS,
+you are short credit. A rising spread is a sign of credit
+deterioration, which makes you money. Starting with PV01 and taking
+the derivative with respect to spread give us:
+\begin{eqnarray}
+  PV & = & (S - C) * PV01 \nonumber \\
+  DV01 & = & \frac{\partial PV}{\partial S} \nonumber \\
+  & = & PV01 + (S - C) \frac{\partial PV01}{\partial S},\nonumber
+\end{eqnarray}
+where $S$ is the spread of the contract and $C$ is the coupon.
 
-%% What a hack! Must be a better way to typeset this.
-
-\begin{displaymath}
-  PV = (S - C) * PV01
-\end{displaymath}
- 
-\begin{displaymath}
-  DV01 = \frac{\partial PV}{\partial S}
-\end{displaymath}
-
-\begin{displaymath}
-  DV01 = PV01 + (S - C) \frac{\partial PV01}{\partial S}
-\end{displaymath}
- 
 Both DV01 and PV01 are measured in dollars and are equal if the spread
 equals the coupon. In other words, the relationship between spread (on
 the x-axis) and dollars (on the y-axis) is identical when the spread
-equals the coupon. That is where these two lines cross, and
-(therefore?), have the same slope. DV01 will be great than PV01 when
-spread is greater than coupon, I guess.
- 
-  \item[IR DV01] is the change in value of the CDS contract for a 1
-    bps parallel increase in the interest rate curve. Spread DV01 in
-    Bloomberg is, typically, a much larger dollar value than IR DV01
-    because moves in overall interest rates, which is what the ``IR''
-    stands for, have a much smaller effect on CDS value than does a
-    move in the CDS spread itself.
+is equal to the coupon. That is where these two lines cross. 
 
-\item Spread DV01 (spread delta) - Spread DV01 measures the sensitivity of a CDS contract MTM to a parallel shift in the term structure of the par spread. 
+%% DV01 will be great than PV01 when spread is greater than coupon, I
+%% guess.
+
+Some other related risk measures of a CDS contract are as follows:
+\begin{description}
+\item[IR DV01] is the change in value of the CDS contract for a 1 bp
+  parallel increase in the interest rate curve. 
+\item [Spread DV01], aka spread delta, measures the sensitivity of a
+  CDS contract MTM to a parallel shift in the term structure of the
+  par spread. Spread DV01 in Bloomberg is, typically, a much larger
+  dollar value than IR DV01 because moves in overall interest rates
+  have a much smaller effect on CDS value than does a move in the CDS
+  spread itself.
+\item [Recovery Risk 01] is the dollar value change in market value if
+  the recovery rate used in the CDS valuation were increased by 1\%.
+\item[Price] refers to the clean dollar price of the contract. 
+  \begin{eqnarray}
+    {\rm Price} & = & (1 - {\rm Principal} / {\rm Notional})*100  \nonumber \\
+    & = & 100 – {\rm points}. \nonumber
+  \end{eqnarray}
+  For example, if a CDS is quoted as 3 points to buy protection, the
+  price will be 97. The protection buyer still pays the 3\% as an
+  upfront fee. A CDS has a price greater than 100 if the points
+  upfront are negative, that is, if the CDS buyer needs to receive
+  money to get protection because he is promising to pay a coupon of,
+  say, 100 even if the spread is 60. This is analogous to a bond
+  investor paying more than the face value of a bond because current
+  interest rates are lower than the coupon rate on the bond.
+\end{description}
+
+
+\section{Using the CDS package}
+Currently, a portfolio manager can conduct CDS-related calculations by
+using the \textbf{CDSW Calculator} on a Bloomberg Terminal or the
+Markit CDS Calculator.\footnote{The Markit CDS Calculator is available
+  at \url{http://www.markit.com/markit.jsp?jsppage=pv.jsp}.} The
+\textbf{CDS} package provides tools for valuing a single-name CDS
+contract based on the Standard Model. The user can also specify her
+own set of parameters to customize the calculation. In this section,
+we will demonstrate the use of the \textbf{CDS} package with a series
+of examples.
+
+The default settings of a CDS contract in the \textbf{CDS} package
+follow the ISDA Standard Model and are defined as follows:
+\begin{itemize}
+\item Trade Date: the current business day
+\item Maturity: 5 years
+\item Currency: USD
+\item Notional Amount (MM): 10MM
+\item Recovery Rate (\%): 40\%
+\item Par Spread (bp), Points Upfront (\%), or Upfront Payment/Cash
+  Settlement Amount (currency value): User has to input one of the
+  three. 
+\item Bay Day Conversion for the CDS Contract is \textbf{F}, which
+  means that it assumes the next available business day when a date
+  falls on a non-business day.
 \end{itemize}
+  
+For illustrative purposes, we call the function \texttt{CDS} to
+construct an object of class \texttt{CDS}. Below we use the
+specifications according to the ISDA Standard Model.
+
+<<echo = FALSE, results = hide>>=
+options(width = 100)
+library(CDS)
+@
+
+<<>>=
+cds1 <- CDS(TDate = "2014-04-15",
+            parSpread = 50,
+            couponRate = 100)
+
+summary(cds1)
+@
+
+
+
+<<>>=
+cds1Rates <- getRates(date = "2014-01-13", currency = "USD")
+cds1Rates[[1]]
+t(cds1Rates[[2]])
+@
+
+<<>>=
+cds1
+@
+%% <<>>=
+%% cds2 <- update(cds1, spread = 40)
+%% cds2
+%% @ 
+\section{Conclusion}
+
+\section{Bibliography}
+
+open gamma
+
+\emph{The Markit Credit Indices Primer}
+
+\emph{The Bloomberg Guide}
+
+
+
+\end{document}
+
+
+
 %% Date Conventions:
 %% \begin{itemize}
 %% \item Protection Leg:
@@ -334,113 +425,3 @@ spread is greater than coupon, I guess.
 %%     \end{itemize}
 %%   \end{itemize}
 %% \end{itemize}
-
-
-rec risk 01
-
-
-  \item[Probability of Default]: Is it true that probability of
-    default is just annualized CDS spread divided by loss severity,
-    where the latter is 1 minus the recovery rate? Also, is it true
-    (as the Bloomberg help files tell us) that, for a flat CDS curve,
-    the default probability measured in years from the valuation date
-    is:
-\begin{displaymath}
-  dp = 1 - e^{\frac{-S * t}{1-R}}
-\end{displaymath}
-
-where S is the spread and R is the recovery rate.
-
-
-
-\section{Using the CDS package}
-
-
-The default settings of a CDS contract in the \textbf{CDS} package
-follow the ISDA Standard Model and are defined as follows:
-\begin{itemize}
-\item Trade Date: the current business day
-\item Maturity: 5 years
-\item Currency: USD
-\item Notional Amount (MM): 10MM
-\item Standard Coupon: 100 bps
-\item Recovery Rate (\%): 40\%
-\item Par Spread (bp), Points Upfront (\%), or Upfront Payment/Cash
-  Settlement Amount (currency value): User has to input one of the
-  three.
-\end{itemize}
-  
-  
-we implement the ISDA model
-
-how to build a CDS class object
-
-what each of the terms means
-
-how to update
-
-
-
-Currently, a portfolio manager can conduct CDS-related calculations by
-using the \textbf{CDSW Calculator} on a Bloomberg Terminal or the
-Markit CDS Calculator.\footnote{The Markit CDS Calculator is available
-  at \url{http://www.markit.com/markit.jsp?jsppage=pv.jsp}.} The
-\textbf{CDS} package provides tools for valuing a single-name CDS
-contract based on the ISDA standard model. The user can also specify
-her own set of parameters to customize the calculation. In this
-section, we will demonstrate the use of the \textbf{CDS} package with
-a series of examples.
-
-For illustrative purposes, we call the function \texttt{CDS} to
-construct an object of class \texttt{CDS}. Below we use the
-specifications according to the ISDA Standard Model.
-
-<<echo = FALSE, results = hide>>=
-options(width = 100)
-library(CDS)
-@
-
-<<>>=
-cds1 <- CDS(TDate = "2014-01-14",
-            currency = "USD",
-            maturity = "5Y",
-            dccCDS = "ACT/360",
-            freqCDS = "Q",
-            stubCDS = "F",
-            badDayConvCDS = "F",
-            calendar = "None",
-            parSpread = 50,
-            couponRate = 100,
-            recoveryRate = 0.4,
-            isPriceClean = FALSE,
-            notional = 1e7,
-            payAccruedOnDefault = TRUE)
-summary(cds1)
-@
-
-<<>>=
-cds1Rates <- getRates(date = "2014-01-13", currency = "USD")
-cds1Rates[[1]]
-t(cds1Rates[[2]])
-@
-
-<<>>=
-cds1
-@
-%% <<>>=
-%% cds2 <- update(cds1, spread = 40)
-%% cds2
-%% @ 
-\section{Conclusion}
-
-\section{Bibliography}
-  \emph{The Markit Credit Indices Primer}
-  
-  \emph{The Bloomberg Guide}
-
-
-
-\end{document}
-
-
-
