@@ -128,10 +128,6 @@ SNAC
 - Quoted spread for low spread (IG) names, and points upfront for high spread (HY) names
 
 
-
-
-
-
 Notes
 - Fixed payment from the protection buyer is the "premium leg"
 - Payment of notional less recovery by the protection seller in the event of a default is the "contingent leg"

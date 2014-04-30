@@ -8,11 +8,13 @@
 #'
 #' 
 
+
+
 setMethod("update",
           signature(object = "CDS"),
           function(object,
                    upfront = NULL,
-                   isPriceClean = NULL,
+                   isPriceClean = FALSE,
                    ptsUpfront = NULL,
                    spread = NULL,
                    ...){
@@ -22,22 +24,17 @@ setMethod("update",
                    as.numeric(!is.null(spread))) > 1)
                   stop ("Please only update one option -- upfront, ptsUpfront or spread")
               
-              if ((!is.null(upfront)) & is.null(isPriceClean)){
-                  stop ("Please specify isPriceClean option")
-              } else if ((!is.null(upfront)) & !is.null(isPriceClean)){
+              if (!is.null(upfront)){
                   newSpread <- NULL
                   newUpfront <- upfront
-                  newIsPriceClean <- isPriceClean
                   newPtsUpfront <- NULL
               } else if (!is.null(ptsUpfront)){
                   newSpread <- NULL
                   newUpfront <- NULL
-                  newIsPriceClean <- NULL
                   newPtsUpfront <- ptsUpfront
               } else if (!is.null(spread)){
                   newSpread <- spread
                   newUpfront <- NULL
-                  newIsPriceClean <- NULL
                   newPtsUpfront <- NULL
               }
                   newCDS <- CDS(object@contract,
@@ -71,7 +68,7 @@ setMethod("update",
                                 object@recoveryRate,
                                 newUpfront,
                                 newPtsUpfront, 
-                                newIsPriceClean,
+                                isPriceClean,
                                 object@notional,
                                 object@payAccruedOnDefault)
                   
