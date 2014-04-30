@@ -84,8 +84,8 @@ event.
 
 A CDS contract between two counterparties typically specifies the
 following key terms:\footnote{Partially adatped from \textit{Credit
-    Derivatives Glossary} by Markit and \textit{Standard Corporate CDS
-    Handbook} by Barclays.}
+    Derivatives Glossary} \citep{glossary} and \textit{Standard Corporate CDS
+    Handbook} \citep{barclays}.}
 \begin{description}
 \item[Reference Entity] refers to the legal entity which is the
   subject of a CDS contract. 
@@ -130,8 +130,6 @@ following key terms:\footnote{Partially adatped from \textit{Credit
     fails to pay.
   \end{itemize}
 \end{description}
-
-
 
 \section{The ISDA Standard Model}
 
@@ -196,7 +194,7 @@ The ISDA Standard CDS Contract specifies the following:
 \end{description}
 
 \subsection{Standard Model Pricing}
-
+\label{sec:pricing}
 The ISDA Standard Model allows market participants to convert between
 the par spread and the upfront payment, and compute the cash
 settlement amount for a standard contract. A few key assumptions and
@@ -245,7 +243,6 @@ for interpolation of the entire USD yield curve:\footnote{See
 \item If a date falls on a non-business day, the convention used for
   adjusting coupon payment dates is \textbf{M} (Modified Following).
 \end{itemize}
-
 
 One component essential to the MTM calculation of a CDS contract is
 the PV01. It is the present value of a stream of 1 basis point
@@ -330,68 +327,153 @@ using the \textbf{CDSW Calculator} on a Bloomberg Terminal or the
 Markit CDS Calculator.\footnote{The Markit CDS Calculator is available
   at \url{http://www.markit.com/markit.jsp?jsppage=pv.jsp}.} The
 \textbf{CDS} package provides tools for valuing a single-name CDS
-contract based on the Standard Model. The user can also specify her
-own set of parameters to customize the calculation. In this section,
-we will demonstrate the use of the \textbf{CDS} package with a series
-of examples.
+contract based on the Standard Model. The default setting allows a
+portfolio manager to value a USD-denominated CDS contract following
+the Standard Model. She can also specify her own set of parameters to
+customize the calculation. In this section, we will demonstrate the
+use of the \textbf{CDS} package with a series of examples.
 
-The default settings of a CDS contract in the \textbf{CDS} package
-follow the ISDA Standard Model and are defined as follows:
+The default settings of valuing a CDS contract in the \textbf{CDS}
+package follow the Standard North American Corporate CDS Contract
+specifications:\footnote{See
+  \url{http://www.cdsmodel.com/assets/cds-model/docs/Standard\%20CDS\%20Contract\%20Specification.pdf} for details.}
+
 \begin{itemize}
-\item Trade Date: the current business day
-\item Maturity: 5 years
-\item Currency: USD
-\item Notional Amount (MM): 10MM
-\item Recovery Rate (\%): 40\%
-\item Par Spread (bp), Points Upfront (\%), or Upfront Payment/Cash
-  Settlement Amount (currency value): User has to input one of the
-  three. 
-\item Bay Day Conversion for the CDS Contract is \textbf{F}, which
-  means that it assumes the next available business day when a date
-  falls on a non-business day.
+\item Currency: USD.
+\item Trade Date (T): the current business day.
+\item CDS Date: Mar/Jun/Sep/Dec 20th of a year.
+\item Maturity: 5 years.
+\item Maturity Date (End Date): It falls on a CDS date without
+  adjustment.
+\item Coupon Rate: 100 bps or 500 bps.
+\item Notional Amount (MM): 10MM.
+\item Recovery Rate (\%): 40\% for senior debts.
+\item Premium Leg:
+  \begin{itemize}
+    \item Payment Frequency: quarterly
+    \item DCC: ACT/360
+    \item Pay Accrued On Default: It determines whether accrued
+      interest is paid on a default. If a company defaults between
+      payment dates, there is a certain amount of accrued payment that
+      is owed to the protection seller. ``True'' means that this
+      accrued will need to be paid by the protection buyer, ``False''
+      otherwise. The defalt is ``True,''
+    \item Adjusted CDS Dates: ``F''. It means that it assumes the next
+      available business day when a CDS date falls on a non-business day
+      except the maturity date.
+    \item First Coupon Payment: It is the earliest Adjusted CDS Date
+      after T + 1.
+    \item Accrual Begin Date (Start Date): It is the latest Adjusted
+      CDS Date on or before T + 1.
+    \item Accrual Period: It is from previous accrual date (inclusive)
+      to the next accrual date (exclusive), except for the last
+      accrual period where the accrual end date (Maturity Date) is
+      included.
+  \end{itemize}
+\item Protection Leg:
+  \begin{itemize}
+  \item Protection Effective Date (Backdrop Date): T - 60 calendar
+    days for credit events.
+  \item Protection Maturity Date: Maturity Date.
+  \item Protection Payoff: Par minus Recovery.
+  \end{itemize}
 \end{itemize}
-  
-For illustrative purposes, we call the function \texttt{CDS} to
-construct an object of class \texttt{CDS}. Below we use the
-specifications according to the ISDA Standard Model.
 
-<<echo = FALSE, results = hide>>=
+
+<<echo = F, results = hide>>=
 options(width = 100)
 library(CDS)
-@
+@ 
+
+
+For illustrative purposes, we call the function \texttt{CDS} to
+construct an object of class ``CDS''. Below we use the
+default settings as mentioned.
 
 <<>>=
 cds1 <- CDS(TDate = "2014-04-15",
-            parSpread = 50,
-            couponRate = 100)
+            maturity = "5Y",
+            couponRate = 100,
+            parSpread = 50)
+@
 
+\texttt{TDate} indicates the trade date of the CDS
+contract. \texttt{maturity} is the maturity of the CDS
+contract. \texttt{couponRate} is the fixed coupon of the
+contract. \texttt{parSpread}, \texttt{ptsUpfront} and \texttt{upfront}
+refer to the par spread (in bps), points upfront (in \%), and upfront
+payment (in dollar amount) of a CDS contract, respectively. Any of the
+three arguments has to be specified in order to construct the ``CDS''
+class object.
+
+Calling \texttt{summary} on the ``CDS'' class object \texttt{cds1}
+provides some of the essential information of the CDS contract
+(including trade date, maturity date, spread, and coupon rate as
+specified by the user) and some relevant calculations based on the
+input CDS contract.
+
+<<>>=
 summary(cds1)
-@
+@ 
 
-
+In the \texttt{summary} output, \texttt{Upfront} shows the cash
+settlement amount (dirty upfront). It is the sum of the principal and
+the accrual. \texttt{Spread DV01}, \texttt{IR DV01}, and \texttt{Rec
+  Risk (1 pct)} are the eponymous results mentioned in Section
+\ref{sec:pricing}.
 
 <<>>=
-cds1Rates <- getRates(date = "2014-01-13", currency = "USD")
+cds2 <- update(cds1, spread = 52)
+@ 
+
+The \texttt{update} method updates a ``CDS'' class object with a new
+spread, points upfront or upfront by specifiying the relevant
+input. \texttt{cds2} is a new ``CDS'' class object with a spread of 52
+bps; all other specifications of the contract are the same as those of
+\texttt{cds1} since it is updated from \texttt{cds1}. One can also
+specify \texttt{upfront} (in dollar amount) or \texttt{ptsUpfront} (in
+bps) in the \texttt{update} method.
+
+Besides calling the \texttt{summary} method, one can type in the name
+of the ``CDS'' class object in the current \textbf{R} Session and
+obtain a full description of the CDS contract
+
+<<>>=
+cds2
+@ 
+
+There are three parts of the output. They are the basic contract
+information, the valuation of the contract, and the interest rates
+used in the calculation.
+
+Calling the function \texttt{getRates} produces the rates used in
+building a curve for CDS valuation. 
+
+<<>>=
+cds1Rates <- getRates(date = "2014-01-15")
+@
+
+The output consists of two list objects. The first list contains rates
+of various maturities. They are directly obtained from the Markit
+website.
+
+<<echo = FALSE>>=
 cds1Rates[[1]]
+@ 
+
+The second list reports the specific day count conventions and payment
+frequencies regarding the interest rate curve used. 
+
+<<echo = FALSE>>=
 t(cds1Rates[[2]])
-@
+@ 
 
-<<>>=
-cds1
-@
-%% <<>>=
-%% cds2 <- update(cds1, spread = 40)
-%% cds2
-%% @ 
+
+
 \section{Conclusion}
+Placeholder now
 
-\section{Bibliography}
-
-open gamma
-
-\emph{The Markit Credit Indices Primer}
-
-\emph{The Bloomberg Guide}
+\bibliography{CDS}
 
 
 
