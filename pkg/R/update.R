@@ -39,6 +39,7 @@ setMethod("update",
               }
                   newCDS <- CDS(object@contract,
                                 object@entityName,
+                                object@RED,
                                 object@TDate,
                                 object@baseDate,
                                 object@currency,
