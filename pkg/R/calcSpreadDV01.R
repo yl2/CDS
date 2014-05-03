@@ -59,7 +59,7 @@
 #' boolean. When TRUE, calculate principal only. When FALSE, calculate
 #' principal + accrual.
 #' @param notional is the notional amount. Default 1e7.
-#' @return a number indicating the change in upfront when there is a 1
+#' @return a numeric indicating the change in upfront when there is a 1
 #' bp increase of the trade spread.
 #' 
 

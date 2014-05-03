@@ -46,6 +46,8 @@
 
 CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 entityName = NULL,
+                RED = NULL,
+                
                 TDate = Sys.Date(), ## Default is the current date
 
                 ## IR curve
@@ -123,11 +125,14 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
         if (is.null(holidays)) holidays = as.character(ratesInfo[[2]]$swapCalendars)
     }
 
-    if (is.null(entityName)) entityName <- "Not Provided"
+    if (is.null(entityName)) entityName <- "N.A."
+
+    if (is.null(RED)) RED <- "N.A."
 
     cds <- new("CDS",
                contract = contract,
                entityName = entityName,
+               RED = RED,
                TDate = as.Date(TDate),
                baseDate = as.Date(baseDate),
                currency = currency,

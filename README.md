@@ -9,89 +9,6 @@ dave.kane at gmail.com
 Yang Lu 
 yang.lu2014 at gmail.com
 
-CDS Simple Example
---------------------------------------------------------
-
-```{r}
-> library(CDS)
-> cds1 <- CDS(TDate = "2014-01-14", parSpread = 32, couponRate = 100)
-> summary(cds1)
-Contract Type:                      SNAC   TDate:                     2014-01-14
-Currency:                            USD   End Date:                  2019-03-20
-Spread:                               32   Coupon Rate:                      100
-Upfront:                      -348505.14   Spread DV01:                  5162.57
-IR DV01:                           90.88   Rec Risk (1 pct):               79.12
-
-> cds1Rates <- getRates("2014-01-14")
-> cds1Rates[[1]]
-   expiry matureDate     rate type
-1      1M 2014-02-17  0.00159    M
-2      2M 2014-03-17 0.002055    M
-3      3M 2014-04-17 0.002368    M
-4      6M 2014-07-17 0.003355    M
-5      1Y 2015-01-19 0.005681    M
-6      2Y 2016-01-17  0.00496    S
-7      3Y 2017-01-17  0.00881    S
-8      4Y 2018-01-17  0.01322    S
-9      5Y 2019-01-17 0.017375    S
-10     6Y 2020-01-17 0.020875    S
-11     7Y 2021-01-17  0.02384    S
-12     8Y 2022-01-17 0.026155    S
-13     9Y 2023-01-17 0.028045    S
-14    10Y 2024-01-17 0.029695    S
-15    12Y 2026-01-17 0.032195    S
-16    15Y 2029-01-17 0.034545    S
-17    20Y 2034-01-17  0.03655    S
-18    25Y 2039-01-17  0.03742    S
-19    30Y 2044-01-17  0.03788    S
-> t(cds1Rates[[2]])
-                 text     
-badDayConvention "M"      
-mmDCC            "ACT/360"
-mmCalendars      "none"   
-fixedDCC         "30/360" 
-floatDCC         "ACT/360"
-fixedFreq        "6M"     
-floatFreq        "3M"     
-swapCalendars    "none"   
-> cds1
-CDS Contract 
-Contract Type:                      SNAC   Currency:                         USD
-TDate:                        2014-01-14   End Date:                  2019-03-20
-Start Date:                   2013-12-20   Backstop Date:             2013-11-15
-1st Coupon:                   2014-03-20   Pen Coupon:                2018-12-20
-Day Cnt:                         ACT/360   Freq:                               Q
-
-Calculation 
-Value Date:                   2014-01-17   Price:                         103.41
-Spread:                               32   Pts Upfront:                  -0.0341
-Principal:                    -341282.92   Spread DV01:                  5162.57
-Accrual:                        -7222.22   IR DV01:                        90.88
-Upfront:                      -348505.14   Rec Risk (1 pct):               79.12
-Default Prob:                     0.0276   Default Expo:              6341282.92
-
-Credit Curve 
- Term     Rate
-   1M 0.001590
-   2M 0.002055
-   3M 0.002368
-   6M 0.003355
-   1Y 0.005681
-   2Y 0.004960
-   3Y 0.008810
-   4Y 0.013220
-   5Y 0.017375
-   6Y 0.020875
-   7Y 0.023840
-   8Y 0.026155
-   9Y 0.028045
-  10Y 0.029695
-  12Y 0.032195
-  15Y 0.034545
-  20Y 0.036550
-  25Y 0.037420
-  30Y 0.037880
-```
 
 CDS To-Do's
 --------------------------------------------------------
@@ -111,6 +28,7 @@ Existing R function files
 - defaultExpo.R calculates the default exposure of a CDS contract
 - getDates.R get a set of dates relevant for CDS calculation
 - price.R calculates the price of a CDS contract
+- CS10.R calculates the change in value of a CDS contract when its spread increases by 10%.
 
 SNAC
 - Standard CDS contract specification [http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf](http://www.cdsmodel.com/assets/cds-model/docs/Standard%20CDS%20Contract%20Specification.pdf)

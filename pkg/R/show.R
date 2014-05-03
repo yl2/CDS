@@ -26,6 +26,17 @@ setMethod("show",
                                     40-.checkLength("   Currency:") -
                                     .checkLength(object@currency)),
                                     collapse = ""))), "\n",
+
+                  sprintf(paste("Entity Name:", object@entityName,
+                                sep = paste0(rep(" ",
+                                    40-.checkLength("Entity Name:") -
+                                    .checkLength(object@entityName)), collapse = ""))),
+                  sprintf(paste("   RED:", object@RED,
+                                sep = paste0(rep(" ",
+                                    40-.checkLength("   RED:") -
+                                    .checkLength(object@RED)),
+                                    collapse = ""))), "\n",
+
                   sprintf(paste("TDate:", object@TDate,
                                 sep = paste0(rep(" ", 40-.checkLength("TDate:") -
                                     .checkLength(object@TDate)), collapse = ""))),
@@ -133,8 +144,12 @@ setMethod("show",
               cat("\n")
               cat("Credit Curve \n")
 
-              print(data.frame(Term = object@expiries, Rate = object@rates),
-                    row.names = F)
+              ratesDf <- data.frame(Term = object@expiries, Rate = object@rates)
+              rowN <- ceiling(dim(ratesDf)[1]/2)
+              
+              print(cbind.fill(ratesDf[1:rowN,], ratesDf[(rowN+1):dim(ratesDf)[1],]),
+                    row.names = F, quote = F, na.print = "")
+              
               cat("\n")
           
       }

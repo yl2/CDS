@@ -7,7 +7,6 @@ setMethod("summary",
           function(object,
                    ...){
 
-              
               cat(sprintf(paste("Contract Type:", object@contract,
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Contract Type:") -
@@ -15,6 +14,16 @@ setMethod("summary",
                   sprintf(paste("   TDate:", object@TDate,
                                 sep = paste0(rep(" ", 40-.checkLength("   TDate:") -
                                     .checkLength(object@TDate)), collapse = ""))), "\n",
+
+                  
+                  sprintf(paste("Entity Name:", object@entityName,
+                                sep = paste0(rep(" ",
+                                    40-.checkLength("Entity Name:") -
+                                    .checkLength(object@entityName)), collapse = ""))),
+                  sprintf(paste("   RED:", object@RED,
+                                sep = paste0(rep(" ", 40-.checkLength("   RED:") -
+                                    .checkLength(object@RED)), collapse = ""))), "\n",
+                  
                   sprintf(paste("Currency:", object@currency,
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Currency:") -

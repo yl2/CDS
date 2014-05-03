@@ -4,7 +4,7 @@
 \usepackage{amssymb}
 %% \usepackage{RJournal}
 \usepackage{fancyvrb}
-\usepackage{Sweave, url}
+\usepackage{Sweave, url, tikz}
 \usepackage{hyperref}
 \usepackage[sc]{mathpazo}
 \usepackage[T1]{fontenc}
@@ -61,12 +61,14 @@ associated with these instruments.
 %% what's a CDS
 
 A CDS is a simple and popular form of credit derivative. It was
-invented by Blythe Masters from J.P. Morgan in 1994. The CDS market
-started to develop in the 1990s as banks used CDS contracts to hedge
-their credit exposures on the balance sheets. Many different types of
-CDS have since emerged including basket default swaps (DBSs), index
-CDSs, credit-linked notes, et cetera. In the \textbf{CDS} package, we
-focus on calculations related to a single-name CDS contract.
+originated in the late 1980s and was popularized by a team at
+J.P. Morgan including Blythe Masters in 1994 \cite{cdsOrigins,
+  blythe}. The CDS market started to develop soon afterwards as banks
+used CDS contracts to hedge their credit exposures on the balance
+sheets. Many different types of CDS have since emerged including
+basket default swaps (BDSs), index CDSs, credit-linked notes, et
+cetera. In the \textbf{CDS} package, we focus on calculations related
+to a single-name CDS contract.
 
 %% mechanics of a single-name CDS contract
 
@@ -81,6 +83,21 @@ a one-off, contingent payment (protection leg) in the case of a credit
 event.
 
 %% add a diagram on buyer and seller of CDS?
+
+
+\begin{center}
+\begin{tikzpicture}[
+squarednode/.style={rectangle, draw=red!60, fill=none, very thick, 
+  minimum height =15mm, minimum width = 20mm},
+]
+
+    \node [squarednode](A) at (0,0) {Protection Buyer};
+    \node [squarednode](B) at (5,0) {Protection Seller};
+    \draw[transform canvas={yshift=4mm},->] (A) -- (B);
+    \draw[transform canvas={yshift=-4mm},<-] (A) -- (B);
+\end{tikzpicture} 
+\end{center}
+
 
 A CDS contract between two counterparties typically specifies the
 following key terms:\footnote{Partially adatped from \textit{Credit
@@ -392,7 +409,6 @@ specifications:\footnote{See
 
 <<echo = F, results = hide>>=
 options(width = 100)
-library(CDS)
 @ 
 
 
@@ -401,20 +417,37 @@ construct an object of class ``CDS''. Below we use the
 default settings as mentioned.
 
 <<>>=
-cds1 <- CDS(TDate = "2014-04-15",
+library(CDS)
+cds1 <- CDS(entityName = "IBM",
+            RED = "49EB20",
+            TDate = "2014-04-15",
             maturity = "5Y",
             couponRate = 100,
             parSpread = 50)
 @
 
-\texttt{TDate} indicates the trade date of the CDS
-contract. \texttt{maturity} is the maturity of the CDS
-contract. \texttt{couponRate} is the fixed coupon of the
+\texttt{entityName} indicates the name of the underlying entity which
+is the subject of the CDS contract. \texttt{RED} are a Markit
+product. It stands for Reference Entity Database. Each
+entity/seniority pair has a unique 6 digit RED code. Each deliverable
+bond has a 9 digit RED code, the first 6 digits of which match the 6
+digit code of the associated entity/seniority. Each entity also has a
+``preferred reference obligation'' that is the default reference
+obligation for CDS trades. A user can input either the six-digit RED
+code or the nine-digit RED pair code. \texttt{TDate} indicates the
+trade date of the CDS contract. \texttt{maturity} is the maturity of
+the CDS contract. \texttt{couponRate} is the fixed coupon of the
 contract. \texttt{parSpread}, \texttt{ptsUpfront} and \texttt{upfront}
 refer to the par spread (in bps), points upfront (in \%), and upfront
 payment (in dollar amount) of a CDS contract, respectively. Any of the
 three arguments has to be specified in order to construct the ``CDS''
 class object.
+
+Here the user has enter the CDS contract which has IBM as the
+underlying entity with ``49EB20'' as the RED Code. She sets the spread
+at 50 bps and the coupon rate at 100 bps. However, the valuation of
+this CDS contract requires neither the entity name or the RED
+Code. She does not have to know the information to use the package.
 
 Calling \texttt{summary} on the ``CDS'' class object \texttt{cds1}
 provides some of the essential information of the CDS contract
@@ -433,9 +466,18 @@ the accrual. \texttt{Spread DV01}, \texttt{IR DV01}, and \texttt{Rec
 \ref{sec:pricing}.
 
 <<>>=
-cds2 <- update(cds1, spread = 52)
+cds1.CS10 <- CS10(cds1)
+cds1.CS10
 @ 
 
+\texttt{CS10} is a method which calculates the change in value of the
+CDS contract when the spread of the contract increases by
+10\%. \texttt{CS10} takes in a \texttt{CDS} class object formed by
+calling the \texttt{CDS} function.
+
+<<>>=
+cds2 <- update(cds1, spread = 55)
+@ 
 The \texttt{update} method updates a ``CDS'' class object with a new
 spread, points upfront or upfront by specifiying the relevant
 input. \texttt{cds2} is a new ``CDS'' class object with a spread of 52
@@ -481,7 +523,17 @@ t(cds1Rates[[2]])
 
 
 \section{Conclusion}
-Placeholder now
+
+In this paper, we describe the basics of a CDS contract, the ISDA
+Standard Model, and its valuation. We also provide a simple collection
+of tools to implement the Standard Model in \texttt{R} with the
+\texttt{CDS} package. Moreover, the flexibility of \texttt{R} itself
+allows users to extend and modify these packages to suit their own
+needs and/or execute their preferred models for CDS contracts. Before
+reaching that level of complexity, however, \texttt{CDS} provides a
+good starting point for valuing CDS contracts adhering the Standard
+Model.
+
 
 \bibliography{CDS}
 
