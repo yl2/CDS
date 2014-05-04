@@ -77,26 +77,35 @@ which provides a transfer of credit risk. The buyer of a CDS contract
 transfers the credit risk to the seller by paying a series of payments
 before the contract terminates. In other words, the protection buyer
 is short credit by selling the credit risk of an underlying loan to
-the protection seller. As shown in the diagram(?), the buyer pays a
-stream of coupon payments, called the premium leg in order to receive
-a one-off, contingent payment (protection leg) in the case of a credit
-event.
+the protection seller. As shown in Figure \ref{fig:cashFlow},
+the buyer pays a stream of coupon payments, called the premium leg in
+order to receive a one-off, contingent payment (protection leg) in the
+case of a credit event.\\
 
 %% add a diagram on buyer and seller of CDS?
 
-
+\begin{figure}
+  \caption{\label{fig:cashFlow} Mechanics of a CDS}
 \begin{center}
 \begin{tikzpicture}[
-squarednode/.style={rectangle, draw=red!60, fill=none, very thick, 
-  minimum height =15mm, minimum width = 20mm},
+squarednode/.style={rectangle, draw=black!60, fill=none, thick, 
+  minimum height =12mm, minimum width = 35mm},
 ]
+  \tikzset{mylabel/.style = {text centered}
+  }
 
+\vspace{2cm}
     \node [squarednode](A) at (0,0) {Protection Buyer};
-    \node [squarednode](B) at (5,0) {Protection Seller};
-    \draw[transform canvas={yshift=4mm},->] (A) -- (B);
-    \draw[transform canvas={yshift=-4mm},<-] (A) -- (B);
+    \node [squarednode](B) at (7,0) {Protection Seller};
+
+    \draw[transform canvas={yshift=3mm},-stealth, thick] (A) -- (B);
+    \draw[transform canvas={yshift=-3mm},-stealth, thick] (B) -- (A);
+    \node[mylabel] at (3.5, 0.9) {Premium Leg};
+    \node[mylabel] at (3.5, -0.9) {Protection Leg};
+    
 \end{tikzpicture} 
 \end{center}
+\end{figure}
 
 
 A CDS contract between two counterparties typically specifies the
