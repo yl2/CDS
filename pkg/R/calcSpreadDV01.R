@@ -252,7 +252,7 @@ setMethod("calcSpreadDV01",
                                    object@parSpread + 1,
                                    object@couponRate,
                                    object@recoveryRate,
-                                   object@isPriceClean,
+                                   isPriceClean = FALSE,
                                    object@payAccruedOnDefault,
                                    object@notional,
                                    PACKAGE = "CDS")

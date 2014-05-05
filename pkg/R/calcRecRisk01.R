@@ -255,7 +255,7 @@ setMethod("calcRecRisk01",
                                    object@parSpread,
                                    object@couponRate,
                                    object@recoveryRate + 0.01,
-                                   object@isPriceClean,
+                                   isPriceClean = FALSE,
                                    object@payAccruedOnDefault,
                                    object@notional,
                                    PACKAGE = "CDS")

@@ -249,7 +249,7 @@ setMethod("calcIRDV01",
                                    object@parSpread,
                                    object@couponRate,
                                    object@recoveryRate,
-                                   object@isPriceClean,
+                                   isPriceClean = FALSE,
                                    object@payAccruedOnDefault,
                                    object@notional,
                                    PACKAGE = "CDS")

@@ -167,7 +167,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
 
                couponRate = couponRate,
                recoveryRate = recoveryRate,
-               isPriceClean = isPriceClean,
+               inputPriceClean = isPriceClean,
                notional = notional,
                payAccruedOnDefault = payAccruedOnDefault
                )
