@@ -1,5 +1,4 @@
-#' Calculate the amount of change in upfront when there is a 1%
-#' increase in recovery rate.
+#' Calculate the spread DV01 from conventional spread
 #'
 #' @param object is the \code{CDS} class object.
 #' @param TDate is the trade date.
@@ -60,48 +59,47 @@
 #' boolean. When TRUE, calculate principal only. When FALSE, calculate
 #' principal + accrual.
 #' @param notional is the notional amount. Default 1e7.
-#' @return a number indicating the change in upfront when there is a 1
-#' percent increase in recovery rate
+#' @return a numeric indicating the change in upfront when there is a 1
+#' bp increase of the trade spread.
 #' 
 
 
-calcRecRisk01 <- function(object = NULL,
-                          TDate,
-                          baseDate = TDate,
-                          currency = "USD",
-
-                          types = NULL,
-                          rates = NULL,
-                          expiries = NULL,
-                          mmDCC = "ACT/360",
-                          fixedSwapFreq = "6M",
-                          floatSwapFreq = "3M",
-                          fixedSwapDCC = "30/360",
-                          floatSwapDCC = "ACT/360",
-                          badDayConvZC = "M",
-                          holidays = "None",
-                          
-                          valueDate = NULL,
-                          benchmarkDate = NULL,
-                          startDate = NULL,
-                          endDate = NULL,
-                          stepinDate = NULL,
-                          maturity = "5Y",
-                          
-                          dccCDS = "ACT/360",
-                          freqCDS = "1Q",
-                          stubCDS = "F",
-                          badDayConvCDS = "F",
-                          calendar = "None",
-
-                          parSpread,
-                          couponRate,
-                          recoveryRate = 0.4,
-                          isPriceClean = FALSE,
-                          payAccruedOnDefault = TRUE,
-                          notional = 1e7
-                          ){
-
+spreadDV01 <- function(object = NULL,
+                       TDate,
+                       baseDate = TDate,
+                       currency = "USD",
+                       
+                       types = NULL,
+                       rates = NULL,
+                       expiries = NULL,
+                       mmDCC = "ACT/360",
+                       fixedSwapFreq = "6M",
+                       floatSwapFreq = "3M",
+                       fixedSwapDCC = "30/360",
+                       floatSwapDCC = "ACT/360",
+                       badDayConvZC = "M",
+                       holidays = "None",
+                       
+                       valueDate = NULL,
+                       benchmarkDate = NULL,
+                       startDate = NULL,
+                       endDate = NULL,
+                       stepinDate = NULL,
+                       maturity = "5Y",
+                       
+                       dccCDS = "ACT/360",
+                       freqCDS = "1Q",
+                       stubCDS = "F",
+                       badDayConvCDS = "F",
+                       calendar = "None",
+                       
+                       parSpread,
+                       couponRate,
+                       recoveryRate = 0.4,
+                       isPriceClean = FALSE,
+                       payAccruedOnDefault = TRUE,                         
+                       notional = 1e7
+                       ){
 
     ratesDate <- baseDate
     cdsDates <- getDates(TDate = as.Date(TDate), maturity = maturity)
@@ -135,7 +133,7 @@ calcRecRisk01 <- function(object = NULL,
         badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention)
         holidays = as.character(ratesInfo[[2]]$swapCalendars)
     }
-    
+
     upfront.orig <- .Call('calcUpfrontTest',
                           baseDate,
                           types,
@@ -199,9 +197,9 @@ calcRecRisk01 <- function(object = NULL,
                          badDayConvCDS,
                          calendar,
                          
-                         parSpread,
+                         parSpread + 1,
                          couponRate,
-                         recoveryRate + 0.01,
+                         recoveryRate,
                          isPriceClean,
                          payAccruedOnDefault,
                          notional,
@@ -213,7 +211,7 @@ calcRecRisk01 <- function(object = NULL,
 }
 
 
-setMethod("calcRecRisk01",
+setMethod("spreadDV01",
           signature(object = "CDS"),
           function(object){
               baseDate <- .separateYMD(object@baseDate)
@@ -224,7 +222,6 @@ setMethod("calcRecRisk01",
               endDate <- .separateYMD(object@endDate)
               stepinDate <- .separateYMD(object@stepinDate)
 
-              
               upfront.new <- .Call('calcUpfrontTest',
                                    baseDate,
                                    object@types,
@@ -252,18 +249,14 @@ setMethod("calcRecRisk01",
                                    object@badDayConvCDS,
                                    object@calendar,
                                    
-                                   object@parSpread,
+                                   object@parSpread + 1,
                                    object@couponRate,
-                                   object@recoveryRate + 0.01,
+                                   object@recoveryRate,
                                    isPriceClean = FALSE,
                                    object@payAccruedOnDefault,
                                    object@notional,
                                    PACKAGE = "CDS")
-
-
               return (upfront.new - object@upfront)
           }
           
           )
-
-

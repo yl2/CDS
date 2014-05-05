@@ -67,41 +67,41 @@
 #' @return a number indicating the spread.
 #' 
 
-calcSpread <- function(TDate,
-                       baseDate = TDate,
-                       currency = "USD",
+spread <- function(TDate,
+                   baseDate = TDate,
+                   currency = "USD",
 
-                       types = NULL,
-                       rates = NULL,
-                       expiries = NULL,
-                       mmDCC = "ACT/360",
-                       fixedSwapFreq = "6M",
-                       floatSwapFreq = "3M",
-                       fixedSwapDCC = "30/360",
-                       floatSwapDCC = "ACT/360",
-                       badDayConvZC = "M",
-                       holidays = "None",
-                       
-                       valueDate = NULL,
-                       benchmarkDate = NULL,
-                       startDate = NULL,
-                       endDate = NULL,
-                       stepinDate = NULL,
-                       maturity = "5Y",
-                       
-                       dccCDS = "ACT/360",
-                       freqCDS = "Q",
-                       stubCDS = "F",
-                       badDayConvCDS = "F",
-                       calendar = "None",
-                       
-                       upfront = NULL,
-                       ptsUpfront = NULL,
-                       couponRate, 
-                       recoveryRate = 0.4,
-                       payAccruedAtStart = FALSE,
-                       notional = 1e7,
-                       payAccruedOnDefault = TRUE){
+                   types = NULL,
+                   rates = NULL,
+                   expiries = NULL,
+                   mmDCC = "ACT/360",
+                   fixedSwapFreq = "6M",
+                   floatSwapFreq = "3M",
+                   fixedSwapDCC = "30/360",
+                   floatSwapDCC = "ACT/360",
+                   badDayConvZC = "M",
+                   holidays = "None",
+                   
+                   valueDate = NULL,
+                   benchmarkDate = NULL,
+                   startDate = NULL,
+                   endDate = NULL,
+                   stepinDate = NULL,
+                   maturity = "5Y",
+                   
+                   dccCDS = "ACT/360",
+                   freqCDS = "Q",
+                   stubCDS = "F",
+                   badDayConvCDS = "F",
+                   calendar = "None",
+                   
+                   upfront = NULL,
+                   ptsUpfront = NULL,
+                   couponRate, 
+                   recoveryRate = 0.4,
+                   payAccruedAtStart = FALSE,
+                   notional = 1e7,
+                   payAccruedOnDefault = TRUE){
 
     if (is.null(upfront) & is.null(ptsUpfront))
         stop("Please input upfront or pts upfront")
