@@ -17,13 +17,13 @@ CDS To-Do's
 
 Existing R function files
 - CDS.R constructs a primitive CDS class object.
-- calcUpfront.R calculates cash settlement amount from conventional spread
-- calcSpread.R calculates conventional spread from upfront
-- calcSpreadDV01.R calculates spread DV 01
-- calcIRDV01.R calculates IR DV 01
+- upfront.R calculates cash settlement amount from conventional spread
+- spread.R calculates conventional spread from upfront
+- spreadDV01.R calculates spread DV 01
+- IRDV01.R calculates IR DV 01
 - update.R allows users to update a CDS class object with a new spread, upfront payment, or a points upfront.
 - getRates.R obtains rates to build an interest rate curve for CDS calculation
-- calcRecRisk01 calculates the RecRisk 01
+- recRisk01 calculates the RecRisk 01
 - defaultProb.R approximates the default probability at time t
 - defaultExpo.R calculates the default exposure of a CDS contract
 - getDates.R get a set of dates relevant for CDS calculation
