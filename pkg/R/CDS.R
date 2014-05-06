@@ -450,7 +450,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
     
     cds@spreadDV01 <- spreadDV01(cds)
     cds@IRDV01 <- IRDV01(cds) 
-    cds@RecRisk01 <- RecRisk01(cds)
+    cds@RecRisk01 <- recRisk01(cds)
     cds@defaultProb <- defaultProb(parSpread = cds@parSpread,
                                    t = as.numeric(as.Date(endDate) -
                                        as.Date(TDate))/360,
