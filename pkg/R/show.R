@@ -11,11 +11,7 @@ setMethod("show",
           signature(object = "CDS"),
           function(object){
 
-              if (object@entityName == "Not Provided") {
-                  cat("CDS Contract \n")
-              } else {
-                  cat(paste("CDS Contract", object@entityName, sep = " "), "\n")
-              }
+              cat("CDS Contract \n")
 
               cat(sprintf(paste("Contract Type:", object@contract,
                                 sep = paste0(rep(" ",
