@@ -5,5 +5,5 @@ exportPattern("^[[:alpha:]]+")
 ## import(ggplot2, methods)
 
 exportClasses(CDS)
-exportMethods(summary, calcSpreadDV01)
+exportMethods(summary)
 
