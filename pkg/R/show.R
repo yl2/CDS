@@ -79,50 +79,83 @@ setMethod("show",
                                     40-.checkLength("Value Date:") -
                                     .checkLength(object@valueDate)),
                                     collapse = ""))),
-                  sprintf(paste("   Price:", round(object@price, 2),
+                  sprintf(paste("   Price:",
+                                format(round(object@price, 2), big.mark=",",
+                                       scientific = F),
                                 sep = paste0(rep(" ", 40-.checkLength("   Price:") -
-                                    .checkLength(round(object@price, 2))),
-                                    collapse = ""))), "\n",
-
-                  sprintf(paste("Spread:", round(object@parSpread, 4),
-                                sep = paste0(rep(" ",
-                                    40-.checkLength("Spread:") -
-                                    .checkLength(round(object@parSpread, 4))),
-                                    collapse = ""))),
-                  sprintf(paste("   Pts Upfront:", round(object@ptsUpfront, 4),
-                                sep = paste0(rep(" ", 40-.checkLength("   Pts Upfront:") -
-                                    .checkLength(round(object@ptsUpfront, 4))),
-                                    collapse = ""))), "\n",
-
-                  sprintf(paste("Principal:", round(object@principal, 2),
-                                sep = paste0(rep(" ",
-                                    40-.checkLength("Principal:") -
-                                    .checkLength(round(object@principal, 2))),
-                                    collapse = ""))),
-                  sprintf(paste("   Spread DV01:", round(object@spreadDV01, 2),
-                                sep = paste0(rep(" ", 40-.checkLength("   Spread DV01:") -
-                                    .checkLength(round(object@spreadDV01, 2))),
+                                    .checkLength(
+                                        format(round(object@price, 2), big.mark=",",
+                                               scientific=F))),
                                     collapse = ""))), "\n",
                   
-                  sprintf(paste("Accrual:", round(object@accrual, 2),
+                  sprintf(paste("Spread:",
+                                format(round(object@parSpread, 4), big.mark = ",",
+                                       scientific = F),
                                 sep = paste0(rep(" ",
-                                    40-.checkLength("Accrual:") -
-                                    .checkLength(round(object@accrual, 2))),
-                                    collapse = ""))), 
-                  sprintf(paste("   IR DV01:", round(object@IRDV01, 2),
-                                sep = paste0(rep(" ",
-                                    40-.checkLength("   IR DV01:") -
-                                    .checkLength(round(object@IRDV01, 2))),
+                                    40-.checkLength("Spread:") -
+                                    .checkLength(format(round(object@parSpread, 4), big.mark = ",",
+                                                        scientific = F))),
+                                    collapse = ""))),
+                  sprintf(paste("   Pts Upfront:",
+                                format(round(object@ptsUpfront, 4), big.mark=",",
+                                       scientific=F),
+                                sep = paste0(rep(" ", 40-.checkLength("   Pts Upfront:") -
+                                    .checkLength(
+                                        format(round(object@ptsUpfront, 4), big.mark=",",
+                                               scientific=F))),
                                     collapse = ""))), "\n",
 
-                  sprintf(paste("Upfront:", round(object@upfront, 2),
+                  sprintf(paste("Principal:",
+                                format(round(object@principal, 0), big.mark=",",
+                                       scientific=F),
+                                sep = paste0(rep(" ",
+                                    40-.checkLength("Principal:") -
+                                    .checkLength(
+                                        format(round(object@principal, 0), big.mark = "F", scientific = F))),
+                                    collapse = ""))),
+                  sprintf(paste("   Spread DV01:",
+                                format(round(object@spreadDV01, 0), big.mark=",",
+                                       scientific=F),
+                                sep = paste0(rep(" ", 40-.checkLength("   Spread DV01:") -
+                                    .checkLength(
+                                        format(round(object@spreadDV01, 0), big.mark=",",
+                                               scientific=F))),
+                                    collapse = ""))), "\n",
+                  
+                  sprintf(paste("Accrual:",
+                                format(round(object@accrual, 0), big.mark=",",
+                                       scientific=F),
+                                sep = paste0(rep(" ",
+                                    40-.checkLength("Accrual:") -
+                                    .checkLength(
+                                        format(round(object@accrual, 0), big.mark = ",",
+                                               scientific=F))),
+                                    collapse = ""))), 
+                  sprintf(paste("   IR DV01:", format(round(object@IRDV01, 2),big.mark=",",
+                                                      scientific=F),
+                                sep = paste0(rep(" ",
+                                    40-.checkLength("   IR DV01:") -
+                                    .checkLength(
+                                        format(round(object@IRDV01, 2), big.mark=",",
+                                               scientific=F))),
+                                    collapse = ""))), "\n",
+
+                  sprintf(paste("Upfront:",
+                                format(round(object@upfront, 0), big.mark = ",",
+                                       scientific=F),
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Upfront:") -
-                                    .checkLength(round(object@upfront, 2))),
+                                    .checkLength(
+                                        format(round(object@upfront, 0), big.mark=",",
+                                               scientific=F))),
                                     collapse = ""))), 
-                  sprintf(paste("   Rec Risk (1 pct):", round(object@RecRisk01, 2),
+                  sprintf(paste("   Rec Risk (1 pct):",
+                                format(round(object@RecRisk01, 2),big.mark=",",
+                                       scientific=F),
                                 sep = paste0(rep(" ", 40-.checkLength("   Rec Risk (1 pct):") -
-                                    .checkLength(round(object@RecRisk01, 2))),
+                                    .checkLength(
+                                        format(round(object@RecRisk01, 2),
+                                               big.mark=",", scientific=F))),
                                     collapse = ""))), "\n",
 
                   sprintf(paste("Default Prob:", round(object@defaultProb, 4),
@@ -130,20 +163,26 @@ setMethod("show",
                                     40-.checkLength("Default Prob:") -
                                     .checkLength(round(object@defaultProb, 4))),
                                     collapse = ""))), 
-                  sprintf(paste("   Default Expo:", round(object@defaultExpo, 2),
+                  sprintf(paste("   Default Expo:",
+                                format(round(object@defaultExpo, 0),big.mark=",",
+                                       scientific=F),
                                 sep = paste0(rep(" ", 40-.checkLength("   Default Expo:") -
-                                    .checkLength(round(object@defaultExpo, 2))),
+                                    .checkLength(
+                                        format(round(object@defaultExpo, 0),
+                                               big.mark=",",
+                                               scientific=F))),
                                     collapse = ""))), "\n",
 
                   sep = ""
                   )
               cat("\n")
-              cat("Credit Curve \n")
+              cat(paste0("Credit curve effective of",
+                         object@effectiveDate), "\n")
 
               ratesDf <- data.frame(Term = object@expiries, Rate = object@rates)
               rowN <- ceiling(dim(ratesDf)[1]/2)
-              
-              print(cbind.fill(ratesDf[1:rowN,], ratesDf[(rowN+1):dim(ratesDf)[1],]),
+              print(as.data.frame(cbind.fill(ratesDf[1:rowN,],
+                                             ratesDf[(rowN+1):dim(ratesDf)[1],])),
                     row.names = F, quote = F, na.print = "")
               
               cat("\n")

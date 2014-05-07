@@ -43,7 +43,7 @@ CS10 <- function(object){
                          object@calendar,
                          
                          object@parSpread * 1.1,
-                         object@couponRate,
+                         object@coupon,
                          object@recoveryRate,
                          object@isPriceClean,
                          object@payAccruedOnDefault,
@@ -92,7 +92,7 @@ setMethod("CS10",
                                    object@calendar,
                                    
                                    object@parSpread * 1.1,
-                                   object@couponRate,
+                                   object@coupon,
                                    object@recoveryRate,
                                    isPriceClean = FALSE,
                                    object@payAccruedOnDefault,

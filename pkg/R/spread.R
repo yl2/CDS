@@ -54,7 +54,7 @@
 #' @param ptsUpfront the fraction of clean upfront
 #' payment. \code{upfront} and \code{ptsUpfront} cannot be NULL at the
 #' same time. It is in decimal.
-#' @param couponRate in bps.
+#' @param coupon in bps.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param payAccruedAtStart determines to whether a clean upfront or a
 #' dirty upfront is supplied. When TRUE, clean upfront supplied. When
@@ -97,7 +97,7 @@ spread <- function(TDate,
                    
                    upfront = NULL,
                    ptsUpfront = NULL,
-                   couponRate, 
+                   coupon, 
                    recoveryRate = 0.4,
                    payAccruedAtStart = FALSE,
                    notional = 1e7,
@@ -168,7 +168,7 @@ spread <- function(TDate,
           endDate,
           stepinDate,
           
-          couponRate / 1e4,
+          coupon / 1e4,
           payAccruedOnDefault,
           
           dccCDS,

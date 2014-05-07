@@ -11,7 +11,7 @@ library(CDS)
 ##                     badDayConvCDS = "F",
 ##                     calendar = "None",
 ##                     parSpread = 32,
-##                     couponRate = 100,
+##                     coupon = 100,
 ##                     recoveryRate = 0.4,
 ##                     notional = 1e7)
 
@@ -29,7 +29,7 @@ result1 <- recRisk01(TDate = "2014-01-14",
                      badDayConvCDS = "F",
                      calendar = "None",
                      parSpread = 32,
-                     couponRate = 100,
+                     coupon = 100,
                      recoveryRate = 0.4,
                      notional = 1e7)
 

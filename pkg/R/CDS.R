@@ -7,7 +7,7 @@
 #' @param notional is the notional amount, default is 1e7.
 #' @param tradeDate is when the trade is executed, denoted as T. Default is today.
 #' @param spread CDS par spread in bps
-#' @param couponRate in bps
+#' @param coupon in bps
 #' @param DCC day count convention of the CDS. The default is ACT/360.
 #' @param freq date interval of the CDS contract
 #' @param maturity maturity of the CDS contract
@@ -79,7 +79,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 calendar = "None",
 
                 parSpread = NULL,
-                couponRate,
+                coupon,
                 recoveryRate = 0.4,
                 upfront = NULL,
                 ptsUpfront = NULL,
@@ -101,6 +101,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
     }
     
     ratesDate <- baseDate
+    effectiveDate <- as.Date(TDate)
     cdsDates <- getDates(TDate = as.Date(TDate), maturity = maturity)
     if (is.null(valueDate)) valueDate <- cdsDates$valueDate
     if (is.null(benchmarkDate)) benchmarkDate <- cdsDates$startDate
@@ -112,6 +113,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
     if ((is.null(types) | is.null(rates) | is.null(expiries))){
         
         ratesInfo <- getRates(date = ratesDate, currency = currency)
+        effectiveDate <- as.Date(as.character(ratesInfo[[2]]$effectiveDate))
         if (is.null(types)) types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
         if (is.null(rates)) rates = as.numeric(as.character(ratesInfo[[1]]$rate))
         if (is.null(expiries)) expiries = as.character(ratesInfo[[1]]$expiry)
@@ -125,9 +127,9 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
         if (is.null(holidays)) holidays = as.character(ratesInfo[[2]]$swapCalendars)
     }
 
-    if (is.null(entityName)) entityName <- "N.A."
+    if (is.null(entityName)) entityName <- "NA"
 
-    if (is.null(RED)) RED <- "N.A."
+    if (is.null(RED)) RED <- "NA"
 
     cds <- new("CDS",
                contract = contract,
@@ -141,7 +143,8 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                rates = rates,
                expiries = expiries,
                mmDCC = mmDCC,
-               
+
+               effectiveDate = effectiveDate,
                fixedSwapFreq = fixedSwapFreq,
                floatSwapFreq = floatSwapFreq,
                fixedSwapDCC = fixedSwapDCC,
@@ -165,7 +168,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                badDayConvCDS = badDayConvCDS,
                calendar = calendar,
 
-               couponRate = couponRate,
+               coupon = coupon,
                recoveryRate = recoveryRate,
                inputPriceClean = isPriceClean,
                notional = notional,
@@ -204,7 +207,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                  calendar,
                                  
                                  parSpread,
-                                 couponRate,
+                                 coupon,
                                  recoveryRate,
                                  TRUE,
                                  payAccruedOnDefault,
@@ -238,7 +241,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                calendar,
                                
                                parSpread,
-                               couponRate,
+                               coupon,
                                recoveryRate,
                                FALSE,
                                payAccruedOnDefault,
@@ -271,7 +274,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                    calendar,
                                    upfront,
                                    ptsUpfront,
-                                   couponRate, 
+                                   coupon, 
                                    recoveryRate,
                                    payAccruedAtStart = isPriceClean,
                                    notional,
@@ -303,7 +306,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                   badDayConvCDS,
                                   calendar,
                                   cds@parSpread,
-                                  couponRate, 
+                                  coupon, 
                                   recoveryRate,
                                   FALSE,
                                   payAccruedOnDefault,
@@ -339,7 +342,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                        calendar = calendar,
                                        upfront = NULL,
                                        ptsUpfront = cds@ptsUpfront,
-                                       couponRate = couponRate,
+                                       coupon = coupon,
                                        recoveryRate = recoveryRate,
                                        payAccruedAtStart = TRUE,
                                        payAccruedOnDefault = payAccruedOnDefault,
@@ -369,7 +372,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                       badDayConvCDS = badDayConvCDS,
                                       calendar = calendar,
                                       parSpread = cds@parSpread,
-                                      couponRate = couponRate,
+                                      coupon = coupon,
                                       recoveryRate = recoveryRate,
                                       isPriceClean = FALSE,
                                       payAccruedOnDefault = payAccruedOnDefault,
@@ -405,7 +408,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                        calendar = calendar,
                                        upfront = upfront,
                                        ptsUpfront = NULL,
-                                       couponRate = couponRate,
+                                       coupon = coupon,
                                        recoveryRate = recoveryRate,
                                        payAccruedAtStart = FALSE,
                                        notional = notional,
@@ -436,7 +439,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                                         badDayConvCDS,
                                         calendar,
                                         cds@parSpread,
-                                        couponRate,
+                                        coupon,
                                         recoveryRate,
                                         isPriceClean = TRUE,
                                         payAccruedOnDefault,

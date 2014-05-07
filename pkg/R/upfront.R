@@ -52,7 +52,7 @@
 #' contract. Default is "None".
 #' @param parSpread in bps. It is the spread that the deal was
 #' initially struck at.
-#' @param couponRate in bps.
+#' @param coupon in bps.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param isPriceClean refers to the type of upfront calculated. It is
 #' boolean. When TRUE, calculate principal only. When FALSE, calculate
@@ -64,7 +64,7 @@
 #' upf <- calcUpfront(baseDate = "2014-01-13", currency = "USD", TDate
 #' = "2014-01-14", maturity = "5Y", dccCDS = "ACT/360", freqCDS = "Q",
 #' stubCDS = "F", badDayConvCDS = "F", calendar = "None", parSpread =
-#' 32, couponRate = 100, recoveryRate = 0.4, isPriceClean = FALSE,
+#' 32, coupon = 100, recoveryRate = 0.4, isPriceClean = FALSE,
 #' notional = 1e7)
 
 upfront <- function(TDate,
@@ -96,7 +96,7 @@ upfront <- function(TDate,
                     calendar = "None",
                     
                     parSpread,
-                    couponRate,
+                    coupon,
                     recoveryRate = 0.4,
                     isPriceClean = FALSE,
                     payAccruedOnDefault = TRUE,
@@ -163,7 +163,7 @@ upfront <- function(TDate,
           calendar,
           
           parSpread,
-          couponRate,
+          coupon,
           recoveryRate,
           isPriceClean,
           payAccruedOnDefault,

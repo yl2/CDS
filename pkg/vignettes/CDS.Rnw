@@ -430,7 +430,7 @@ cds1 <- CDS(entityName = "IBM",
             RED = "49EB20",
             TDate = "2014-04-15",
             maturity = "5Y",
-            couponRate = 100,
+            coupon = 100,
             parSpread = 50)
 @
 
@@ -444,7 +444,7 @@ digit code of the associated entity/seniority. Each entity also has a
 obligation for CDS trades. A user can input either the six-digit RED
 code or the nine-digit RED pair code. \texttt{TDate} indicates the
 trade date of the CDS contract. \texttt{maturity} is the maturity of
-the contract. \texttt{couponRate} is the fixed coupon of the
+the contract. \texttt{coupon} is the fixed coupon of the
 contract. \texttt{parSpread}, \texttt{ptsUpfront} and \texttt{upfront}
 refer to the par spread (in bps), points upfront (in \%), and upfront
 payment (in dollar amount) of a CDS contract, respectively. One of the
@@ -455,26 +455,39 @@ Here the user has entered the CDS contract which has ``IBM'' as the
 underlying entity with ``49EB20'' as the RED Code. She sets the spread
 at 50 bps and the coupon rate at 100 bps. However, the valuation of a
 CDS contract requires neither the entity name or the RED Code. She
-does not have to know the information to use the package.
+does not have to know the information to use the package. As shown
+below, insofar as she inputs the same \texttt{TDate}, \texttt{coupon},
+\texttt{parSpread}, and \texttt{maturity} information, the valuation
+of the contract will be the same.
 
-Calling \texttt{summary} on the ``CDS'' class object \texttt{cds1}
-provides some essential information on the contract (including trade
-date, maturity date, spread, and coupon rate as specified by the user)
-and some relevant calculations based on the input CDS contract.
+<<>>=
+cds2 <- CDS(TDate = "2014-04-15",
+            maturity = "5Y",
+            coupon = 100,
+            parSpread = 50)
+@ 
+
+Calling \texttt{summary} on a ``CDS'' class object provides some
+essential information on the contract (including trade date, maturity
+date, spread, and coupon rate as specified by the user) and some
+relevant calculations based on the input CDS contract.
 
 <<>>=
 summary(cds1)
+summary(cds2)
 @ 
 
 In the \texttt{summary} output, \texttt{Upfront} shows the cash
 settlement amount (dirty upfront). It is the sum of the principal and
 the accrual. \texttt{Spread DV01}, \texttt{IR DV01}, and \texttt{Rec
   Risk (1 pct)} are the eponymous results mentioned in Section
-\ref{sec:pricing}.
+\ref{sec:pricing}. Moreover, \texttt{summary(cds1)} and
+\texttt{summary(cds2)} give the same output besides
+\texttt{entityName} and \texttt{RED}. 
 
 <<>>=
-cds1.CS10 <- CS10(cds1)
-cds1.CS10
+cds2.CS10 <- CS10(cds2)
+cds2.CS10
 @ 
 
 \texttt{CS10} is a method which calculates the change in value of the
@@ -483,12 +496,12 @@ CDS contract when the spread of the contract increases by
 calling the \texttt{CDS} function.
 
 <<>>=
-cds2 <- update(cds1, spread = 55)
+cds3 <- update(cds1, spread = 55)
 @ 
 
 The \texttt{update} method updates a ``CDS'' class object with a new
 spread, points upfront or upfront by specifiying the relevant
-input. \texttt{cds2} is a new ``CDS'' class object with a spread of 52
+input. \texttt{cds3} is a new ``CDS'' class object with a spread of 52
 bps; all other specifications of the contract are the same as those in
 \texttt{cds1} since it is updated from \texttt{cds1}. One can also
 specify \texttt{upfront} (in dollar amount) or \texttt{ptsUpfront} (in
@@ -499,7 +512,7 @@ of the ``CDS'' class object in the current \textbf{R} Session and
 obtain a full description of the CDS contract.
 
 <<>>=
-cds2
+cds3
 @ 
 
 There are three parts of the output. They are the basic contract

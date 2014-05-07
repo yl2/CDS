@@ -31,33 +31,58 @@ setMethod("summary",
                   sprintf(paste("   End Date:", object@endDate,
                                 sep = paste0(rep(" ", 40-.checkLength("   End Date:") -
                                     .checkLength(object@endDate)), collapse = ""))), "\n",
-                  sprintf(paste("Spread:", round(object@parSpread, 4),
+                  sprintf(paste("Spread:",
+                                format(round(object@parSpread, 4),big.mark = ",",
+                                       scientific=F),
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Spread:") -
-                                    .checkLength(round(object@parSpread, 4))), collapse = ""))),
-                  sprintf(paste("   Coupon Rate:", object@couponRate,
-                                sep = paste0(rep(" ", 40-.checkLength("   Coupon Rate:") -
-                                    .checkLength(object@couponRate)),
+                                    .checkLength(
+                                        format(round(object@parSpread, 4), big.mark=",",
+                                               scientific=F))),
+                                    collapse = ""))),
+                  sprintf(paste("   Coupon:",
+                                format(object@coupon, big.mark = ",",
+                                       scientific=F),
+                                sep = paste0(rep(" ", 40-.checkLength("   Coupon:") -
+                                    .checkLength(format(object@coupon, big.mark=",",
+                                                        scientific=F))),
                                     collapse = ""))), "\n",
                   
-                  sprintf(paste("Upfront:", round(object@upfront, 2),
+                  sprintf(paste("Upfront:",
+                                format(round(object@upfront, 0),big.mark=",",
+                                       scientific =F ),
                                 sep = paste0(rep(" ",
                                     40-.checkLength("Upfront:") -
-                                    .checkLength(round(object@upfront, 2))),
+                                    .checkLength(
+                                        format(round(object@upfront, 0),
+                                               big.mark=",", scientific=F))),
                                     collapse = ""))),
-                  sprintf(paste("   Spread DV01:", round(object@spreadDV01, 2),
+                  sprintf(paste("   Spread DV01:",
+                                format(round(object@spreadDV01, 0), big.mark = ",",
+                                       scientific=F),
                                 sep = paste0(rep(" ", 40-.checkLength("   Spread DV01:") -
-                                    .checkLength(round(object@spreadDV01, 2))),
+                                    .checkLength(
+                                        format(round(object@spreadDV01, 0), big.mark=",",
+                                               scientific=F))),
                                     collapse = ""))), "\n",
 
-                  sprintf(paste("IR DV01:", round(object@IRDV01, 2),
+                  sprintf(paste("IR DV01:",
+                                format(round(object@IRDV01, 2),big.mark=",",
+                                       scientific=F),
                                 sep = paste0(rep(" ",
                                     40-.checkLength("IR DV01:") -
-                                    .checkLength(round(object@IRDV01, 2))),
+                                    .checkLength(
+                                        format(round(object@IRDV01, 2), big.mark=",",
+                                               scientific=F))),
                                     collapse = ""))),
-                  sprintf(paste("   Rec Risk (1 pct):", round(object@RecRisk01, 2),
+                  sprintf(paste("   Rec Risk (1 pct):",
+                                format(round(object@RecRisk01, 2),big.mark=",",
+                                       scientific=F),
                                 sep = paste0(rep(" ", 40-.checkLength("   Rec Risk (1 pct):") -
-                                    .checkLength(round(object@RecRisk01, 2))),
+                                    .checkLength(
+                                        format(round(object@RecRisk01, 2),
+                                               big.mark=",",
+                                               scientific=F))),
                                     collapse = ""))), "\n",
                   sep = ""
                   )

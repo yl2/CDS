@@ -53,7 +53,7 @@
 #' contract. Default is "None".
 #' @param parSpread in bps. It is the spread that the deal was
 #' initially struck at.
-#' @param couponRate in bps.
+#' @param coupon in bps.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param isPriceClean refers to the type of upfront calculated. It is
 #' boolean. When TRUE, calculate principal only. When FALSE, calculate
@@ -94,7 +94,7 @@ spreadDV01 <- function(object = NULL,
                        calendar = "None",
                        
                        parSpread,
-                       couponRate,
+                       coupon,
                        recoveryRate = 0.4,
                        isPriceClean = FALSE,
                        payAccruedOnDefault = TRUE,                         
@@ -162,7 +162,7 @@ spreadDV01 <- function(object = NULL,
                           calendar,
                           
                           parSpread,
-                          couponRate,
+                          coupon,
                           recoveryRate,
                           isPriceClean,
                           payAccruedOnDefault,
@@ -198,7 +198,7 @@ spreadDV01 <- function(object = NULL,
                          calendar,
                          
                          parSpread + 1,
-                         couponRate,
+                         coupon,
                          recoveryRate,
                          isPriceClean,
                          payAccruedOnDefault,
@@ -250,7 +250,7 @@ setMethod("spreadDV01",
                                    object@calendar,
                                    
                                    object@parSpread + 1,
-                                   object@couponRate,
+                                   object@coupon,
                                    object@recoveryRate,
                                    isPriceClean = FALSE,
                                    object@payAccruedOnDefault,

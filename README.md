@@ -13,7 +13,6 @@ yang.lu2014 at gmail.com
 CDS To-Do's
 --------------------------------------------------------
 - Vignette
-- Test cases for getRates.R; there might be a bug regarding obtaining rates for the current day - need to check.
 
 Existing R function files
 - CDS.R constructs a primitive CDS class object.
