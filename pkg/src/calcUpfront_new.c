@@ -59,8 +59,8 @@ SEXP calcUpfrontTest
  SEXP parSpread,
  SEXP couponRate,
  SEXP recoveryRate,
- SEXP isPriceClean,
- SEXP payAccruedOnDefault,
+ SEXP isPriceClean_input,
+ SEXP payAccruedOnDefault_input,
  SEXP notional) 
 
 {
@@ -69,6 +69,7 @@ SEXP calcUpfrontTest
   // my vars
   int n;
   TDate baseDate, today, benchmarkDate, startDate, endDate, stepinDate,valueDate;
+  int isPriceClean, payAccruedOnDefault;
   SEXP upfrontPayment;
   TCurve *discCurve = NULL;
   char* pt_types;
@@ -85,7 +86,7 @@ SEXP calcUpfrontTest
   char* pt_badDayConvCDS;
 
   // new
-  const char *pt_badDayConvZC;
+  char *pt_badDayConvZC;
   double parSpread_for_upf, couponRate_for_upf, recoveryRate_for_upf, notional_for_upf;
   
   // function to consolidate R input to TDate
@@ -157,15 +158,19 @@ SEXP calcUpfrontTest
   parSpread_for_upf = *REAL(parSpread);
   couponRate_for_upf = *REAL(couponRate);
   recoveryRate_for_upf = *REAL(recoveryRate);
-  isPriceClean = *INTEGER(isPriceClean);
-  payAccruedOnDefault = *INTEGER(payAccruedOnDefault);
+  isPriceClean = *INTEGER(isPriceClean_input);
+  payAccruedOnDefault = *INTEGER(payAccruedOnDefault_input);
   notional_for_upf = *REAL(notional);
 
-  badDayConvZC = AS_CHARACTER(badDayConvZC);
-  pt_badDayConvZC = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
+  badDayConvZC = coerceVector(badDayConvZC, STRSXP);
+  pt_badDayConvZC = (char *) CHAR(STRING_ELT(badDayConvZC,0));
+  /* badDayConvZC = AS_CHARACTER(badDayConvZC); */
+  /* pt_badDayConvZC = CHAR(asChar(STRING_ELT(badDayConvZC, 0))); */
 
-  badDayConvCDS = AS_CHARACTER(badDayConvCDS);
-  pt_badDayConvCDS = CHAR(asChar(STRING_ELT(badDayConvCDS, 0)));
+  badDayConvCDS = coerceVector(badDayConvCDS, STRSXP);
+  pt_badDayConvCDS = (char *) CHAR(STRING_ELT(badDayConvCDS,0));
+  /* badDayConvCDS = AS_CHARACTER(badDayConvCDS); */
+  /* pt_badDayConvCDS = CHAR(asChar(STRING_ELT(badDayConvCDS, 0))); */
 
   /* TDateInterval ivl; */
   TDateInterval fixedSwapIvl_curve;
@@ -207,6 +212,9 @@ SEXP calcUpfrontTest
     goto done;
   
   expiries = coerceVector(expiries, VECSXP);
+  /* expiries = coerceVector(expiries, STRSXP); */
+  /* pt_expiries = (char *) CHAR(STRING_ELT(expiries,0)); */
+
   TDate *dates_main = NULL;
   dates_main = NEW_ARRAY1(TDate, n);
   int i;
@@ -214,7 +222,9 @@ SEXP calcUpfrontTest
     {
       TDateInterval tmp;
       //  if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
-	 if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)
+	 /* if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS) */
+      if (JpmcdsStringToDateInterval(strdup(CHAR(asChar(VECTOR_ELT(expiries, i)))), routine_zc_main, &tmp) != SUCCESS)
+
 	{
             JpmcdsErrMsg ("%s: invalid interval for element[%d].\n", routine_zc_main, i);
             goto done;
