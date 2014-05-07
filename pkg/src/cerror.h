@@ -32,8 +32,15 @@ typedef TBoolean (JpmcdsErrCallBackFunc)(char *string, void *callBackData);
 ** file.
 ***************************************************************************
 */
+/* void JpmcdsErrMsg( */
+/*     char *format,    /\* (I) printf style format string. *\/ */
+/*     ...)             /\* (I) Variable arguments. *\/ */
+/* #if __GNUC__ > 1 */
+/* __attribute__ ((format(printf, 1, 2))) */
+/* #endif */
+/* ; */
 void JpmcdsErrMsg(
-    char *format,    /* (I) printf style format string. */
+    const char *format,    /* (I) printf style format string. */
     ...)             /* (I) Variable arguments. */
 #if __GNUC__ > 1
 __attribute__ ((format(printf, 1, 2)))
@@ -46,8 +53,12 @@ __attribute__ ((format(printf, 1, 2)))
 ** Same as JpmcdsErrMsg but using va_list for its arguments instead of ...
 ***************************************************************************
 */
+/* void JpmcdsErrMsgV( */
+/*     char    *format,  /\* (I) printf style format string *\/ */
+/*     va_list args      /\* (I) Variable arguments *\/ */
+/* ); */
 void JpmcdsErrMsgV(
-    char    *format,  /* (I) printf style format string */
+    const char    *format,  /* (I) printf style format string */
     va_list args      /* (I) Variable arguments */
 );
 

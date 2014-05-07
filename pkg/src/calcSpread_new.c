@@ -277,7 +277,9 @@ SEXP calcCdsoneSpread
       TDateInterval tmp;
       
       // if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
-      if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)	{
+      /* if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)	{ */
+      if (JpmcdsStringToDateInterval(strdup(CHAR(asChar(VECTOR_ELT(expiries, i)))), routine_zc_main, &tmp) != SUCCESS)
+	{
 	JpmcdsErrMsg ("%s: invalid interval for element[%d].\n", routine_zc_main, i);
 	goto done;
       }

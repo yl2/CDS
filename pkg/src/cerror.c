@@ -65,7 +65,8 @@ static JpmcdsErrCallBackFunc *errorUserFunc = NULL;
 static TBoolean          errorSendTimeStamp = TRUE;
 static void             *errorCallBackData;
 
-static int JpmcdsWriteToLog(TBoolean formatted, char *format, va_list parminfo);
+/* static int JpmcdsWriteToLog(TBoolean formatted, char *format, va_list parminfo); */
+static int JpmcdsWriteToLog(TBoolean formatted, const char *format, va_list parminfo);
 static void JpmcdsAddToRecord(char *buffer);
 
 
@@ -224,7 +225,16 @@ EXPORT char* JpmcdsErrMsgGetFileName(void)
 ** Writes an error message with a variable number of arguments to a log file.  
 ***************************************************************************
 */
-void JpmcdsErrMsg(char *format,  ...)
+/* void JpmcdsErrMsg(char *format,  ...) */
+/* { */
+/*     va_list parminfo; */
+/*     va_start(parminfo, format); */
+/*     JpmcdsErrMsgV (format, parminfo); */
+/*     va_end(parminfo); */
+/*     return; */
+/* } */
+
+void JpmcdsErrMsg(const char *format,  ...)
 {
     va_list parminfo;
     va_start(parminfo, format);
@@ -232,6 +242,7 @@ void JpmcdsErrMsg(char *format,  ...)
     va_end(parminfo);
     return;
 }
+
 
 
 /*
@@ -242,7 +253,9 @@ void JpmcdsErrMsg(char *format,  ...)
 ** Writes an error message with a variable number of arguments to a log file
 ***************************************************************************
 */
-void JpmcdsErrMsgV(char *format,  va_list parminfo)
+/* void JpmcdsErrMsgV(char *format,  va_list parminfo) */
+void JpmcdsErrMsgV(const char *format,  va_list parminfo)
+
 {
     TBoolean localpWriteMessage;     /* Local copy of pWriteMessage */
 
@@ -530,7 +543,8 @@ static int TimeStampFill(time_t aStamp_t)
 ** Writes an error message to the log or to the user function.
 ***************************************************************************
 */
-static int JpmcdsWriteToLog(TBoolean formatted, char *format, va_list parminfo)
+/* static int JpmcdsWriteToLog(TBoolean formatted, char *format, va_list parminfo) */
+static int JpmcdsWriteToLog(TBoolean formatted, const char *format, va_list parminfo)
 {
     char buffer[JPMCDS_ERR_MSG_BUFFER];
     char *bufp = buffer; 
@@ -541,7 +555,8 @@ static int JpmcdsWriteToLog(TBoolean formatted, char *format, va_list parminfo)
     }
     else
     {
-        bufp = format;
+        /* bufp = format; */
+      bufp = strdup(format);
     }
 
     if (record.on == TRUE)

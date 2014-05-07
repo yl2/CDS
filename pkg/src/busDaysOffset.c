@@ -16,7 +16,7 @@
 
 SEXP busDaysOffset
 (SEXP fromDate_input,
- SEXP offset,
+ SEXP offset_input,
  SEXP holidays)
 {
   TDate fromDate;
@@ -24,7 +24,7 @@ SEXP busDaysOffset
   SEXP resultDate;
   TDate* toDate_TDate;
   TMonthDayYear* toDate_MDY;
-  int i;
+  int i, offset;
 
   toDate_TDate = malloc(sizeof(long));
   toDate_MDY = malloc(sizeof(TMonthDayYear));
@@ -34,7 +34,7 @@ SEXP busDaysOffset
 			(long)INTEGER(fromDate_input)[1], 
 			(long)INTEGER(fromDate_input)[2]);
 
-  offset = *INTEGER(offset);
+  offset = *INTEGER(offset_input);
 
   
   holidays = coerceVector(holidays, STRSXP);
