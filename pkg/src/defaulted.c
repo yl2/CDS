@@ -12,6 +12,7 @@
 #include "macros.h"
 #include "cds.h"
 #include "cerror.h"
+#include "ldate.h"
 
 EXPORT int JpmcdsDefaultAccrual(
         TDate           tradeDate, 

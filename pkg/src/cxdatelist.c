@@ -430,7 +430,8 @@ TDateList* JpmcdsDateListMakeRegular
         }
         // assert (totalDates > 0);
         // assert (date >= endDate);
-        if (date == endDate || totalDates == 1 || stubType->stubAtEnd && !stubType->longStub)
+        /* if (date == endDate || totalDates == 1 || stubType->stubAtEnd && !stubType->longStub) */
+        if (date == endDate || totalDates == 1 || (stubType->stubAtEnd && !stubType->longStub))
         {
             /* don't change existing tmpDates[] but need to add endDate */
             ++i;
