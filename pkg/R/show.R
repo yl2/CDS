@@ -182,8 +182,8 @@ setMethod("show",
 
               ratesDf <- data.frame(Term = object@expiries, Rate = object@rates)
               rowN <- ceiling(dim(ratesDf)[1]/2)
-              print(as.data.frame(cbind.fill(ratesDf[1:rowN,],
-                                             ratesDf[(rowN+1):dim(ratesDf)[1],])),
+              print(as.data.frame(.cbind.fill(ratesDf[1:rowN,],
+                                              ratesDf[(rowN+1):dim(ratesDf)[1],])),
                     row.names = F, quote = F, na.print = "")
               
               cat("\n")

@@ -105,7 +105,7 @@ mondf <- function(d1, d2) { monnb(d2) - monnb(d1) }
 
 
 
-cbind.fill<-function(...){
+.cbind.fill<-function(...){
     nm <- list(...) 
     nm <- lapply(nm, as.matrix)
     n <- max(sapply(nm, nrow)) 
