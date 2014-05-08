@@ -3,7 +3,7 @@
 #' Calculate the change in value of the contract when there is a 10%
 #' on the spread of the contract.
 #' 
-#' @param object is the \code{CDS} class object.
+#' @param object is a \code{CDS} class object.
 #' @return a numeric indicating the CS10 of the contract.
 
 CS10 <- function(object){

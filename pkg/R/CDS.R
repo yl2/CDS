@@ -1,27 +1,22 @@
-#' Build a CDS class object to include relevant info about a CDS contract
+#' Build a \code{CDS} class object given the input about a CDS
+#' contract.
+#' 
+#' @name CDS
 #'
 #' @param contract is the contract type, default SNAC
-#' @param TDate 
 #' @param entityName is the name of the reference entity. Optional.
-#' 
-#' @param notional is the notional amount, default is 1e7.
-#' @param tradeDate is when the trade is executed, denoted as T. Default is today.
-#' @param spread CDS par spread in bps
-#' @param coupon in bps
-#' @param DCC day count convention of the CDS. The default is ACT/360.
-#' @param freq date interval of the CDS contract
-#' @param maturity maturity of the CDS contract
-#' @param payAccruedOnDefault is a partial payment of the premium made to
-#' the protection seller in the event of a default. Default is TRUE.
-#' @param recRate in decimal. Default is 0.4.
-#'
+#' @param RED alphanumeric code assigned to the reference entity. Optional.
+#' @param TDate is when the trade is executed, denoted as T. Default
+#' is \code{Sys.Date}.
+#' @param baseDate is the start date for the IR curve. Default is TDate. 
+#' @param currency in which CDS is denominated. 
 #' @param types is a string indicating the names of the instruments
 #' used for the yield curve. 'M' means money market rate; 'S' is swap
 #' rate.
-#' @param expiries is an array of characters indicating the maturity
-#' of each instrument.
 #' @param rates is an array of numeric values indicating the rate of
 #' each instrument.
+#' @param expiries is an array of characters indicating the maturity
+#' of each instrument.
 #' @param mmDCC is the day count convention of the instruments.
 #' @param fixedSwapFreq is the frequency of the fixed rate of swap
 #' being paid.
@@ -29,7 +24,10 @@
 #' being paid.
 #' @param fixedSwapDCC is the day count convention of the fixed leg.
 #' @param floatSwapDCC is the day count convention of the floating leg.
-#'
+#' @param badDayConvZC is a character indicating how non-business days
+#' are converted.
+#' @param holidays is an input for holiday files to adjust to business
+#' days.
 #' @param valueDate is the date for which the present value of the CDS
 #' is calculated. aka cash-settle date. The default is T + 3.
 #' @param benchmarkDate Accrual begin date.
@@ -41,7 +39,48 @@
 #' and protection ends. Any default after this date does not trigger a
 #' payment.
 #' @param stepinDate default is T + 1.
+#' @param maturity of the CDS contract.
+#' @param dccCDS day count convention of the CDS. Default is ACT/360.
+#' @param freqCDS date interval of the CDS contract.
+#' @param stubCDS is a character indicating the presence of a stub.
+#' @param badDayConvCDS refers to the bay day conversion for the CDS
+#' coupon payments. Default is "F", following.
+#' @param calendar refers to any calendar adjustment for the CDS.
+#' @param parSpread CDS par spread in bps.
+#' @param coupon quoted in bps. It specifies the payment amount from
+#' the protection buyer to the seller on a regular basis.
+#' @param recoveryRate in decimal. Default is 0.4.
+#' @param upfront is quoted in the currency amount. Since a standard
+#' contract is traded with fixed coupons, upfront payment is
+#' introduced to reconcile the difference in contract value due to the
+#' difference between the fixed coupon and the conventional par
+#' spread. There are two types of upfront, dirty and clean. Dirty
+#' upfront, a.k.a. Cash Settlement Amount, refers to the market value
+#' of a CDS contract. Clean upfront is dirty upfront less any accrued
+#' interest payment, and is also called the Principal.
+#' @param ptsUpfront is quoted as a percentage of the notional
+#' amount. They represent the upfront payment excluding the accrual
+#' payment. High Yield (HY) CDS contracts are often quoted in points
+#' upfront. The protection buyer pays the upfront payment if points
+#' upfront are positive, and the buyer is paid by the seller if the
+#' points are negative.
+#' @param isPriceClean refers to the type of upfront calculated. It is
+#' boolean. When \code{TRUE}, calculate principal only. When
+#' \code{FALSE}, calculate principal + accrual.
+#' @param notional is the amount of the underlying asset on which the
+#' payments are based. Default is 1e7, i.e. 10MM.
+#' @param payAccruedOnDefault is a partial payment of the premium made
+#' to the protection seller in the event of a default. Default is
+#' \code{TRUE}.
+#' 
+#' @return a \code{CDS} class object including the input informtion on
+#' the contract as well as the valuation results of the contract.
+#' 
 #' @export
+#' @examples
+#' # Build a simple CDS class object
+#' require(CDS)
+#' cds1 <- CDS(TDate = "2014-05-07", parSpread = 50, coupon = 100) 
 #' 
 
 CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
