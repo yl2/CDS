@@ -1,7 +1,6 @@
 \docType{methods}
-\name{show}
-\alias{show}
-\alias{show-method}
+\name{show,CDS-method}
+\alias{show,CDS-method}
 \title{The show method for CDS class}
 \usage{
 \S4method{show}{CDS}(object)

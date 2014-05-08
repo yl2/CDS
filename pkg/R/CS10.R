@@ -61,6 +61,16 @@ CS10 <- function(object){
 
 }
 
+#' The CS10 method for CDS class
+#' 
+#' @name CS10-method
+#' @title S4 method CS10 
+#' @aliases CS10,CDS-method
+#' @docType methods
+#' @rdname CS10-methods
+#' @param object the input CDS class object
+#' @export
+
 setMethod("CS10",
           signature(object = "CDS"),
           function(object){
