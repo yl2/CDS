@@ -8,10 +8,15 @@
 #' published on T-1 weekday.
 #' @param currency the three-letter currency code. As of now, it works
 #' for USD, EUR, and JPY. The default is USD.
+#' 
 #' @return a list with two data frames. The first data frame contains
 #' the rates based on the ISDA specifications; the second contains all
 #' the dcc and calendar specifications of the curve.
 #'
+#' @export
+#' @examples
+#'
+#' getRates(as.Date("2014-05-07"), currency = "USD")
 #' 
 
 

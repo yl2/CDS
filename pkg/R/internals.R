@@ -1,3 +1,10 @@
+#' Helper function to separate an input date into year, month, and
+#' day.
+#'
+#' @param d is an input date.
+#' @return an array contains year, month, date of the input date
+#' \code{d}.
+#' 
 .separateYMD <- function(d){
     ## valueDate format valueDate = "2008-02-01"
     dateYear <- as.numeric(format(as.Date(d), "%Y"))
@@ -7,8 +14,14 @@
 }
 
 
-## download the rates zip file from a given URL. Unzip and parse the
-## XML
+#' download the rates zip file from a given URL. Unzip and parse the
+#' XML
+#'
+#' @param URL is the link containing the rates.
+#' @param verbose option. Default \code{FALSE}.
+#'
+#' @return a xml file crawled from the \code{URL}.
+#' 
 .downloadRates <- function(URL, verbose = FALSE){ 
     tf <- tempfile()
     td <- tempdir()
@@ -24,7 +37,7 @@
 
 #' get the next business day following 5D bus day convention.
 #'
-#' @param date of Date class.
+#' @param date of \code{Date} class.
 #' @return Date adjusted to the following business day
 
 .adjNextBusDay <- function(date){
@@ -43,8 +56,8 @@
 #' Get the first accrual date. If it's a weekend, adjust to the
 #' following weekday. March/Jun/Sept/Dec 20th
 #'
-#' @param TDate of Date class
-#' @return Date class object
+#' @param TDate of \code{Date} class
+#' @return a \code{Date} class object
 
 .getFirstAccrualDate <- function(TDate){
 
@@ -64,18 +77,28 @@
     return(accrualDate)
 }
 
-
+#' check the length of the input
+#'
+#' @param dat is a string
+#' @return a numeric indicating the length of the input string.
 .checkLength <- function(dat){
     return(nchar(as.character(dat)))
 }
 
 
-## month diff
+#' month difference
+#' @param d date 
 monnb <- function(d) {
     lt <- as.POSIXlt(as.Date(d, origin="1900-01-01"))
     lt$year*12 + lt$mon
 } 
-## compute a month difference as a difference between two monnb's
+
+
+#' compute a month difference as a difference between two monnb's
+#' @param d1 date 1
+#' @param d2 date 2
+#' @return month difference as a difference between two monnb's
+#' 
 mondf <- function(d1, d2) { monnb(d2) - monnb(d1) }
 
 

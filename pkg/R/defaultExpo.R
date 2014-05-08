@@ -2,9 +2,10 @@
 #' formula: Default Exposure: (1-Recovery Rate)*Notional - Principal
 #' 
 #' @param recoveryRate in decimal. Default is 0.4
-#' @param notional is the notional amount of the CDS contract. Default is 10MM.
+#' @param notional is the notional amount of the CDS contract. Default
+#' is 10MM.
 #' @param principal is the principal from the CDS contract.
-#' @return a number indicating the amount in the event of a default
+#' @return a numeric indicating the amount in the event of a default
 #' the following day.
 #' 
 

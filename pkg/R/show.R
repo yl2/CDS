@@ -4,8 +4,9 @@
 #' @aliases show,show-method
 #' @docType methods
 #' @rdname show-methods
-#' @param object the input CDS class object
-#' 
+#' @param object the input \code{CDS} class object
+#' @export
+
 
 setMethod("show",
           signature(object = "CDS"),

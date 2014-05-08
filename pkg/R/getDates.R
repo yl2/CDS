@@ -1,12 +1,16 @@
 #' The function gets relevant coupon dates for a CDS contract.
 #' 
 #' @param TDate the trade date
-#' @param maturity maturity of the CDS contract. default "5Y"
+#' @param maturity maturity of the CDS contract. Default "5Y".
 #' @return a date frame with step-in date (T+1), value date (T+3
 #' business days), start date (accrual begin date), end date
 #' (maturity), backstop date (T-60 day look back from which
 #' 'protection' is effective), pen coupon date (second to last coupon
 #' date)
+#' @export
+#' @examples
+#' getDates("2014-05-07", maturity = "5Y")
+#' 
 
 getDates <- function(TDate, maturity = "5Y"){
 

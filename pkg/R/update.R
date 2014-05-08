@@ -1,14 +1,21 @@
 #' update spread or ptsUpfront or upfront based on a new CDS class object.
 #'
-#' @param object is a CDS class object.
+#' @param object is a \code{CDS} class object.
 #' @param upfront is the new upfront payment amount.
 #' @param ptsUpfront is the new pts upfront. It's in decimal.
 #' @param spread is the new spread in bps.
-#' @return a CDS class object
+#' @return a \code{CDS} class object
 #'
+#' @export
+#'
+#' @examples
+#'
+#' ## build a CDS class object
+#' cds1 <- CDS(TDate = "2014-05-07", parSpread = 50, coupon = 100)
+#'
+#' ## update
+#' update(cds1, spread = 55)
 #' 
-
-
 
 setMethod("update",
           signature(object = "CDS"),

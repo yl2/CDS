@@ -1,65 +1,60 @@
 #' Calculate the IR DV01 from conventional spread
 #'
 #' @param object is the \code{CDS} class object.
-#' @param TDate is the trade date.
-#' @param baseDate is the start date for the IR curve. Default is TDate. baseDate <-
-#' "2011-03-04"
-#' @param currency is the currency of the CDS. Default is USD.
-#' @param types is the types of instruments
-#' @param rates is the array of rates of the instruments used to build
-#' the IR curve
+#' @param TDate is when the trade is executed, denoted as T. Default
+#' is \code{Sys.Date}.
+#' @param baseDate is the start date for the IR curve. Default is TDate. 
+#' @param currency in which CDS is denominated. 
+#' @param types is a string indicating the names of the instruments
+#' used for the yield curve. 'M' means money market rate; 'S' is swap
+#' rate.
+#' @param rates is an array of numeric values indicating the rate of
+#' each instrument.
 #' @param expiries is an array of characters indicating the maturity
-#' of each instrument. The number of characters in \code{types}, the
-#' number of elements in \code{rates}, and the number of elements in
-#' \code{expiries} must be the same.
-#' @param mmDCC a character detailing the DCC of the MM instruments
-#' for the IR curve
+#' of each instrument.
+#' @param mmDCC is the day count convention of the instruments.
 #' @param fixedSwapFreq is the frequency of the fixed rate of swap
 #' being paid.
 #' @param floatSwapFreq is the frequency of the floating rate of swap
 #' being paid.
 #' @param fixedSwapDCC is the day count convention of the fixed leg.
 #' @param floatSwapDCC is the day count convention of the floating leg.
-#' @param badDayConvZC is a character indicating how bad days are
-#' adjusted. 'M' stands for 'modified following'; 'F' stands for
-#' 'following'.
-#' @param holidays is an input for holiday files to adjust to in day
-#' counting. Default is 'None'.
+#' @param badDayConvZC is a character indicating how non-business days
+#' are converted.
+#' @param holidays is an input for holiday files to adjust to business
+#' days.
 #' @param valueDate is the date for which the present value of the CDS
-#' is calculated. aka cash-settle date. The default is T + 3 bus days.
+#' is calculated. aka cash-settle date. The default is T + 3.
 #' @param benchmarkDate Accrual begin date.
 #' @param startDate is when the CDS nomially starts in terms of
 #' premium payments, i.e. the number of days in the first period (and
 #' thus the amount of the first premium payment) is counted from this
-#' date. aka accrual begin date. 
+#' date. aka accrual begin date.
 #' @param endDate aka maturity date. This is when the contract expires
 #' and protection ends. Any default after this date does not trigger a
 #' payment.
-#' @param stepinDate aka protection effective date. It's when
-#' protection and risk starts in terms of the model. Note the legal
-#' effective date is T-60 or T-90 for standard contract. The default
-#' is T + 1 bus day.
-#' @param maturity is the maturity of the CDS contract. Default is
-#' "5Y". It has to be in the format of "NM" or "NY" where "N" is a
-#' digit, "M" refers to months, and "Y" refers to years.
-#' @param dccCDS is the dcc of the CDS contract. Default is "ACT/360".
-#' @param freqCDS is the frequency of the coupon payments being
-#' made. Default is "1Q", quarterly payments.
-#' @param stubCDS is a character indicating the presence of a stub
-#' payment. Default is F.
+#' @param stepinDate default is T + 1.
+#' @param maturity of the CDS contract.
+#' @param dccCDS day count convention of the CDS. Default is ACT/360.
+#' @param freqCDS date interval of the CDS contract.
+#' @param stubCDS is a character indicating the presence of a stub.
 #' @param badDayConvCDS refers to the bay day conversion for the CDS
 #' coupon payments. Default is "F", following.
-#' @param calendar refers to any calendar adjustment for the CDS
-#' contract. Default is "None".
-#' @param parSpread in bps. It is the spread that the deal was
-#' initially struck at.
-#' @param coupon in bps.
+#' @param calendar refers to any calendar adjustment for the CDS.
+#' @param parSpread CDS par spread in bps.
+#' @param coupon quoted in bps. It specifies the payment amount from
+#' the protection buyer to the seller on a regular basis.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param isPriceClean refers to the type of upfront calculated. It is
-#' boolean. When TRUE, calculate principal only. When FALSE, calculate
-#' principal + accrual.
-#' @param notional is the notional amount. Default 1e7.
-#' @return a number indicating the change in upfront when every point
+#' boolean. When \code{TRUE}, calculate principal only. When
+#' \code{FALSE}, calculate principal + accrual.
+#' @param payAccruedOnDefault is a partial payment of the premium made
+#' to the protection seller in the event of a default. Default is
+#' \code{TRUE}.
+#' @param notional is the amount of the underlying asset on which the
+#' payments are based. Default is 1e7, i.e. 10MM.
+#' 
+#' @return a numeric indicating the change in upfront when every point
 #' on the IR curve goes up by 1 bp.
 #' 
 
@@ -207,6 +202,18 @@ IRDV01 <- function(object = NULL,
     return (upfront.new - upfront.orig)
     
 }
+
+
+
+#' The IRDV01 method for CDS class. Calculate the IRDV01 from
+#' conventional spread
+#' 
+#' @name IRDV01-method
+#' @aliases IRDV01,CDS-method
+#' @docType methods
+#' @rdname IRDV01-methods
+#' @param object the input CDS class object
+#' @export
 
 setMethod("IRDV01",
           signature(object = "CDS"),
