@@ -9,7 +9,7 @@
 #' date)
 #' @export
 #' @examples
-#' getDates("2014-05-07", maturity = "5Y")
+#' getDates(as.Date("2014-05-07"), maturity = "5Y")
 #' 
 
 getDates <- function(TDate, maturity = "5Y"){

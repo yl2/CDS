@@ -4,6 +4,8 @@
 #' @param upfront is the new upfront payment amount.
 #' @param ptsUpfront is the new pts upfront. It's in decimal.
 #' @param spread is the new spread in bps.
+#' @param isPriceClean specifies whether it is a dirty or clean
+#' upfront.
 #' @return a \code{CDS} class object
 #'
 #' @export

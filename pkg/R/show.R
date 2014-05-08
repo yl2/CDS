@@ -1,7 +1,7 @@
 #' The show method for CDS class
 #' 
 #' @name show
-#' @aliases show,show-method
+#' @aliases show-method
 #' @docType methods
 #' @rdname show-methods
 #' @param object the input \code{CDS} class object
