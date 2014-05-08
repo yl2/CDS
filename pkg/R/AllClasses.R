@@ -5,7 +5,8 @@
 #' @rdname Date
 #' @export
 #' 
-setOldClass("Date", S4Class = "Date")
+
+setOldClass(c("Date"))
 
 
 #' Class definition for the \code{CDS-Class}
