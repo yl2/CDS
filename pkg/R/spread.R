@@ -109,7 +109,7 @@ spread <- function(TDate,
     ratesDate <- baseDate
     if (is.null(ptsUpfront)) {
         ptsUpfront <- upfront / notional
-        payAccruedAtStart <- FALSE
+#        payAccruedAtStart <- FALSE
     } else {
         payAccruedAtStart <- TRUE
     }

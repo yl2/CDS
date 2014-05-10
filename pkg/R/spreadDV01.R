@@ -255,7 +255,7 @@ setMethod("spreadDV01",
                                    object@badDayConvCDS,
                                    object@calendar,
                                    
-                                   object@parSpread + 1,
+                                   object@parSpread + 1.0,
                                    object@coupon,
                                    object@recoveryRate,
                                    isPriceClean = FALSE,
