@@ -131,7 +131,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
         stop("Please input spread, upfront or pts upfront")
 
     if (is.null(maturity)) {
-        md <- mondf(TDate, endDate)
+        md <- .mondf(TDate, endDate)
         if (md < 12){
             maturity <- paste(md, "M", sep = "", collapse = "")
         } else {

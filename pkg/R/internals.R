@@ -57,7 +57,7 @@
 #'
 #'@param object object of class CDS
 #'@return returns data frame with relevant data from the CDS function
-CDSdf <- function(object){
+.CDSdf <- function(object){
   CDSdf <- data.frame(TDate = object@TDate,
                       maturity = object@maturity,
                       contract = object@contract,
@@ -119,7 +119,7 @@ CDSdf <- function(object){
 #' @param x input into the function
 #' @return true if it is a character 
 #' 
-coercetoChar <- function(x) {
+.coercetoChar <- function(x) {
   if(class(x)!="character"){
     return(as.character(x))
   }
@@ -131,7 +131,7 @@ coercetoChar <- function(x) {
 
 #' month difference
 #' @param d date 
-monnb <- function(d) {
+.monnb <- function(d) {
     lt <- as.POSIXlt(as.Date(d, origin="1900-01-01"))
     lt$year*12 + lt$mon
 } 
@@ -142,7 +142,7 @@ monnb <- function(d) {
 #' @param d2 date 2
 #' @return month difference as a difference between two monnb's
 #' 
-mondf <- function(d1, d2) { monnb(d2) - monnb(d1) }
+.mondf <- function(d1, d2) { .monnb(d2) - .monnb(d1) }
 
 
 
