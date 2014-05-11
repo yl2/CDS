@@ -30,6 +30,6 @@ impliedRecoveryRate <- function(data, col.spread, col.pd, col.id, col.endDate, c
   
   impRecoveryRate <- c(100+((spread*time/1e2)*(1/log(1-pd))))
   
-  ID <- levels(data[, col.id])
+  ID <- data[, col.id]
   return(cbind("CDS ID" = ID, "IMPLED RECOVERY RATE" = impRecoveryRate))
 }
