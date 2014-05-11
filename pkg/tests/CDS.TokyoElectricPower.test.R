@@ -35,4 +35,4 @@ result1 <- CDS(TDate = "2014-04-15",
                recoveryRate = 0.35,
                isPriceClean = FALSE,
                notional = 1e7)
-stopifnot(all.equal(truth1, CDSdf(result1)))
+stopifnot(all.equal(truth1, .CDSdf(result1)))
