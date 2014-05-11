@@ -57,7 +57,7 @@
 #'
 #'@param object object of class CDS
 #'@return returns data frame with relevant data from the CDS function
-.CDSdf <- function(object){
+CDSdf <- function(object){
   CDSdf <- data.frame(TDate = object@TDate,
                       maturity = object@maturity,
                       contract = object@contract,
