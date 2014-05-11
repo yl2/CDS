@@ -89,7 +89,7 @@ recRisk01 <- function(object = NULL,
                       calendar = "None",
 
                       parSpread,
-                      coupon,
+                      coupon=100,
                       recoveryRate = 0.4,
                       isPriceClean = FALSE,
                       payAccruedOnDefault = TRUE,

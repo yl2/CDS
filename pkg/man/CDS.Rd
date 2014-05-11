@@ -11,7 +11,7 @@ CDS(contract = "SNAC", entityName = NULL, RED = NULL,
   valueDate = NULL, benchmarkDate = NULL, startDate = NULL,
   endDate = NULL, stepinDate = NULL, maturity = "5Y",
   dccCDS = "ACT/360", freqCDS = "Q", stubCDS = "F", badDayConvCDS = "F",
-  calendar = "None", parSpread = NULL, coupon, recoveryRate = 0.4,
+  calendar = "None", parSpread = NULL, coupon = 100, recoveryRate = 0.4,
   upfront = NULL, ptsUpfront = NULL, isPriceClean = FALSE,
   notional = 1e+07, payAccruedOnDefault = TRUE)
 }

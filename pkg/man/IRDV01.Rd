@@ -9,7 +9,7 @@ IRDV01(object = NULL, TDate, baseDate = TDate, currency = "USD",
   valueDate = NULL, benchmarkDate = NULL, startDate = NULL,
   endDate = NULL, stepinDate = NULL, maturity = "5Y",
   dccCDS = "ACT/360", freqCDS = "1Q", stubCDS = "F",
-  badDayConvCDS = "F", calendar = "None", parSpread, coupon,
+  badDayConvCDS = "F", calendar = "None", parSpread, coupon = 100,
   recoveryRate = 0.4, isPriceClean = FALSE, payAccruedOnDefault = TRUE,
   notional = 1e+07)
 }

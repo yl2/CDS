@@ -97,7 +97,7 @@ spread <- function(TDate,
                    
                    upfront = NULL,
                    ptsUpfront = NULL,
-                   coupon, 
+                   coupon=100, 
                    recoveryRate = 0.4,
                    payAccruedAtStart = FALSE,
                    notional = 1e7,

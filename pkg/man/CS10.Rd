@@ -12,7 +12,7 @@ a numeric indicating the CS10 of the contract.
 }
 \description{
 Calculate the change in value of the contract when there is
-a 10\% on the spread of the contract.
+a 10% on the spread of the contract.
 }
 \examples{
 # construct a CDS class object

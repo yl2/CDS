@@ -9,7 +9,7 @@ spread(TDate, baseDate = TDate, currency = "USD", types = NULL,
   valueDate = NULL, benchmarkDate = NULL, startDate = NULL,
   endDate = NULL, stepinDate = NULL, maturity = "5Y",
   dccCDS = "ACT/360", freqCDS = "Q", stubCDS = "F", badDayConvCDS = "F",
-  calendar = "None", upfront = NULL, ptsUpfront = NULL, coupon,
+  calendar = "None", upfront = NULL, ptsUpfront = NULL, coupon = 100,
   recoveryRate = 0.4, payAccruedAtStart = FALSE, notional = 1e+07,
   payAccruedOnDefault = TRUE)
 }

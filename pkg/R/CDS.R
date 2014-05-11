@@ -118,7 +118,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 calendar = "None",
 
                 parSpread = NULL,
-                coupon,
+                coupon=100,
                 recoveryRate = 0.4,
                 upfront = NULL,
                 ptsUpfront = NULL,
