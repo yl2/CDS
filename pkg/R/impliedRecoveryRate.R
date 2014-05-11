@@ -1,10 +1,11 @@
-#' Function that uses the ISDA model to calculate the implied recovery rate 
-#' for cases in which we have a spread and a probability of default (pd). 
-#' This could take a dataframe of inputs and return a vector of the same 
-#' length. If we have a data frame like: id,spread,pd which we pass into a 
-#' function, this then returns a vector of implied default rates. Typical 
-#' size for this dataframe is 500 rows.
+#' A function that calculates the implied recovery rate.
 #' 
+#' Function that uses the ISDA model to calculate the implied recovery
+#' rate for cases in which we have a spread and a probability of
+#' default (pd).  This takes a data frame of inputs and returns a
+#' vector of the same length. If we have a data frame like:
+#' id,spread,pd which we pass into a function, this then returns a
+#' vector of implied default rates. 
 #'
 #' @param data dataframe containing the 1. probability of default (pd) over a 
 #' a certain time period, 2. id and 3. spread

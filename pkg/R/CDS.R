@@ -48,7 +48,8 @@
 #' @param calendar refers to any calendar adjustment for the CDS.
 #' @param parSpread CDS par spread in bps.
 #' @param coupon quoted in bps. It specifies the payment amount from
-#' the protection buyer to the seller on a regular basis.
+#' the protection buyer to the seller on a regular basis. The default
+#' is 100 bps.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param upfront is quoted in the currency amount. Since a standard
 #' contract is traded with fixed coupons, upfront payment is
@@ -118,7 +119,7 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 calendar = "None",
 
                 parSpread = NULL,
-                coupon=100,
+                coupon = 100,
                 recoveryRate = 0.4,
                 upfront = NULL,
                 ptsUpfront = NULL,

@@ -107,7 +107,7 @@ spread(TDate, baseDate = TDate, currency = "USD", types = NULL,
 
   \item{coupon}{quoted in bps. It specifies the payment
   amount from the protection buyer to the seller on a
-  regular basis.}
+  regular basis. The default is 100 bps.}
 
   \item{recoveryRate}{in decimal. Default is 0.4.}
 

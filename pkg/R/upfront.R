@@ -41,7 +41,8 @@
 #' @param calendar refers to any calendar adjustment for the CDS.
 #' @param parSpread CDS par spread in bps.
 #' @param coupon quoted in bps. It specifies the payment amount from
-#' the protection buyer to the seller on a regular basis.
+#' the protection buyer to the seller on a regular basis. The default
+#' is 100 bps.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param isPriceClean refers to the type of upfront calculated. It is
 #' boolean. When \code{TRUE}, calculate principal only. When
@@ -92,7 +93,7 @@ upfront <- function(TDate,
                     calendar = "None",
                     
                     parSpread,
-                    coupon,
+                    coupon = 100,
                     recoveryRate = 0.4,
                     isPriceClean = FALSE,
                     payAccruedOnDefault = TRUE,
