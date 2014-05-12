@@ -129,7 +129,7 @@ following key terms:\footnote{Some of the definitions come from
 \item [Contingent Leg], a.k.a. \textbf{protection leg}, is the payment
   of notional less recovery amount by the protection seller after a
   credit event.
-\item[Par spread] is quoted in basis points per annum. It represents
+\item[Par Spread] is quoted in basis points per annum. It represents
   the fair rate for a contract of 1 year beginning on the trade date.
 \item[Seniority] specifies the order of which the debt will be paid in
   liquidation or bankruptcy. In general, there are four levels of
