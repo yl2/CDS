@@ -1,7 +1,7 @@
 \documentclass[a4paper]{article}
 \linespread{1.5}
 \usepackage[round]{natbib}
-\usepackage{amssymb}
+\usepackage{amssymb, amsmath}
 %% \usepackage{RJournal}
 \usepackage{fancyvrb}
 \usepackage{Sweave, url, tikz}
@@ -76,7 +76,8 @@ terminates. In other words, the protection buyer is short credit by
 selling the credit risk of an underlying loan to the protection
 seller. As shown in Figure \ref{fig:cashFlow}, the buyer pays a stream
 of coupon payments, called the premium leg, in order to receive a
-one-off, contingent payment (protection leg) in the case of a credit
+one-off, contingent payment (notional less recovery amount after a
+credit event), called the protection leg, in the case of a credit
 event.\\
 
 %% add a diagram on buyer and seller of CDS?
@@ -104,31 +105,42 @@ squarednode/.style={rectangle, draw=black!60, fill=none, thick,
 \end{center}
 \end{figure}
 
+In the package \textbf{CDS}, we call the function \texttt{CDS} to construct an object of a class ``CDS''. Below we show an example of a CDS contract.
 
-A CDS contract between two counterparties typically specifies the
-following key terms:\footnote{Some of the definitions come from
-  \textit{Credit Derivatives Glossary} \citep{glossary},
-  \textit{Standard Corporate CDS Handbook} \citep{barclays},
-  \textit{Credit Derivatives} \citep{bloomberg}, and \textit{The
-    Pricing and Risk Management of Credit Default Swaps, with a Focus
-    on the ISDA Model} \citep{openGamma}.}
+<<echo = F, results = hide>>=
+options(width = 100)
+@ 
+
+<<>>=
+library(CDS)
+cds1 <- CDS(entityName = "IBM",
+            RED = "49EB20",
+            TDate = "2014-04-15",
+            maturity = "5Y",
+            notional = 1e7,
+            coupon = 100,
+            parSpread = 50)
+@
+
+As reflected in the example, a CDS contract between two counterparties
+typically specifies the following key terms:\footnote{Some of the
+  definitions come from \textit{Credit Derivatives Glossary}
+  \citep{glossary}, \textit{Standard Corporate CDS Handbook}
+  \citep{barclays}, \textit{Credit Derivatives} \citep{bloomberg}, and
+  \textit{The Pricing and Risk Management of Credit Default Swaps,
+    with a Focus on the ISDA Model} \citep{openGamma}.}
 \begin{description}
 \item[Reference Entity] refers to the legal entity which is the
   subject of a CDS contract. 
-\item[Notional] is the amount of the underlying asset on which the
-  payments are based.
 \item[Maturity] a.k.a \textbf{tenor}. It refers to the length of a CDS
   contract. Most CDSs are written with 5 years of maturity. The
   protection buyer continues to make payments to the protection seller
   till maturity of the contract or the occurrence of a credit event.
+\item[Notional] is the amount of the underlying asset on which the
+  payments are based.
 \item[Coupon] is often quoted in basis points. It specifies the
   payment amount from the protection buyer to the seller on a regular
   basis.
-\item [Premium Leg] refers to the cashflows of the fixed payments made
-  by the protection buyer.
-\item [Contingent Leg], a.k.a. \textbf{protection leg}, is the payment
-  of notional less recovery amount by the protection seller after a
-  credit event.
 \item[Par Spread] is quoted in basis points per annum. It represents
   the fair rate for a contract of 1 year beginning on the trade date.
 \item[Seniority] specifies the order of which the debt will be paid in
@@ -167,14 +179,26 @@ standardization rules on the first accrual dates, fixed coupon rates
 (100 bps or 500 bps), and the recovery rate (40 \%).
 
 %% specifications of the ISDA standard CDS contract
+The default calculations and parameters in the \textbf{CDS} package
+follow the Standard Model. The user can call \texttt{summary} on a
+``CDS'' class object to view essential information on the contract
+(including trade date, maturity date, spread, and coupon rate as
+specified by the user) and relevant calculations based on the input
+CDS contract and the ISDA conventions.
 
-This section provides some key specifications of the ISDA Standard
-Model.\footnote{Refer to the \textit{ISDA Standard CDS Converter
-    Specification} for details.} The default calculations and
-parameters in the \textbf{CDS} package follow the Standard
-Model. Additional default settings in the package which are not
-specified by the Standard Model, such as the default notional amount,
-are also listed.
+<<>>=
+cds1 <- CDS(entityName = "IBM",
+            RED = "49EB20",
+            TDate = "2014-04-15",
+            maturity = "5Y",
+            notional = 1e7,
+            coupon = 100,
+            parSpread = 50)
+summary(cds1)
+@
+
+This section provides some key specifications of the ISDA Standard Model. \footnote{Refer to the \textit{ISDA Standard CDS Converter Specification} for details.}
+
 
 \subsection{Standard Model Specifications}
 An ISDA standard CDS contract specifies the following:
@@ -247,7 +271,7 @@ following:\footnote{Please refer to \url{http://bit.ly/1kg5qPw} for
 
 
 The ISDA also standardizes the interest rates used by the Standard
-Model in valuting a CDS contract. There are two types of rates used in
+Model in valuing a CDS contract. There are two types of rates used in
 valuing a USD denominated CDS contract - cash rates and swap
 rates. Cash rates are of maturity 1, 2, 3, 6 months, and 1 year. They
 are provided by the British Bankers' Association (BBA). Swap rates are
@@ -340,10 +364,12 @@ Some other risk measures of a CDS contract are as follows:
 \item [Recovery Risk 01] is the dollar value change in market value if
   the recovery rate used in the CDS valuation were increased by 1\%.
 \item[Price] refers to the clean dollar price of the contract. 
-  \begin{eqnarray}
-    {\rm Price} & = & (1 - {\rm Principal} / {\rm Notional})*100  \nonumber \\
-    & = & 100 - {\rm points upfront}. \nonumber
-  \end{eqnarray}
+  \begin{equation}
+    \begin{aligned}
+    {\rm Price} & =  (1 - {\rm Principal} / {\rm Notional})*100  \nonumber \\
+    & =  100 - \text{Points Upfront}. \nonumber
+    \end{aligned}
+  \end{equation}
   For example, if a CDS contract is quoted as 3 points to buy
   protection, the price will be 97. The protection buyer still pays
   the 3\% as an upfront fee. A CDS will have a price greater than 100
@@ -363,15 +389,21 @@ Markit CDS Calculator.\footnote{The Markit CDS Calculator is available
 \textbf{CDS} package provides tools for valuing a single-name CDS
 contract. The default setting allows a user to value a USD-denominated
 CDS contract following the Standard Model. She can also specify her
-own set of parameters to customize the calculation. In this section,
-we will demonstrate the use of the \textbf{CDS} package with a series
-of examples.
+own set of parameters to customize the calculation. We have
+illustrated the construction of a CDS contract using the \textbf{CDS}
+package in previous sections. In this section, we will demonstrate the
+use of the \textbf{CDS} package in more detail and provide a series of
+examples.
 
 The default settings of valuing a CDS contract in the \textbf{CDS}
 package follow the Standard North American Corporate (SNAC) CDS
-Contract specifications:\footnote{See
+Contract specifications.\footnote{See
   \url{http://www.cdsmodel.com/assets/cds-model/docs/Standard\%20CDS\%20Contract\%20Specification.pdf}
-  for details.}
+  for details.} Below we list the ISDA specifications implemented in
+the \textbf{CDS} package. Additional default settings in the package
+which are not specified by the Standard Model, such as the default
+notional amount, are also listed.
+
 
 \begin{itemize}
 \item Currency: USD.
@@ -380,7 +412,7 @@ Contract specifications:\footnote{See
 \item Maturity: 5 years.
 \item Maturity Date (End Date): It falls on a CDS date without
   adjustment.
-\item Coupon Rate: 100 bps or 500 bps.
+\item Coupon Rate: 100 bps.
 \item Notional Amount (MM): 10MM.
 \item Recovery Rate (\%): 40\% for senior debts.
 \item Premium Leg:
@@ -393,7 +425,7 @@ Contract specifications:\footnote{See
       is owed to the protection seller. ``True'' means that this
       accrued will need to be paid by the protection buyer, ``False''
       otherwise. The defalt is ``True,''
-    \item Adjusted CDS Dates: ``F''. It means that it assumes the next
+    \item Adjusted CDS Dates: ``F.'' It means that it assumes the next
       available business day when a CDS date falls on a non-business day
       except the maturity date.
     \item First Coupon Payment: It is the earliest Adjusted CDS Date
@@ -415,14 +447,7 @@ Contract specifications:\footnote{See
 \end{itemize}
 
 
-<<echo = F, results = hide>>=
-options(width = 100)
-@ 
-
-
-For illustrative purposes, we call the function \texttt{CDS} to
-construct an object of class ``CDS''. Below we use the
-default settings as mentioned.
+For the example we have shown in the previous sections,
 
 <<>>=
 library(CDS)
@@ -430,7 +455,7 @@ cds1 <- CDS(entityName = "IBM",
             RED = "49EB20",
             TDate = "2014-04-15",
             maturity = "5Y",
-            coupon = 100,
+            notional = 1e7,
             parSpread = 50)
 @
 
@@ -456,7 +481,7 @@ underlying entity with ``49EB20'' as the RED Code. She sets the spread
 at 50 bps and the coupon rate at 100 bps. However, the valuation of a
 CDS contract requires neither the entity name or the RED Code. She
 does not have to know the information to use the package. As shown
-below, insofar as she inputs the same \texttt{TDate}, \texttt{coupon},
+below, insofar as she inputs the same \texttt{TDate},
 \texttt{parSpread}, and \texttt{maturity} information, the valuation
 of the contract will be the same.
 
@@ -467,10 +492,12 @@ cds2 <- CDS(TDate = "2014-04-15",
             parSpread = 50)
 @ 
 
-Calling \texttt{summary} on a ``CDS'' class object provides some
-essential information on the contract (including trade date, maturity
-date, spread, and coupon rate as specified by the user) and some
-relevant calculations based on the input CDS contract.
+%% Calling \texttt{summary} on a ``CDS'' class object provides some
+%% essential information on the contract (including trade date, maturity
+%% date, spread, and coupon rate as specified by the user) and some
+%% relevant calculations based on the input CDS contract.
+
+Calling \texttt{summary} on the two CDS contracts provides the same information.
 
 <<>>=
 summary(cds1)
