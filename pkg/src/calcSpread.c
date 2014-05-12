@@ -84,7 +84,7 @@ static int cdsoneSpreadSolverFunction
 SEXP calcCdsoneSpread
 (// variables for the zero curve
  SEXP baseDate_input,  /* (I) Value date  for zero curve       */
- SEXP types, //"MMMMMSSSSSSSSS"
+ SEXP types,           /*"MMMMMSSSSSSSSS" */
 
  SEXP rates, /* rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9,
 		1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/\* (I)
@@ -210,22 +210,11 @@ SEXP calcCdsoneSpread
   floatSwapDCC = coerceVector(floatSwapDCC, STRSXP);
   pt_floatSwapDCC = (char *) CHAR(STRING_ELT(floatSwapDCC,0));
 
-  
-  /* fixedSwapFreq = coerceVector(fixedSwapFreq,REALSXP); */
-  /* floatSwapFreq = coerceVector(floatSwapFreq,REALSXP); */
-  /* fixedSwapDCC = coerceVector(fixedSwapDCC,REALSXP); */
-  /* floatSwapDCC = coerceVector(floatSwapDCC,REALSXP); */
-  
-  /* badDayConvZC = AS_CHARACTER(badDayConvZC); */
-  /* pt_badDayConvZC = CHAR(asChar(STRING_ELT(badDayConvZC, 0))); */
   badDayConvZC = AS_CHARACTER(badDayConvZC);
   badDayConvZC_char = CHAR(asChar(STRING_ELT(badDayConvZC, 0)));
   
   
   // main.c dates
-  /* TDateInterval ivl; */
-  /* long          dcc; */
-  /* double        freq; */
   TDateInterval fixedSwapIvl_curve;
   TDateInterval floatSwapIvl_curve;
   
@@ -238,29 +227,18 @@ SEXP calcCdsoneSpread
   long mmDCC_zc_main;
   static char  *routine_zc_main = "BuildExampleZeroCurve";
   
-  /* if (JpmcdsStringToDayCountConv("Act/360", &mmDCC_zc_main) != SUCCESS) */
-  /*   goto done; */
-  
   if (JpmcdsStringToDayCountConv(pt_mmDCC, &mmDCC_zc_main) != SUCCESS)
     goto done;
-  
-  /* if (JpmcdsStringToDayCountConv("30/360", &dcc) != SUCCESS) */
-  /*   goto done; */
+
   if (JpmcdsStringToDayCountConv(pt_fixedSwapDCC, &fixedSwapDCC_curve) != SUCCESS)
     goto done;
   if (JpmcdsStringToDayCountConv(pt_floatSwapDCC, &floatSwapDCC_curve) != SUCCESS)
     goto done;
   
-  /* if (JpmcdsStringToDateInterval("6M", routine_zc_main, &ivl) != SUCCESS) */
-  /*   goto done; */
-  
   if (JpmcdsStringToDateInterval(pt_fixedSwapFreq, routine_zc_main, &fixedSwapIvl_curve) != SUCCESS)
     goto done;
   if (JpmcdsStringToDateInterval(pt_floatSwapFreq, routine_zc_main, &floatSwapIvl_curve) != SUCCESS)
     goto done;
-  
-  /* if (JpmcdsDateIntervalToFreq(&ivl, &freq) != SUCCESS) */
-  /*   goto done; */
   
   if (JpmcdsDateIntervalToFreq(&fixedSwapIvl_curve, &fixedSwapFreq_curve) != SUCCESS)
     goto done;
@@ -276,8 +254,6 @@ SEXP calcCdsoneSpread
     {
       TDateInterval tmp;
       
-      // if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
-      /* if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS)	{ */
       if (JpmcdsStringToDateInterval(strdup(CHAR(asChar(VECTOR_ELT(expiries, i)))), routine_zc_main, &tmp) != SUCCESS)
 	{
 	JpmcdsErrMsg ("%s: invalid interval for element[%d].\n", routine_zc_main, i);
@@ -292,7 +268,6 @@ SEXP calcCdsoneSpread
     }
   
   
-  // discCurve = (TCurve*)malloc(sizeof(TCurve));
   discCurve = JpmcdsBuildIRZeroCurve(baseDate,
 				     pt_types,
 				     dates_main,
@@ -312,26 +287,12 @@ SEXP calcCdsoneSpread
   couponRate = *REAL(couponRate_input);
   
   payAccruedOnDefault = *LOGICAL(payAccruedOnDefault_input);
-  /* pt_dateInterval = (TDateInterval*)malloc(sizeof(TDateInterval)); */
-  /* pt_dateInterval->prd_typ = *CHAR(STRING_ELT(coerceVector(dateInterval, STRSXP), 0)); */
-  /* pt_dateInterval->prd = 6; */
-  /* pt_dateInterval->flag = 0; */
   dateInterval = coerceVector(dateInterval, STRSXP);
   pt_dateInterval = (char *) CHAR(STRING_ELT(dateInterval,0));
 
-
-  /* TBoolean stubAtEnd = FALSE; */
-  /* TBoolean longStub = FALSE; */
-  /* pt_stubType = (TStubMethod*)malloc(sizeof(TStubMethod)); */
-  /* pt_stubType->stubAtEnd = stubAtEnd; */
-  /* pt_stubType->longStub = longStub; */
   stubType = coerceVector(stubType, STRSXP);
   pt_stubType = (char *) CHAR(STRING_ELT(stubType,0));
   
-
-  /* accrueDCC = *INTEGER(dccCDS); */
-  /* badDayConv = *INTEGER(badDayConv_input); */
-
 
   dccCDS = coerceVector(dccCDS, STRSXP);
   pt_dccCDS = (char *) CHAR(STRING_ELT(dccCDS,0));
@@ -369,9 +330,7 @@ SEXP calcCdsoneSpread
   context.payAccruedOnDefault = payAccruedOnDefault;
   context.dateInterval        = &ivl;
   context.stubType            = &stub;
-  /* context.accrueDCC           = (long) accrueDCC; */
   context.accrueDCC           = dcc;
-  // context.badDayConv          = (long) badDayConv;
   context.badDayConv          = *pt_badDayConvCDS;
   context.calendar            = pt_calendar;
   context.discCurve           = discCurve;
@@ -398,7 +357,5 @@ SEXP calcCdsoneSpread
   REAL(spread)[0] = (*pt_onespread) * 1e4;
   UNPROTECT(1);
 
-  //    if (status != SUCCESS)
-  //    JpmcdsErrMsgFailure (routine);
   return spread;
 }

@@ -2,7 +2,7 @@ useDynLib(CDS)
 exportPattern("^[[:alpha:]]+")
 
 ## importFrom("graphics", plot)
-## import(ggplot2, methods)
+import(methods, Rcpp, RCurl, XML)
 
 exportClasses(CDS)
 exportMethods("summary",

@@ -10,8 +10,7 @@ Authors@R: c(person("Heidi", "Chen", role = c("aut", "cre"),
 	       	 email = "yang.lu2014@gmail.com"),
 	person("Kanishka", "Malik", role = "aut",
 		email = "kanishkamalik@gmail.com"))
-Depends: grid, R (>= 2.10), Rcpp (>= 0.10.6), RCurl, XML
-Imports: methods
+Depends: grid, R (>= 2.10),methods, Rcpp (>= 0.10.6), RCurl, XML
 Description: A package that provides tools for pricing credit default swaps.
 License: GPL (>= 2)
 LinkingTo: Rcpp

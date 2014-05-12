@@ -26,7 +26,7 @@
 //EXPORT int JpmcdsCdsoneUpfrontCharge(cdsone.c)
 SEXP calcUpfrontTest
 (SEXP baseDate_input,  /* (I) Value date  for zero curve       */
- SEXP types, //"MMMMMSSSSSSSSS"
+ SEXP types, /* "MMMMMSSSSSSSSS"*/
  SEXP rates, /* rates[14] = {1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9,
 		1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9};/\* (I)
 		Array of swap rates *\/ */
@@ -151,10 +151,6 @@ SEXP calcUpfrontTest
   calendar = coerceVector(calendar, STRSXP);
   pt_calendar = (char *) CHAR(STRING_ELT(calendar,0));
 
-  /* fixedSwapFreq = coerceVector(fixedSwapFreq,REALSXP); */
-  /* floatSwapFreq = coerceVector(floatSwapFreq,REALSXP); */
-  /* fixedSwapDCC = coerceVector(fixedSwapDCC,REALSXP); */
-  /* floatSwapDCC = coerceVector(floatSwapDCC,REALSXP); */
   parSpread_for_upf = *REAL(parSpread);
   couponRate_for_upf = *REAL(couponRate);
   recoveryRate_for_upf = *REAL(recoveryRate);
@@ -164,56 +160,39 @@ SEXP calcUpfrontTest
 
   badDayConvZC = coerceVector(badDayConvZC, STRSXP);
   pt_badDayConvZC = (char *) CHAR(STRING_ELT(badDayConvZC,0));
-  /* badDayConvZC = AS_CHARACTER(badDayConvZC); */
-  /* pt_badDayConvZC = CHAR(asChar(STRING_ELT(badDayConvZC, 0))); */
 
   badDayConvCDS = coerceVector(badDayConvCDS, STRSXP);
   pt_badDayConvCDS = (char *) CHAR(STRING_ELT(badDayConvCDS,0));
-  /* badDayConvCDS = AS_CHARACTER(badDayConvCDS); */
-  /* pt_badDayConvCDS = CHAR(asChar(STRING_ELT(badDayConvCDS, 0))); */
 
-  /* TDateInterval ivl; */
   TDateInterval fixedSwapIvl_curve;
   TDateInterval floatSwapIvl_curve;
-  /* long          dcc; */
   long          fixedSwapDCC_curve;
   long          floatSwapDCC_curve;
-  /* double        freq; */
   double        fixedSwapFreq_curve;
   double        floatSwapFreq_curve;
 
   long mmDCC_zc_main;
   static char  *routine_zc_main = "BuildExampleZeroCurve";
 
-  /* if (JpmcdsStringToDayCountConv("Act/360", &mmDCC_zc_main) != SUCCESS) */
-  /*   goto done; */
   if (JpmcdsStringToDayCountConv(pt_mmDCC, &mmDCC_zc_main) != SUCCESS)
     goto done;
   
-  /* if (JpmcdsStringToDayCountConv("30/360", &dcc) != SUCCESS) */
-  /*   goto done; */
   if (JpmcdsStringToDayCountConv(pt_fixedSwapDCC, &fixedSwapDCC_curve) != SUCCESS)
     goto done;
   if (JpmcdsStringToDayCountConv(pt_floatSwapDCC, &floatSwapDCC_curve) != SUCCESS)
     goto done;
   
-  /* if (JpmcdsStringToDateInterval("6M", routine_zc_main, &ivl) != SUCCESS) */
-  /*   goto done; */
   if (JpmcdsStringToDateInterval(pt_fixedSwapFreq, routine_zc_main, &fixedSwapIvl_curve) != SUCCESS)
     goto done;
   if (JpmcdsStringToDateInterval(pt_floatSwapFreq, routine_zc_main, &floatSwapIvl_curve) != SUCCESS)
     goto done;
   
-  /* if (JpmcdsDateIntervalToFreq(&ivl, &freq) != SUCCESS) */
-  /*   goto done; */
   if (JpmcdsDateIntervalToFreq(&fixedSwapIvl_curve, &fixedSwapFreq_curve) != SUCCESS)
     goto done;
   if (JpmcdsDateIntervalToFreq(&floatSwapIvl_curve, &floatSwapFreq_curve) != SUCCESS)
     goto done;
   
   expiries = coerceVector(expiries, VECSXP);
-  /* expiries = coerceVector(expiries, STRSXP); */
-  /* pt_expiries = (char *) CHAR(STRING_ELT(expiries,0)); */
 
   TDate *dates_main = NULL;
   dates_main = NEW_ARRAY1(TDate, n);
@@ -221,8 +200,6 @@ SEXP calcUpfrontTest
   for (i = 0; i < n; i++)
     {
       TDateInterval tmp;
-      //  if (JpmcdsStringToDateInterval(expiries[i], routine_zc_main, &tmp) != SUCCESS)
-	 /* if (JpmcdsStringToDateInterval(CHAR(asChar(VECTOR_ELT(expiries, i))), routine_zc_main, &tmp) != SUCCESS) */
       if (JpmcdsStringToDateInterval(strdup(CHAR(asChar(VECTOR_ELT(expiries, i)))), routine_zc_main, &tmp) != SUCCESS)
 
 	{
@@ -251,9 +228,6 @@ SEXP calcUpfrontTest
 				       pt_holidays);
     
     if (discCurve == NULL) JpmcdsErrMsg("IR curve not available ... \n");
-
-    /* long dcc_cds; */
-    /* TDateInterval ivl_cds; */
 
     dccCDS = coerceVector(dccCDS, STRSXP);
     pt_dccCDS = (char *) CHAR(STRING_ELT(dccCDS,0));
