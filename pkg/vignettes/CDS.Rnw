@@ -184,31 +184,12 @@ typically specifies the following key terms:\footnote{Some of the
   coupon size that they would agree on.
 
 \item[Credit Event] triggers the settlement under a CDS
-  contract. Possible credit events specified by the ISDA Credit
-  Derivatives Definitions include: 
-  \begin{itemize}
-  \item Bankruptcy - It typically occurs when the reference entity has
-    filed under a bankruptcy law (or an equivalent law).
-  \item Failure to pay - The reference entity fails to make interest
-    or principal payments when due after the applicable grace period
-    expires.
-  \item Debt restructuring - The specifications of the debt
-    obligations are changed such that the protection buyer is
-    unfavorably affected.
-  \item Obligation acceleration - A debt obligation becomes due before
-    it would otherwise have been because of a default.
-  \item Obligation default - A debt obligation becomes capable of
-    being declared due before it would otherwise have been because of
-    a default.
-  \item Repudiation/Moratorium - The reference entity announces
-    repudiation or moratorium on debt obligation and subsequently
-    fails to pay.
-  \end{itemize}
+  contract. Possible credit events include banruptcy and debt restructing.
 \end{description}
 
 \section{The ISDA Standard Model}
 
-%% the origins of the ISDA standard model
+%% the origins of the ISDA standard model. Next version: Talk about Europe?
 
 In April 2009 in North America, ISDA
 introduced a series of mandatory modifications to the CDS contract
@@ -217,6 +198,7 @@ standardization rules on the first accrual dates, fixed coupon rates
 (100 bps or 500 bps), and the recovery rate (40\%).
 
 %% specifications of the ISDA standard CDS contract
+
 The default calculations and parameters in the \textbf{CDS} package
 follow the Standard Model. The user can call \texttt{summary} on a
 \texttt{cds1} to view essential information on the contract as shown
@@ -229,9 +211,12 @@ conventions.
 summary(cds1)
 @
 
+
+%% Note that we could use a lot more detail, both before we get to concepts 
+%% like recovery rate and in explaining just why they matter.
+
 In order to understand the summary output, we explain the
-specifications of the Standard Model and the pricing details based on
-the Model.
+specifications and pricing details of the Standard Model.
 
 \subsection{Standard Model Specifications}
 An ISDA standard CDS contract specifies the following:\footnote{Refer
@@ -239,7 +224,7 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
   details.}
 \begin{description}
 \item [Trade Date] refers to the date of the trade.
-\item [Maturity] is the length of the contract. Most of the standard
+\item [Maturity] is the length of the contract. The most commonly traded
   contracts have a maturity of 5 years.
 \item [Maturity Date] falls on one of the four dates (Mar/Jun/Sep/Dec
   20th) in a year. One can add the maturity of the contract to the
@@ -250,17 +235,13 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
   \begin{center}
     Backstop Date = T - 60 Calender Days.
   \end{center}
-\item [Notional Amount] is denoted in millions.
-\item [Standard Coupon] is quoted either 100 bps or 500 bps per
-  annum for CDS contracts in North America, and 25 bps, 100 bps, 500
-  bps or 1000 bps in Europe.
+\item [Notional Amount] is in millions.
+\item [Standard Coupon] is either 100 or 500 bps per
+  year for CDS contracts in North America, and 25, 100, 500 or 1000 bps in Europe.
 \item [Recovery Rate] is the estimated percentage of par value that
   bondholders will receive after a credit event. It is commonly
-  reported in percentages. A CDS contract for investment grade bonds
-  are assumed a 40\% recovery rate when it is valued. The recovery
-  rate is assumed to be 20\% when valuing a subordinate level
-  CDS. 25\% is assumed for emerging markets' CDSs (both senior and
-  subordinate).
+  reported in percentages of notional value. CDS contracts for corporate bonds
+  assume a 40\% recovery rate for valuation purposes. 
 \item [Par Spread] is the spread value which makes the present value
   of a CDS contract zero. It is quoted in basis points.  
 \item [Upfront Payment] is quoted in the currency amount. Since a
