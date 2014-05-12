@@ -39,7 +39,7 @@
 
 %% 1 paragraph
 
-A Credit Default Swap (CDS) is a financial swap agreement between two
+A Credit Default Swap (CDS) is an agreement between two
 counterparties in which the buyer pays a fixed periodic coupon to the
 seller in exchange for protection in the case of a credit event. The
 International Swaps and Derivatives Association (ISDA) has created a
