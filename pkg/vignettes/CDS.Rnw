@@ -51,6 +51,18 @@ spread and upfront payments, and build the spread curve of a CDS. The
 value credit default swaps and calculate various risk measures
 associated with these instruments.
 
+%% Are the "standard terms for CDS contracts" really the same thing as the 
+%% Standard Model? I am not so sure. I think that the standard terms are 
+%% things like XR and MM, strict definitions for credit events, auction
+%% proceedures and so on. I think that the Standard Model just refers to the
+%% math. But perhaps this is too confusing a distinction (and I might be 
+%% wrong), so leave it for the next version.
+
+%% By the way, I am thinking that a good target journal for this piece may be
+%% The Journal of Statistical Software. If so, we can/should make this much
+%% longer than it currently is, including getting a lot of the details correct,
+%% which is why I am adding these notes.
+
 \section{CDS Basics}
 \label{sec:CDSBasics}
 
@@ -60,7 +72,7 @@ A CDS is a simple and popular form of credit derivative. It was
 originated in the late 1980s and was popularized by a team at
 J.P. Morgan including Blythe Masters.\citep{cdsOrigins,
   blythe} The CDS market started to develop soon afterwards as banks
-used CDS contracts to hedge their credit exposures on the balance
+used CDS contracts to hedge the credit exposures on their balance
 sheets. Many different types of CDS have since emerged including
 basket default swaps (BDSs), index CDSs, credit-linked notes, et
 cetera \citep{jk}. In the \textbf{CDS} package, we focus on calculations
