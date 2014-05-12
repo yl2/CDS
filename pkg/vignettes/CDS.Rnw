@@ -277,7 +277,7 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
 
 \item[Points Upfront], or simply \textbf{points}, are quoted as a
   percentage of the notional amount. They represent the upfront
-  payment excluding the accrual payment. High Yield (HY) CDS contracts
+  payment excluding the accrual payment. High yield CDS contracts
   are often quoted in points upfront. The protection buyer pays the
   upfront payment if points upfront are positive, and the buyer is
   paid by the seller if the points are negative.
@@ -297,7 +297,7 @@ following:\footnote{Please refer to \url{http://bit.ly/1kg5qPw} for
 
 \begin{description}
 \item[Trade Date (T)] means 11:59pm on the trade date.
-\item[Days of Protection] are the difference in the number of days
+\item[Days of Protection] is the number of days
   from Maturity Date to Trade Date.
 \item[Mark-to-market (MTM)] represents the contract value to the
   protection buyer. It is computed by discounting the expected
