@@ -46,7 +46,7 @@ International Swaps and Derivatives Association (ISDA) has created a
 set of standard terms for CDS contracts, the so-called ``Standard
 Model.'' This allows market participants to calculate cash settlement
 from conventional spread quotations, convert between conventional
-spread and upfront payments, and build the yield curve of a CDS. The
+spread and upfront payments, and build the spread curve of a CDS. The
 \textbf{CDS} package implements the Standard Model, allowing users to
 value credit default swaps and calculate various risk measures
 associated with these instruments.
@@ -58,8 +58,8 @@ associated with these instruments.
 
 A CDS is a simple and popular form of credit derivative. It was
 originated in the late 1980s and was popularized by a team at
-J.P. Morgan including Blythe Masters in 1994 \citep{cdsOrigins,
-  blythe}. The CDS market started to develop soon afterwards as banks
+J.P. Morgan including Blythe Masters.\citep{cdsOrigins,
+  blythe} The CDS market started to develop soon afterwards as banks
 used CDS contracts to hedge their credit exposures on the balance
 sheets. Many different types of CDS have since emerged including
 basket default swaps (BDSs), index CDSs, credit-linked notes, et
