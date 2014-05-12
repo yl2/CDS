@@ -244,29 +244,29 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
   to the \textit{ISDA Standard CDS Converter Specification} for
   details.}
 \begin{description}
-\item [Trade Date] refers to the date of the trade.
-\item [Maturity] is the length of the contract. The most commonly traded
+\item[Trade Date] refers to the date of the trade.
+\item[Maturity] is the length of the contract. The most commonly traded
   contracts have a maturity of 5 years.
-\item [Maturity Date] falls on one of the four dates (Mar/Jun/Sep/Dec
+\item[Maturity Date] falls on one of the four dates (Mar/Jun/Sep/Dec
   20th) in a year. One can add the maturity of the contract to the
   trade date; the next available date among those four dates is the
   maturity date.
-\item [Backstop Date] is the date from which protection is
+\item[Backstop Date] is the date from which protection is
   provided,
   \begin{center}
     Backstop Date = T - 60 Calender Days.
   \end{center}
-\item [Notional Amount] is in millions.
-\item [Standard Coupon] is either 100 or 500 bps per
+\item[Notional Amount] is in millions.
+\item[Standard Coupon] is either 100 or 500 bps per
   year for CDS contracts in North America, and 25, 100, 500 or 1000 bps in Europe.
-\item [Recovery Rate] is the estimated percentage of par value that
+\item[Recovery Rate] is the estimated percentage of par value that
   bondholders will receive after a credit event. It is commonly
   reported in percentage of notional value. CDS contracts for corporate bonds
   assume a 40\% recovery rate for valuation purposes. 
-\item [Par Spread] is the spread value which makes the present value
+\item[Par Spread] is the spread value which makes the present value
   of a CDS contract zero. It is quoted in basis points.  
   
-\item [Upfront Payment] is quoted in the currency amount. Since a
+\item[Upfront Payment] is quoted in the currency amount. Since a
   standard contract is traded with fixed coupons, upfront payment is
   introduced to reconcile the difference in contract value due to the
   difference between the fixed coupon and the par
@@ -275,7 +275,7 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
   value of a CDS contract. Clean upfront is dirty upfront less any
   accrued interest payment, and is also called the \textbf{Principal}.
 
-\item [Points Upfront], or simply \textbf{points}, are quoted as a
+\item[Points Upfront], or simply \textbf{points}, are quoted as a
   percentage of the notional amount. They represent the upfront
   payment excluding the accrual payment. High Yield (HY) CDS contracts
   are often quoted in points upfront. The protection buyer pays the
@@ -296,13 +296,13 @@ following:\footnote{Please refer to \url{http://bit.ly/1kg5qPw} for
 %% url. http://www.cdsmodel.com/assets/cds-model/docs/ISDA\%20Standard\%20CDS\%20Contract\%20Converter\%20Specification\%20-\%20Sept\%204,\%202009.pdf}
 
 \begin{description}
-\item [Trade Date (T)] means 11:59pm on the trade date.
-\item [Days of Protection] are the difference in the number of days
+\item[Trade Date (T)] means 11:59pm on the trade date.
+\item[Days of Protection] are the difference in the number of days
   from Maturity Date to Trade Date.
-\item [Mark-to-market (MTM)] represents the contract value to the
+\item[Mark-to-market (MTM)] represents the contract value to the
   protection buyer. It is computed by discounting the expected
   protection leg and premium leg cashflows to T.
-\item [Accrued Premium] is the premium that has accrued from accrual
+\item[Accrued Premium] is the premium that has accrued from accrual
   begin date to T where both dates are inclusive.
 \end{description}
 
@@ -392,13 +392,13 @@ Some other risk measures of a CDS contract are as follows:
   a much smaller dollar value than Spread DV01 because moves in
   overall interest rates have a much smaller effect on the value of a
   CDS contract than does a move in the CDS spread itself.
-%% \item [Spread DV01], aka spread delta, measures the sensitivity of a
+%% \item[Spread DV01], aka spread delta, measures the sensitivity of a
 %%   CDS contract MTM to a parallel shift in the term structure of the
 %%   par spread. Spread DV01 in Bloomberg is, typically, a much larger
 %%   dollar value than IR DV01 because moves in overall interest rates
 %%   have a much smaller effect on CDS value than does a move in the CDS
 %%   spread itself.
-\item [Recovery Risk 01] is the dollar value change in market value if
+\item[Recovery Risk 01] is the dollar value change in market value if
   the recovery rate used in the CDS valuation were increased by 1\%.
 \item[Price] refers to the clean dollar price of the contract. 
   \begin{equation}
