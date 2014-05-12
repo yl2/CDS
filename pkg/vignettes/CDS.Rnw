@@ -141,6 +141,7 @@ cds1 <- CDS(entityName = "IBM",
             parSpread = 50)
 @
 
+
 %% In the next draft, we should not have a clunky list of terms.
 %% Better to introduce the terms, bolding them the first time
 %% they appear, in a discussion of a specific CDS. 
@@ -215,6 +216,13 @@ conventions.
 summary(cds1)
 @
 
+%% Biggest flaw of the current version of the paper is that you 
+%% do not walk the reader through this specific example. Having shown 
+%% this summary, you need to --- now! --- explain each element in the 
+%% presentation. Tell us, now, what Spread DV01 of 5,086 means. Don't
+%% wait five pages and then not even mention this specific number! If you
+%% need to do preliminary work before hand, then, fine, do that work and
+%% wait to do the summary.
 
 %% Note that we could use a lot more detail, both before we get to concepts 
 %% like recovery rate and in explaining just why they matter.
@@ -248,6 +256,7 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
   assume a 40\% recovery rate for valuation purposes. 
 \item [Par Spread] is the spread value which makes the present value
   of a CDS contract zero. It is quoted in basis points.  
+  
 \item [Upfront Payment] is quoted in the currency amount. Since a
   standard contract is traded with fixed coupons, upfront payment is
   introduced to reconcile the difference in contract value due to the
@@ -256,6 +265,7 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
   upfront (\textbf{Cash Settlement Amount}) refers to the market
   value of a CDS contract. Clean upfront is dirty upfront less any
   accrued interest payment, and is also called the \textbf{Principal}.
+
 \item [Points Upfront], or simply \textbf{points}, are quoted as a
   percentage of the notional amount. They represent the upfront
   payment excluding the accrual payment. High Yield (HY) CDS contracts
