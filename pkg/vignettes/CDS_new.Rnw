@@ -1,7 +1,7 @@
 \documentclass[a4paper]{article}
 \linespread{1.5}
 \usepackage[round]{natbib}
-\usepackage{amssymb}
+\usepackage{amssymb, amsmath}
 %% \usepackage{RJournal}
 \usepackage{fancyvrb}
 \usepackage{Sweave, url, tikz}
@@ -76,7 +76,8 @@ terminates. In other words, the protection buyer is short credit by
 selling the credit risk of an underlying loan to the protection
 seller. As shown in Figure \ref{fig:cashFlow}, the buyer pays a stream
 of coupon payments, called the premium leg, in order to receive a
-one-off, contingent payment (protection leg) in the case of a credit
+one-off, contingent payment (notional less recovery amount after a
+credit event), called the protection leg, in the case of a credit
 event.\\
 
 %% add a diagram on buyer and seller of CDS?
@@ -121,30 +122,25 @@ cds1 <- CDS(entityName = "IBM",
             parSpread = 50)
 @
 
-A CDS contract between two counterparties typically specifies the
-following key terms:\footnote{Some of the definitions come from
-  \textit{Credit Derivatives Glossary} \citep{glossary},
-  \textit{Standard Corporate CDS Handbook} \citep{barclays},
-  \textit{Credit Derivatives} \citep{bloomberg}, and \textit{The
-    Pricing and Risk Management of Credit Default Swaps, with a Focus
-    on the ISDA Model} \citep{openGamma}.}
+As reflected in the example, a CDS contract between two counterparties
+typically specifies the following key terms:\footnote{Some of the
+  definitions come from \textit{Credit Derivatives Glossary}
+  \citep{glossary}, \textit{Standard Corporate CDS Handbook}
+  \citep{barclays}, \textit{Credit Derivatives} \citep{bloomberg}, and
+  \textit{The Pricing and Risk Management of Credit Default Swaps,
+    with a Focus on the ISDA Model} \citep{openGamma}.}
 \begin{description}
 \item[Reference Entity] refers to the legal entity which is the
   subject of a CDS contract. 
-\item[Notional] is the amount of the underlying asset on which the
-  payments are based.
 \item[Maturity] a.k.a \textbf{tenor}. It refers to the length of a CDS
   contract. Most CDSs are written with 5 years of maturity. The
   protection buyer continues to make payments to the protection seller
   till maturity of the contract or the occurrence of a credit event.
+\item[Notional] is the amount of the underlying asset on which the
+  payments are based.
 \item[Coupon] is often quoted in basis points. It specifies the
   payment amount from the protection buyer to the seller on a regular
   basis.
-\item [Premium Leg] refers to the cashflows of the fixed payments made
-  by the protection buyer.
-\item [Contingent Leg], a.k.a. \textbf{protection leg}, is the payment
-  of notional less recovery amount by the protection seller after a
-  credit event.
 \item[Par Spread] is quoted in basis points per annum. It represents
   the fair rate for a contract of 1 year beginning on the trade date.
 \item[Seniority] specifies the order of which the debt will be paid in
@@ -187,8 +183,8 @@ The default calculations and parameters in the \textbf{CDS} package
 follow the Standard Model. The user can call \texttt{summary} on a
 ``CDS'' class object to view essential information on the contract
 (including trade date, maturity date, spread, and coupon rate as
-specified by the user) and some relevant calculations based on the
-input CDS contract and the ISDA standard calculations.
+specified by the user) and relevant calculations based on the input
+CDS contract and the ISDA conventions.
 
 <<>>=
 cds1 <- CDS(entityName = "IBM",
@@ -201,18 +197,7 @@ cds1 <- CDS(entityName = "IBM",
 summary(cds1)
 @
 
-
-%% This section provides some key specifications of the ISDA Standard
-%% Model.\footnote{Refer to the \textit{ISDA Standard CDS Converter
-%%     Specification} for details.} The default calculations and
-%% parameters in the \textbf{CDS} package follow the Standard
-%% Model. Additional default settings in the package which are not
-%% specified by the Standard Model, such as the default notional amount,
-%% are also listed.
-
-The \texttt{summary} information reflects the key specifications of
-the ISDA Standard Model explained in this section.\footnote{Refer to
-  the \textit{ISDA Standard CDS Converter Specification} for details.}
+This section provides some key specifications of the ISDA Standard Model. \footnote{Refer to the \textit{ISDA Standard CDS Converter Specification} for details.}
 
 
 \subsection{Standard Model Specifications}
@@ -286,7 +271,7 @@ following:\footnote{Please refer to \url{http://bit.ly/1kg5qPw} for
 
 
 The ISDA also standardizes the interest rates used by the Standard
-Model in valuting a CDS contract. There are two types of rates used in
+Model in valuing a CDS contract. There are two types of rates used in
 valuing a USD denominated CDS contract - cash rates and swap
 rates. Cash rates are of maturity 1, 2, 3, 6 months, and 1 year. They
 are provided by the British Bankers' Association (BBA). Swap rates are
@@ -379,10 +364,12 @@ Some other risk measures of a CDS contract are as follows:
 \item [Recovery Risk 01] is the dollar value change in market value if
   the recovery rate used in the CDS valuation were increased by 1\%.
 \item[Price] refers to the clean dollar price of the contract. 
-  \begin{eqnarray}
-    {\rm Price} & = & (1 - {\rm Principal} / {\rm Notional})*100  \nonumber \\
-    & = & 100 - {\rm points upfront}. \nonumber
-  \end{eqnarray}
+  \begin{equation}
+    \begin{aligned}
+    {\rm Price} & =  (1 - {\rm Principal} / {\rm Notional})*100  \nonumber \\
+    & =  100 - \text{Points Upfront}. \nonumber
+    \end{aligned}
+  \end{equation}
   For example, if a CDS contract is quoted as 3 points to buy
   protection, the price will be 97. The protection buyer still pays
   the 3\% as an upfront fee. A CDS will have a price greater than 100
@@ -438,7 +425,7 @@ notional amount, are also listed.
       is owed to the protection seller. ``True'' means that this
       accrued will need to be paid by the protection buyer, ``False''
       otherwise. The defalt is ``True,''
-    \item Adjusted CDS Dates: ``F''. It means that it assumes the next
+    \item Adjusted CDS Dates: ``F.'' It means that it assumes the next
       available business day when a CDS date falls on a non-business day
       except the maturity date.
     \item First Coupon Payment: It is the earliest Adjusted CDS Date
@@ -469,7 +456,6 @@ cds1 <- CDS(entityName = "IBM",
             TDate = "2014-04-15",
             maturity = "5Y",
             notional = 1e7,
-            coupon = 100,
             parSpread = 50)
 @
 
