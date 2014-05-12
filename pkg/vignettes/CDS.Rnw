@@ -151,7 +151,7 @@ typically specifies the following key terms:\footnote{Some of the
 \begin{description}
 \item[Reference Entity] refers to the legal entity which is the
   subject of a CDS contract. 
-\item[Maturity] a.k.a \textbf{tenor} refers to the length of a CDS
+\item[Maturity] or \textbf{tenor} refers to the length of a CDS
   contract. Most CDSs are written with 5 years of maturity. The
   protection buyer continues to make payments to the protection seller
   till maturity of the contract or the occurrence of a credit event.
@@ -585,19 +585,18 @@ t(cds1Rates[[2]])
 
 \section{Conclusion}
 
-In this paper, we describe the basics of a CDS contract, the ISDA
-Standard Model, and its valuation. We also provide a simple collection
+In this paper, we describe the basics of a CDS contract and the ISDA
+Standard Model. We also provide a simple collection
 of tools to implement the Standard Model in \textbf{R} with the
 \texttt{CDS} package. Moreover, the flexibility of \textbf{R} itself
-allows users to extend and modify these packages to suit their own
-needs and/or execute their preferred models for CDS contracts. An
+allows users to extend and modify this package to suit their own
+needs and/or create their preferred models for valuing CDS contracts. An
 \textbf{R} package, \texttt{backtest} \cite{kane:david}, provides
-facilities to explore portfolio-based conjectures about credit
+facilities to explore portfolio-based conjectures about credit default
 swaps. It is possible to use the \texttt{backtest} package based on
 the output from the \texttt{CDS} package. Before reaching that level
 of complexity, however, \texttt{CDS} provides a good starting point
-for valuing CDS contracts following either the Standard Model or user
-specifications.
+for valuing credit default swaps.
 
 
 \bibliography{CDS}
