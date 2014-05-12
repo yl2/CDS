@@ -143,7 +143,7 @@ cds1 <- CDS(entityName = "IBM",
 
 %% In the next draft, we should not have a clunky list of terms.
 %% Better to introduce the terms, bolding them the first time
-%% they appear, 
+%% they appear, in a discussion o
 
 
 As shown in the example, a CDS contract between two counterparties
@@ -167,8 +167,10 @@ typically specifies the following key terms:\footnote{Some of the
 \item[Coupon] is quoted in basis points. It specifies the
   payment amount from the protection buyer to the seller on an annual
   basis. Coupons are paid quarterly.
-\item[Par Spread] is quoted in basis points per annum. It represents
-  the fair rate for a contract of 1 year beginning on the trade date.
+\item[Spread] is quoted in basis points per year. If, instead of using
+  a fixed coupon and exchanging upfront fees, the buyer and seller of 
+  protection were to agree on a variable coupon, then the spread is the
+  coupon size that they would agree on.
 
 \item[Credit Event] triggers the settlement under a CDS
   contract. Possible credit events specified by the ISDA Credit
@@ -196,7 +198,8 @@ typically specifies the following key terms:\footnote{Some of the
 \section{The ISDA Standard Model}
 
 %% the origins of the ISDA standard model
-In April 2009 in North America and June 2009 in Europe, the ISDA
+
+In April 2009 in North America and June 2009 in Europe, ISDA
 introduced a series of mandatory modifications to the CDS contract
 known as the ``Big Bang Protocol.'' Among these changes were the
 standardization rules on the first accrual dates, fixed coupon rates
