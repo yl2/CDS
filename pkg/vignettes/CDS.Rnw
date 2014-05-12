@@ -230,6 +230,15 @@ summary(cds1)
 In order to understand the summary output, we explain the
 specifications and pricing details of the Standard Model.
 
+%% This is very sloppy. First, you should go through everything in the
+%% summary item by item. Second, it should be in the same order as the
+%% summary. Third, it should use the same lingo. Is "TDate" the same
+%% as Trade Date? How am I supposed to know that. Fourth, it should
+%% mention the values from the summary.
+
+%% In other words, this section is not about what an "An ISDA standard 
+%% CDS contract specifies"! It is about the summary you have just shown.
+
 \subsection{Standard Model Specifications}
 An ISDA standard CDS contract specifies the following:\footnote{Refer
   to the \textit{ISDA Standard CDS Converter Specification} for
