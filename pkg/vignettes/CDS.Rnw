@@ -76,23 +76,28 @@ used CDS contracts to hedge the credit exposures on their balance
 sheets. Many different types of CDS have since emerged including
 basket default swaps (BDSs), index CDSs, credit-linked notes, et
 cetera \citep{jk}. In the \textbf{CDS} package, we focus on calculations
-related to a single-name CDS contract.
+related to a single-name, or corporate, credit default swaps.
 
 %% mechanics of a single-name CDS contract
 
+%% Might be good to expand this with a specific example. Use a real CDS
+%% (with a name, termination date and so on) and give the details of
+%% the bond that is the reference obligation. Cite the Markit webpage.
+%% Leave nothing out.
+
 A single-name CDS contract provides a transfer of credit risk between
-two parties. The buyer of a CDS contract, a.k.a. protection buyer,
-transfers the credit risk to the CDS seller (or called protection
-seller) by paying a series of payments before the contract
+two parties. The buyer of a CDS contract (protection buyer)
+transfers the credit risk to the CDS seller (protection
+seller) by paying a series of coupons until the contract
 terminates. In other words, the protection buyer is short credit by
-selling the credit risk of an underlying loan to the protection
+selling the credit risk of an underlying bond to the protection
 seller. As shown in Figure \ref{fig:cashFlow}, the buyer pays a stream
 of coupon payments, called the premium leg, in order to receive a
-one-off, contingent payment (notional less recovery amount after a
-credit event), called the protection leg, in the case of a credit
-event.\\
+one-time, contingent payment, called the protection leg, 
+in the case of a credit event.\\
 
-%% add a diagram on buyer and seller of CDS?
+%% Might add some more details. Or, better, use one of the images from
+%% Barclays or Bloomberg, citing them of course.
 
 \begin{figure}
   \caption{\label{fig:cashFlow} Mechanics of a CDS contract}
