@@ -210,11 +210,11 @@ typically specifies the following key terms:\footnote{Some of the
 
 %% the origins of the ISDA standard model
 
-In April 2009 in North America and June 2009 in Europe, ISDA
+In April 2009 in North America, ISDA
 introduced a series of mandatory modifications to the CDS contract
 known as the ``Big Bang Protocol.'' Among these changes were the
 standardization rules on the first accrual dates, fixed coupon rates
-(100 bps or 500 bps), and the recovery rate (40 \%).
+(100 bps or 500 bps), and the recovery rate (40\%).
 
 %% specifications of the ISDA standard CDS contract
 The default calculations and parameters in the \textbf{CDS} package
