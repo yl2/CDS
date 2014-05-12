@@ -54,7 +54,8 @@
 #' upfront are positive, and the buyer is paid by the seller if the
 #' points are negative.
 #' @param coupon quoted in bps. It specifies the payment amount from
-#' the protection buyer to the seller on a regular basis.
+#' the protection buyer to the seller on a regular basis. The default
+#' is 100 bps.
 #' @param recoveryRate in decimal. Default is 0.4.
 #' @param payAccruedAtStart determines whether a clean or dirty
 #' upfront is paid. It is \code{boolean}. When \code{TRUE}, calculate
@@ -97,7 +98,7 @@ spread <- function(TDate,
                    
                    upfront = NULL,
                    ptsUpfront = NULL,
-                   coupon=100, 
+                   coupon = 100, 
                    recoveryRate = 0.4,
                    payAccruedAtStart = FALSE,
                    notional = 1e7,
@@ -109,7 +110,6 @@ spread <- function(TDate,
     ratesDate <- baseDate
     if (is.null(ptsUpfront)) {
         ptsUpfront <- upfront / notional
-#        payAccruedAtStart <- FALSE
     } else {
         payAccruedAtStart <- TRUE
     }
@@ -132,7 +132,7 @@ spread <- function(TDate,
     stopifnot(all.equal(length(rates), length(expiries), nchar(types)))    
     if ((is.null(types) | is.null(rates) | is.null(expiries))){
         
-        ratesInfo <- getRates(date = ratesDate, currency = currency)
+        ratesInfo <- getRates(date = ratesDate, currency = as.character(currency))
         types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
         rates = as.numeric(as.character(ratesInfo[[1]]$rate))
         expiries = as.character(ratesInfo[[1]]$expiry)

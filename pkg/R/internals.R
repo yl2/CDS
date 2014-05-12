@@ -53,6 +53,35 @@
 }
 
 
+#' function to convert relevant slots in object of class CDS into a data frame
+#'
+#'@param object object of class CDS
+#'@return returns data frame with relevant data from the CDS function
+CDSdf <- function(object){
+  CDSdf <- data.frame(TDate = object@TDate,
+                      maturity = object@maturity,
+                      contract = object@contract,
+                      parSpread = round(object@parSpread, digits=2),
+                      upfront = round(object@upfront, digits=-4),
+                      IRDV01 = round(object@IRDV01, digits=0),
+                      price = round(object@price, digits=2),
+                      principal = round(object@principal, digits=-3),
+                      RecRisk01 = round(object@RecRisk01, digits=-3),
+                      defaultExpo = round(object@defaultExpo, digits=-3),
+                      spreadDV01 = round(object@spreadDV01, digits=0),
+                      currency = object@currency,
+                      ptsUpfront = round(object@ptsUpfront, digits=2),
+                      freqCDS = object@freqCDS,
+                      pencouponDate = object@pencouponDate,
+                      backstopDate = object@backstopDate,
+                      coupon = object@coupon,
+                      recoveryRate = object@recoveryRate,
+                      defaultProb = round(object@defaultProb, digits=2),
+                      notional = object@notional)
+  return(CDSdf)
+}
+
+
 #' Get the first accrual date. If it's a weekend, adjust to the
 #' following weekday. March/Jun/Sept/Dec 20th
 #'
@@ -85,10 +114,24 @@
     return(nchar(as.character(dat)))
 }
 
+#' check if argument is not a character and coerce it to character
+##
+#' @param x input into the function
+#' @return true if it is a character 
+#' 
+.coercetoChar <- function(x) {
+  if(class(x)!="character"){
+    return(as.character(x))
+  }
+  else{
+    return(x)
+  }
+}
+
 
 #' month difference
 #' @param d date 
-monnb <- function(d) {
+.monnb <- function(d) {
     lt <- as.POSIXlt(as.Date(d, origin="1900-01-01"))
     lt$year*12 + lt$mon
 } 
@@ -99,7 +142,7 @@ monnb <- function(d) {
 #' @param d2 date 2
 #' @return month difference as a difference between two monnb's
 #' 
-mondf <- function(d1, d2) { monnb(d2) - monnb(d1) }
+.mondf <- function(d1, d2) { .monnb(d2) - .monnb(d1) }
 
 
 
