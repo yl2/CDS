@@ -141,6 +141,11 @@ cds1 <- CDS(entityName = "IBM",
             parSpread = 50)
 @
 
+%% In the next draft, we should not have a clunky list of terms.
+%% Better to introduce the terms, bolding them the first time
+%% they appear, 
+
+
 As shown in the example, a CDS contract between two counterparties
 typically specifies the following key terms:\footnote{Some of the
   definitions come from \textit{Credit Derivatives Glossary}
@@ -151,20 +156,20 @@ typically specifies the following key terms:\footnote{Some of the
 \begin{description}
 \item[Reference Entity] refers to the legal entity which is the
   subject of a CDS contract. 
-\item[Maturity] or \textbf{tenor} refers to the length of a CDS
-  contract. Most CDSs are written with 5 years of maturity. The
+\item[Maturity] refers to the fixed date on which a CDS contract terminates. 
+  But, speaking colloquially, it can also be the length of time remaining until
+  that date. This length is also called the \textbf{tenor} of a CDS
+  contract. The most commonly traded CDS are the 5 years. The
   protection buyer continues to make payments to the protection seller
   till maturity of the contract or the occurrence of a credit event.
 \item[Notional] is the amount of the underlying asset on which the
   payments are based.
-\item[Coupon] is often quoted in basis points. It specifies the
-  payment amount from the protection buyer to the seller on a regular
-  basis.
+\item[Coupon] is quoted in basis points. It specifies the
+  payment amount from the protection buyer to the seller on an annual
+  basis. Coupons are paid quarterly.
 \item[Par Spread] is quoted in basis points per annum. It represents
   the fair rate for a contract of 1 year beginning on the trade date.
-\item[Seniority] specifies the order of which the debt will be paid in
-  liquidation or bankruptcy. In general, there are four levels of
-  seniority - Senior, Subordinated, Junior, and Preferred.
+
 \item[Credit Event] triggers the settlement under a CDS
   contract. Possible credit events specified by the ISDA Credit
   Derivatives Definitions include: 
