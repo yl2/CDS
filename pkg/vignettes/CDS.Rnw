@@ -143,7 +143,18 @@ cds1 <- CDS(entityName = "IBM",
 
 %% In the next draft, we should not have a clunky list of terms.
 %% Better to introduce the terms, bolding them the first time
-%% they appear, in a discussion o
+%% they appear, in a discussion of a specific CDS. 
+
+%% Start with a bond portfolio manager who owns a specifi bond,
+%% something that is a reference obligation for a member of CDX IG. 
+%% That PM is concerned about the credit worthiness of the company,
+%% at least over the next year or two. But selling the bond is too
+%% expensive or annoying. So, he can buy some CDS protection on 
+%% the bond. And so on. Describe all the cash flows, both from his
+%% point of view, and the point of view of the hedge fund that sells
+%% the protection. Better yet, have the exercise occur in the past,
+%% but use a bond that actually defaulted. Then we can talk about the
+%% auction, recovery rate and so on.
 
 
 As shown in the example, a CDS contract between two counterparties
