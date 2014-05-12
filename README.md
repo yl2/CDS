@@ -12,21 +12,16 @@ yang.lu2014 at gmail.com
 Kanishka Malik
 kanishkamalik at gmail.com
 
-CDS To-Do's
+CDS Package
 --------------------------------------------------------
-- Vignette
-
-Existing R function files
-- CDS.R constructs a primitive CDS class object.
-- upfront.R calculates cash settlement amount from conventional spread
-- spread.R calculates conventional spread from upfront
-- spreadDV01.R calculates spread DV 01
-- IRDV01.R calculates IR DV 01
-- update.R allows users to update a CDS class object with a new spread, upfront payment, or a points upfront.
-- getRates.R obtains rates to build an interest rate curve for CDS calculation
-- recRisk01 calculates the RecRisk 01
-- defaultProb.R approximates the default probability at time t
-- defaultExpo.R calculates the default exposure of a CDS contract
-- getDates.R get a set of dates relevant for CDS calculation
-- price.R calculates the price of a CDS contract
-- CS10.R calculates the change in value of a CDS contract when its spread increases by 10%.
+A Credit Default Swap (CDS) is a financial swap agreement between two
+counterparties in which the buyer pays a fixed periodic coupon to the
+seller in exchange for protection in the case of a credit event. The
+International Swaps and Derivatives Association (ISDA) has created a
+set of standard terms for CDS contracts, the so-called ``Standard
+Model.'' This allows market participants to calculate cash settlement
+from conventional spread quotations, convert between conventional
+spread and upfront payments, and build the yield curve of a CDS. The
+*CDS* package implements the Standard Model, allowing users to
+value credit default swaps and calculate various risk measures
+associated with these instruments.
