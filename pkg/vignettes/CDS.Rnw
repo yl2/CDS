@@ -25,7 +25,7 @@
 \bibliographystyle{abbrvnat}
 
 \begin{document}
-\title{A Guide to the CDS Package (Draft)}
+\title{A Guide to the CDS Package}
 \author{Heidi Chen\thanks{\href{mailto:s.heidi.chen@gmail.com}{s.heidi.chen@gmail.com}}, David Kane\thanks{\href{mailto:dave.kane@gmail.com}{dave.kane@gmail.com}}, and Yang Lu\thanks{\href{mailto:yang.lu2014@gmail.com}{yang.lu2014@gmail.com}}}
 \maketitle
 
@@ -52,7 +52,7 @@ value credit default swaps and calculate various risk measures
 associated with these instruments.
 
 \section{CDS Basics}
-
+\label{sec:CDSBasics}
 
 %% what's a CDS
 
@@ -105,7 +105,9 @@ squarednode/.style={rectangle, draw=black!60, fill=none, thick,
 \end{center}
 \end{figure}
 
-In the package \textbf{CDS}, we call the function \texttt{CDS} to construct an object of a class ``CDS''. Below we show an example of a CDS contract.
+In the \textbf{CDS} package, we call the function \texttt{CDS} to
+construct an object of a class \texttt{CDS}. Below we show an example
+of how to construct a CDS contract in the package.
 
 <<echo = F, results = hide>>=
 options(width = 100)
@@ -122,7 +124,7 @@ cds1 <- CDS(entityName = "IBM",
             parSpread = 50)
 @
 
-As reflected in the example, a CDS contract between two counterparties
+As shown in the example, a CDS contract between two counterparties
 typically specifies the following key terms:\footnote{Some of the
   definitions come from \textit{Credit Derivatives Glossary}
   \citep{glossary}, \textit{Standard Corporate CDS Handbook}
@@ -132,7 +134,7 @@ typically specifies the following key terms:\footnote{Some of the
 \begin{description}
 \item[Reference Entity] refers to the legal entity which is the
   subject of a CDS contract. 
-\item[Maturity] a.k.a \textbf{tenor}. It refers to the length of a CDS
+\item[Maturity] a.k.a \textbf{tenor} refers to the length of a CDS
   contract. Most CDSs are written with 5 years of maturity. The
   protection buyer continues to make payments to the protection seller
   till maturity of the contract or the occurrence of a credit event.
@@ -181,27 +183,24 @@ standardization rules on the first accrual dates, fixed coupon rates
 %% specifications of the ISDA standard CDS contract
 The default calculations and parameters in the \textbf{CDS} package
 follow the Standard Model. The user can call \texttt{summary} on a
-``CDS'' class object to view essential information on the contract
-(including trade date, maturity date, spread, and coupon rate as
-specified by the user) and relevant calculations based on the input
-CDS contract and the ISDA conventions.
+\texttt{cds1} to view essential information on the contract as shown
+in Section \ref{sec:CDSBasics}. The summary output includes trade
+date, maturity date, spread, and coupon rate as specified by the user
+and relevant calculations based on the input CDS contract and the ISDA
+conventions.
 
 <<>>=
-cds1 <- CDS(entityName = "IBM",
-            RED = "49EB20",
-            TDate = "2014-04-15",
-            maturity = "5Y",
-            notional = 1e7,
-            coupon = 100,
-            parSpread = 50)
 summary(cds1)
 @
 
-This section provides some key specifications of the ISDA Standard Model. \footnote{Refer to the \textit{ISDA Standard CDS Converter Specification} for details.}
-
+In order to understand the summary output, we explain the
+specifications of the Standard Model and the pricing details based on
+the Model.
 
 \subsection{Standard Model Specifications}
-An ISDA standard CDS contract specifies the following:
+An ISDA standard CDS contract specifies the following:\footnote{Refer
+  to the \textit{ISDA Standard CDS Converter Specification} for
+  details.}
 \begin{description}
 \item [Trade Date] refers to the date of the trade.
 \item [Maturity] is the length of the contract. Most of the standard
@@ -269,16 +268,14 @@ following:\footnote{Please refer to \url{http://bit.ly/1kg5qPw} for
 
 %% http://www.cdsmodel.com/assets/cds-model/docs/Interest%20Rate%20Curve%20Specification%20-%20All%20Currencies%20%28Updated%20May%202013%29.pdf
 
-
 The ISDA also standardizes the interest rates used by the Standard
 Model in valuing a CDS contract. There are two types of rates used in
 valuing a USD denominated CDS contract - cash rates and swap
 rates. Cash rates are of maturity 1, 2, 3, 6 months, and 1 year. They
 are provided by the British Bankers' Association (BBA). Swap rates are
-of maturity 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30 years and
-are provided by ICAP \citep{rates}. The Standard Model follows the
-conventions below for interpolation of the entire USD yield
-curve:
+of maturity 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, and 30 years,
+and are provided by ICAP \citep{rates}. The Standard Model follows the
+conventions below for interpolation of the entire USD yield curve:
 \begin{itemize}
 \item The day count convention (DCC) for money market instruments and
   floating legs of the swaps is \textbf{ACT/360}.
@@ -450,7 +447,6 @@ notional amount, are also listed.
 For the example we have shown in the previous sections,
 
 <<>>=
-library(CDS)
 cds1 <- CDS(entityName = "IBM",
             RED = "49EB20",
             TDate = "2014-04-15",
@@ -577,10 +573,14 @@ Standard Model, and its valuation. We also provide a simple collection
 of tools to implement the Standard Model in \textbf{R} with the
 \texttt{CDS} package. Moreover, the flexibility of \textbf{R} itself
 allows users to extend and modify these packages to suit their own
-needs and/or execute their preferred models for CDS contracts. Before
-reaching that level of complexity, however, \texttt{CDS} provides a
-good starting point for valuing CDS contracts following either the
-Standard Model or user specifications.
+needs and/or execute their preferred models for CDS contracts. An
+\textbf{R} package, \texttt{backtest} \cite{kane:david}, provides
+facilities to explore portfolio-based conjectures about credit
+swaps. It is possible to use the \texttt{backtest} package based on
+the output from the \texttt{CDS} package. Before reaching that level
+of complexity, however, \texttt{CDS} provides a good starting point
+for valuing CDS contracts following either the Standard Model or user
+specifications.
 
 
 \bibliography{CDS}
@@ -590,30 +590,3 @@ Standard Model or user specifications.
 \end{document}
 
 
-
-%% Date Conventions:
-%% \begin{itemize}
-%% \item Protection Leg:
-%%   \begin{itemize}
-%%   \item Protection Effective Date: T + 1
-%%   \item Number of days of protection = Protection Maturity Date - Protection Effective Date + 1
-%%     \begin{itemize}
-%%     \item Protection includes Protection Effective Date and
-%%       Protection Maturity Date
-%%     \end{itemize}
-%%   \end{itemize}
-%% \item Premium Leg:
-%%   \begin{itemize}
-%%     %% 
-%%   \item Accrual Begin Date: The first adjusted CDS date on or before T + 1 where the adjusted CDS dates are the CDS dates business-day adjusted Following.
-%%     %%
-%%   \item Number of days of riskless premium = T - Accrual Begin Date + 1
-%%     \begin{itemize}
-%%     \item Premium accrued before and including T is considered riskless
-%%     \end{itemize}
-%%   \item Number of days of risky premium = Maturity Date - T = Number of days of protection
-%%     \begin{itemize}
-%%     \item Premium accrued before and including T is considered riskless
-%%     \end{itemize}
-%%   \end{itemize}
-%% \end{itemize}
