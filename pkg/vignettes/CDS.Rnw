@@ -184,7 +184,11 @@ typically specifies the following key terms:\footnote{Some of the
   coupon size that they would agree on.
 
 \item[Credit Event] triggers the settlement under a CDS
-  contract. Possible credit events include banruptcy and debt restructing.
+  contract. Possible credit events include banruptcy and debt restructing. The exact
+  definition varies among CDS contracts.
+  
+%% Define XR and MM in the next version.
+  
 \end{description}
 
 \section{The ISDA Standard Model}
@@ -240,16 +244,16 @@ An ISDA standard CDS contract specifies the following:\footnote{Refer
   year for CDS contracts in North America, and 25, 100, 500 or 1000 bps in Europe.
 \item [Recovery Rate] is the estimated percentage of par value that
   bondholders will receive after a credit event. It is commonly
-  reported in percentages of notional value. CDS contracts for corporate bonds
+  reported in percentage of notional value. CDS contracts for corporate bonds
   assume a 40\% recovery rate for valuation purposes. 
 \item [Par Spread] is the spread value which makes the present value
   of a CDS contract zero. It is quoted in basis points.  
 \item [Upfront Payment] is quoted in the currency amount. Since a
   standard contract is traded with fixed coupons, upfront payment is
   introduced to reconcile the difference in contract value due to the
-  difference between the fixed coupon and the conventional par
+  difference between the fixed coupon and the par
   spread. There are two types of upfront, dirty and clean. Dirty
-  upfront, a.k.a. \textbf{Cash Settlement Amount} refers to the market
+  upfront (\textbf{Cash Settlement Amount}) refers to the market
   value of a CDS contract. Clean upfront is dirty upfront less any
   accrued interest payment, and is also called the \textbf{Principal}.
 \item [Points Upfront], or simply \textbf{points}, are quoted as a
