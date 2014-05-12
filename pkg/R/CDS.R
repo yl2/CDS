@@ -7,7 +7,7 @@
 #' @param entityName is the name of the reference entity. Optional.
 #' @param RED alphanumeric code assigned to the reference entity. Optional.
 #' @param TDate is when the trade is executed, denoted as T. Default
-#' is \code{Sys.Date}.
+#' is \code{Sys.Date}. The date format should be in "YYYY-MM-DD".
 #' @param baseDate is the start date for the IR curve. Default is TDate. 
 #' @param currency in which CDS is denominated. 
 #' @param types is a string indicating the names of the instruments
@@ -127,6 +127,9 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
                 notional = 1e7,
                 payAccruedOnDefault = TRUE
                 ){
+
+    checkTDate <- testDate(TDate)
+    if (!is.na(checkTDate)) stop (checkTDate)
 
     if ((is.null(upfront)) & (is.null(ptsUpfront)) & (is.null(parSpread)))
         stop("Please input spread, upfront or pts upfront")

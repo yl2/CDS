@@ -22,7 +22,11 @@
 
 getRates <- function(date = Sys.Date(), currency = "USD"){
 
-    stopifnot(currency %in% c("USD", "EUR", "JPY"))
+    ## coerce into character and change to upper case
+    stopifnot(toupper(as.character(currency)) %in% c( "USD", "GBP", "EUR",
+"JPY", "CHF", "CAD" , "AUD", "NZD", "SGD", "HKD"))
+    
+    currency <- as.character(currency)
     date <- as.Date(date) - 1
 
     ## 0 is Sunday, 6 is Saturday

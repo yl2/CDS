@@ -24,8 +24,8 @@ CDS(contract = "SNAC", entityName = NULL, RED = NULL,
   \item{RED}{alphanumeric code assigned to the reference
   entity. Optional.}
 
-  \item{TDate}{is when the trade is executed, denoted as T.
-  Default is \code{Sys.Date}.}
+  \item{TDate}{is when the trade is executed, denoted as T.  Default is
+  \code{Sys.Date}. The date format should be in "YYYY-MM-DD".}
 
   \item{baseDate}{is the start date for the IR curve.
   Default is TDate.}
