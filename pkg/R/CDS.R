@@ -172,12 +172,12 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
     if (is.null(RED)) RED <- "NA"
 
     cds <- new("CDS",
-               contract = contract,
-               entityName = entityName,
-               RED = RED,
+               contract = as.character(contract),
+               entityName = as.character(entityName),
+               RED = as.character(RED),
                TDate = as.Date(TDate),
                baseDate = as.Date(baseDate),
-               currency = currency,
+               currency = as.character(currency),
                
                types = types,
                rates = rates,

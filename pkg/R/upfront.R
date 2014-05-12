@@ -118,7 +118,7 @@ upfront <- function(TDate,
     stopifnot(all.equal(length(rates), length(expiries), nchar(types)))    
     if ((is.null(types) | is.null(rates) | is.null(expiries))){
         
-        ratesInfo <- getRates(date = ratesDate, currency = currency)
+        ratesInfo <- getRates(date = ratesDate, currency = as.character(currency))
         types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
         rates = as.numeric(as.character(ratesInfo[[1]]$rate))
         expiries = as.character(ratesInfo[[1]]$expiry)
