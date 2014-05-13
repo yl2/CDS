@@ -31,7 +31,6 @@
 \bibliographystyle{abbrvnat}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 \title{A Guide to the CDS Package}
 \author{Heidi Chen\thanks{\href{mailto:s.heidi.chen@gmail.com}{s.heidi.chen@gmail.com}}, David Kane\thanks{\href{mailto:dave.kane@gmail.com}{dave.kane@gmail.com}}, and Yang Lu\thanks{\href{mailto:yang.lu2014@gmail.com}{yang.lu2014@gmail.com}}}
 \maketitle
@@ -190,8 +189,8 @@ typically specifies the following key terms:\footnote{Some of the
   nine-digit RED pair code. The input ``49EB20'' is the six-digit RED
   code for ``IBM''.
 \item [Trade Date] or \textbf{TDate} as shown in the argument of the
-  \texttt{CDS} function. It indicates the trade date of the CDS
-  contract and is April 15, 2014 in \texttt{cds1}.
+  \texttt{CDS} function indicates the trade date of the CDS contract
+  and is April 15, 2014 in \texttt{cds1}.
 \item[Maturity] refers to the fixed date on which a CDS contract
   terminates. However, speaking colloquially, it can also be the
   length of time remaining until that date. This length is also called
@@ -522,7 +521,7 @@ cds1.CS10 <- CS10(cds1)
 cds1.CS10
 @ 
 
-A market participant can also update the \textt{CDS} class objects she
+A market participant can also update the \texttt{CDS} class objects she
 has constructed by calling the \texttt{update} method. It updates a
 \texttt{CDS} class object with a new spread, points upfront or upfront
 by specifiying the relevant input.
@@ -573,7 +572,7 @@ coupon rate on the bond.
 estimated probability of default for each maturity by a given time. It
 can be approximated by
 \begin{equation}
-  \text{Default Prob} \approx (1 - exp(\frac{rt}{1-R})),
+  \text{Default Prob} \approx \left [1 - exp \left (\frac{rt}{1-R} \right ) \right ], \nonumber
 \end{equation}
 where $r$ is the spread, $t$ is the time to maturity, and $R$ is the
 recovery rate. The default probability for \texttt{cds3} is 4.7\%.
@@ -582,7 +581,7 @@ recovery rate. The default probability for \texttt{cds3} is 4.7\%.
 contract based on the formula below.
 \begin{equation}
   \text{Default Exposure} = (1 - \text{Recovery Rate})*\text{Notional}
-  - \text{Principal}.
+  - \text{Principal}. \nonumber
 \end{equation}
 
 The last part of the output reports the interest rates used in the
