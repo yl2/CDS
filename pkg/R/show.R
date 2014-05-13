@@ -177,7 +177,7 @@ setMethod("show",
                   sep = ""
                   )
               cat("\n")
-              cat(paste0("Credit curve effective of",
+              cat(paste0("Credit curve effective of ",
                          object@effectiveDate), "\n")
 
               ratesDf <- data.frame(Term = object@expiries, Rate = object@rates)
