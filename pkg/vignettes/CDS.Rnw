@@ -76,12 +76,12 @@ associated with these instruments.
 
 A CDS is a simple and popular form of credit derivative. It was
 originated in the late 1980s and was popularized by a team at
-J.P. Morgan including Blythe Masters.\cite{cdsOrigins,
+J.P. Morgan including Blythe Masters.\citep{cdsOrigins,
   blythe} The CDS market started to develop soon afterwards as banks
 used CDS contracts to hedge the credit exposures on their balance
 sheets. Many different types of CDS have since emerged including
 basket default swaps (BDSs), index CDSs, credit-linked notes, et
-cetera \cite{jk}. In the \textbf{CDS} package, we focus on calculations
+cetera \citep{jk}. In the \textbf{CDS} package, we focus on calculations
 related to a single-name, or corporate, credit default swaps.
 
 %% mechanics of a single-name CDS contract
