@@ -530,7 +530,7 @@ by specifiying the relevant input.
 cds3 <- update(cds1, spread = 55)
 @ 
 
-\texttt{cds3} is a new ``CDS'' class object with a spread of 55
+\texttt{cds3} is a new \texttt{CDS} class object with a spread of 55
 bps; all other specifications of the contract are the same as those in
 \texttt{cds1} since it is updated from \texttt{cds1}. One can also
 specify \texttt{upfront} (in dollar amount) or \texttt{ptsUpfront} (in
