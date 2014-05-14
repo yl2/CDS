@@ -18,5 +18,4 @@ Depends:
     XML
 Description: A package that provides tools for pricing credit default swaps.
 License: GPL (>= 2)
-Repository: yl2/CDS/pkg
 LinkingTo: Rcpp
