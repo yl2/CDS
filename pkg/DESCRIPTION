@@ -2,7 +2,7 @@ Package: CDS
 Version: 0.1-0
 Date: 2014-05-11
 Title: Credit Default Swap
-Authors@R: c(person("Heidi", "Chen", role = c("aut", "cre"),
+Authors@R: c(person("Heidi", "Chen", role = c("aut"),
     email = "s.heidi.chen@gmail.com"),
     person("David", "Kane", role = c("aut"),
     email = "dave.kane@gmail.com"),
