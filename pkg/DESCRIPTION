@@ -16,6 +16,6 @@ Depends:
     Rcpp (>= 0.10.6),
     RCurl,
     XML
-Description: A package that provides tools for pricing credit default swaps.
+Description: Tools for pricing credit default swaps.
 License: GPL (>= 2)
 LinkingTo: Rcpp
