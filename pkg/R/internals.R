@@ -25,7 +25,8 @@
 .downloadRates <- function(URL, verbose = FALSE){ 
     tf <- tempfile()
     td <- tempdir()
-    download.file(URL, tf , method = "curl", quiet = 1-verbose, mode = 'wb')
+    ## download.file(URL, tf , method = "curl", quiet = 1-verbose, mode = 'wb')
+    .zipdown(URL, tf)
     files <- unzip(tf , exdir = td)
     
     ## the 2nd file of the unzipped directory contains the rates info
@@ -154,4 +155,13 @@ CDSdf <- function(object){
     n <- max(sapply(nm, nrow)) 
     do.call(cbind, lapply(nm, function (x) 
                           rbind(x, matrix(, n-nrow(x), ncol(x))))) 
+}
+
+
+.zipdown <- function(url, file){
+    f = CFILE(file, mode="wb")
+    a = curlPerform(url = url, writedata = f@ref, noprogress=FALSE,
+        verbose = FALSE)
+    close(f)
+    return(a)
 }
