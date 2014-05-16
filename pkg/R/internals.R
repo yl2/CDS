@@ -26,7 +26,7 @@
     tf <- tempfile()
     td <- tempdir()
     ## download.file(URL, tf , method = "curl", quiet = 1-verbose, mode = 'wb')
-    .zipdown(URL, tf)
+    tmp <- .zipdown(URL, tf)
     files <- unzip(tf , exdir = td)
     
     ## the 2nd file of the unzipped directory contains the rates info
@@ -160,7 +160,7 @@ CDSdf <- function(object){
 
 .zipdown <- function(url, file){
     f = CFILE(file, mode="wb")
-    a = curlPerform(url = url, writedata = f@ref, noprogress=FALSE,
+    a = curlPerform(url = url, writedata = f@ref, noprogress=TRUE,
         verbose = FALSE)
     close(f)
     return(a)
