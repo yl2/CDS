@@ -156,18 +156,23 @@ CDS <- function(contract = "SNAC", ## CDS contract type, default SNAC
     if ((is.null(types) | is.null(rates) | is.null(expiries))){
         
         ratesInfo <- getRates(date = ratesDate, currency = currency)
-        effectiveDate <- as.Date(as.character(ratesInfo[[2]]$effectiveDate))
-        if (is.null(types)) types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
-        if (is.null(rates)) rates = as.numeric(as.character(ratesInfo[[1]]$rate))
-        if (is.null(expiries)) expiries = as.character(ratesInfo[[1]]$expiry)
-        if (is.null(mmDCC)) mmDCC = as.character(ratesInfo[[2]]$mmDCC)
-        
-        if (is.null(fixedSwapFreq)) fixedSwapFreq = as.character(ratesInfo[[2]]$fixedFreq)
-        if (is.null(floatSwapFreq)) floatSwapFreq = as.character(ratesInfo[[2]]$floatFreq)
-        if (is.null(fixedSwapDCC)) fixedSwapDCC = as.character(ratesInfo[[2]]$fixedDCC)
-        if (is.null(floatSwapDCC)) floatSwapDCC = as.character(ratesInfo[[2]]$floatDCC)
-        if (is.null(badDayConvZC)) badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention)
-        if (is.null(holidays)) holidays = as.character(ratesInfo[[2]]$swapCalendars)
+        if (class(ratesInfo) == "character"){
+            return(ratesInfo)
+        } else {
+
+            effectiveDate <- as.Date(as.character(ratesInfo[[2]]$effectiveDate))
+            if (is.null(types)) types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
+            if (is.null(rates)) rates = as.numeric(as.character(ratesInfo[[1]]$rate))
+            if (is.null(expiries)) expiries = as.character(ratesInfo[[1]]$expiry)
+            if (is.null(mmDCC)) mmDCC = as.character(ratesInfo[[2]]$mmDCC)
+            
+            if (is.null(fixedSwapFreq)) fixedSwapFreq = as.character(ratesInfo[[2]]$fixedFreq)
+            if (is.null(floatSwapFreq)) floatSwapFreq = as.character(ratesInfo[[2]]$floatFreq)
+            if (is.null(fixedSwapDCC)) fixedSwapDCC = as.character(ratesInfo[[2]]$fixedDCC)
+            if (is.null(floatSwapDCC)) floatSwapDCC = as.character(ratesInfo[[2]]$floatDCC)
+            if (is.null(badDayConvZC)) badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention)
+            if (is.null(holidays)) holidays = as.character(ratesInfo[[2]]$swapCalendars)
+        }
     }
 
     if (is.null(entityName)) entityName <- "NA"

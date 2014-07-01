@@ -109,16 +109,16 @@ static int   findFirstHolidayIdx (
     TBoolean        * doneSearching /* (O) TRUE=date is beyond list bounds. */
 );
 
-static int readHolidaysAll
-(char                 *fileName,              /* (I) file to read                 */
- const TBoolean       supplementaryDates,     /* (I) are these extra dates or not */
- const TBoolean       addSupplementaryDates   /* (I) supplemantary dates if any are add (TRUE) or subtract (FALSE) */
-);
+/* static int readHolidaysAll */
+/* (char                 *fileName,              /\* (I) file to read                 *\/ */
+/*  const TBoolean       supplementaryDates,     /\* (I) are these extra dates or not *\/ */
+/*  const TBoolean       addSupplementaryDates   /\* (I) supplemantary dates if any are add (TRUE) or subtract (FALSE) *\/ */
+/* ); */
 
-static int stringToDate(
-    const char* str,            /* (I) string to convert */
-    long  *date                 /* (O) date              */
-);
+/* static int stringToDate( */
+/*     const char* str,            /\* (I) string to convert *\/ */
+/*     long  *date                 /\* (O) date              *\/ */
+/* ); */
 
 /*---------------------------------------------------------------------------
  *                              Static Data.

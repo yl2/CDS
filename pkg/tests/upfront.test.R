@@ -1,6 +1,7 @@
-## calcUpfront.test.R
+## upfront.test.R
 
 library(CDS)
+
 ## truth1 <- upfront(TDate = "2014-01-14",
 ##                   currency = "USD",
 
@@ -35,22 +36,7 @@ library(CDS)
 ##                   isPriceClean = FALSE,
 ##                   notional = 1e7)
 
-## truth2 <- upfront(baseDate = "2014-01-13",
-##                   currency = "USD",
-##                   TDate = "2014-01-14",
-##                   maturity = "5Y",
-##                   dccCDS = "ACT/360",
-##                   freqCDS = "Q",
-##                   stubCDS = "F",
-##                   badDayConvCDS = "F",
-##                   calendar = "None",
-##                   parSpread = 32,
-##                   coupon = 100,
-##                   recoveryRate = 0.4,
-##                   isPriceClean = FALSE,
-##                   notional = 1e7)
-
-## save(truth1, truth2, file = "upfront.test.RData")
+## save(truth1, file = "upfront.test.RData")
 
 load("upfront.test.RData")
 
@@ -89,23 +75,4 @@ result1 <- upfront(TDate = "2014-01-14",
                    notional = 1e7)
 
 stopifnot(all.equal(result1, truth1))
-
-
-result2 <- upfront(baseDate = "2014-01-13",
-                   currency = "USD",
-                   TDate = "2014-01-14",
-                   maturity = "5Y",
-                   dccCDS = "ACT/360",
-                   freqCDS = "Q",
-                   stubCDS = "F",
-                   badDayConvCDS = "F",
-                   calendar = "None",
-                   parSpread = 32,
-                   coupon = 100,
-                   recoveryRate = 0.4,
-                   isPriceClean = FALSE,
-                   notional = 1e7)
-
-stopifnot(all.equal(result2, truth2))
-
 

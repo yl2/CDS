@@ -24,7 +24,7 @@ SEXP busDaysOffset
   SEXP resultDate;
   TDate* toDate_TDate;
   TMonthDayYear* toDate_MDY;
-  int i, offset;
+  int offset;
 
   toDate_TDate = malloc(sizeof(long));
   toDate_MDY = malloc(sizeof(TMonthDayYear));

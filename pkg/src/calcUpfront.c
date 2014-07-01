@@ -194,7 +194,7 @@ SEXP calcUpfrontTest
   
   expiries = coerceVector(expiries, VECSXP);
 
-  TDate *dates_main = NULL;
+  TDate *dates_main;// = NULL;
   dates_main = NEW_ARRAY1(TDate, n);
   int i;
   for (i = 0; i < n; i++)

@@ -42,32 +42,37 @@ getRates <- function(date = Sys.Date(), currency = "USD"){
     ratesURL <- paste("https://www.markit.com/news/InterestRates_",
                       currency, "_", dateInt, ".zip", sep ="")
     xmlParsedIn <- .downloadRates(ratesURL)
-    
-    rates <- xmlSApply(xmlParsedIn, function(x) xmlSApply(x, xmlValue))
-    
-    curveRates <- c(rates$deposits[names(rates$deposits) == "curvepoint"],
-                    rates$swaps[names(rates$swaps) == "curvepoint"])
-    
-    
-    df <- do.call(rbind, strsplit(curveRates, split = "[MY]", perl = TRUE))
-    rownames(df) <- NULL
-    df <- cbind(df, "Y")
-    df[1: (max(which(df[,1] == 1)) - 1), 3] <- "M"
-    
-    ratesDf <- data.frame(expiry = paste(df[,1], df[,3], sep = ""),
-                          matureDate = substring(df[,2], 0, 10),
-                          rate = substring(df[,2], 11),
-                          type = c(rep("M", sum(names(rates$deposits) == "curvepoint")),
-                              rep("S", sum(names(rates$swaps) == "curvepoint"))))
-    dccDf <- data.frame(effectiveDate = rates$effectiveasof[[1]],
-                        badDayConvention = rates$baddayconvention,
-                        mmDCC = rates$deposits[['daycountconvention']],
-                        mmCalendars = rates$deposits[['calendars']],
-                        fixedDCC = rates$swaps[['fixeddaycountconvention']],
-                        floatDCC = rates$swaps[['floatingdaycountconvention']],
-                        fixedFreq = rates$swaps[['fixedpaymentfrequency']],
-                        floatFreq = rates$swaps[['floatingpaymentfrequency']],
-                        swapCalendars = rates$swaps[['calendars']])
-    
-    return(list(ratesDf, dccDf))
+
+    if (class(xmlParsedIn)[1] == "character"){
+        return(xmlParsedIn)
+    } else {
+        
+        rates <- xmlSApply(xmlParsedIn, function(x) xmlSApply(x, xmlValue))
+        
+        curveRates <- c(rates$deposits[names(rates$deposits) == "curvepoint"],
+                        rates$swaps[names(rates$swaps) == "curvepoint"])
+        
+        
+        df <- do.call(rbind, strsplit(curveRates, split = "[MY]", perl = TRUE))
+        rownames(df) <- NULL
+        df <- cbind(df, "Y")
+        df[1: (max(which(df[,1] == 1)) - 1), 3] <- "M"
+        
+        ratesDf <- data.frame(expiry = paste(df[,1], df[,3], sep = ""),
+                              matureDate = substring(df[,2], 0, 10),
+                              rate = substring(df[,2], 11),
+                              type = c(rep("M", sum(names(rates$deposits) == "curvepoint")),
+                                  rep("S", sum(names(rates$swaps) == "curvepoint"))))
+        dccDf <- data.frame(effectiveDate = rates$effectiveasof[[1]],
+                            badDayConvention = rates$baddayconvention,
+                            mmDCC = rates$deposits[['daycountconvention']],
+                            mmCalendars = rates$deposits[['calendars']],
+                            fixedDCC = rates$swaps[['fixeddaycountconvention']],
+                            floatDCC = rates$swaps[['floatingdaycountconvention']],
+                            fixedFreq = rates$swaps[['fixedpaymentfrequency']],
+                            floatFreq = rates$swaps[['floatingpaymentfrequency']],
+                            swapCalendars = rates$swaps[['calendars']])
+        
+        return(list(ratesDf, dccDf))
+    }
 }

@@ -27,12 +27,15 @@
     td <- tempdir()
     ## download.file(URL, tf , method = "curl", quiet = 1-verbose, mode = 'wb')
     tmp <- .zipdown(URL, tf)
-    files <- unzip(tf , exdir = td)
-    
-    ## the 2nd file of the unzipped directory contains the rates info
-    doc <- xmlTreeParse(files[grep(".xml", files)], getDTD = F)
-    r <- xmlRoot(doc)
-    return(r)
+    if (class(tmp) == "character"){
+        return(tmp)
+    } else {
+        files <- unzip(tf , exdir = td)
+        ## the 2nd file of the unzipped directory contains the rates info
+        doc <- xmlTreeParse(files[grep(".xml", files)], getDTD = F)
+        r <- xmlRoot(doc)
+        return(r)
+    }
 }
 
 
@@ -159,9 +162,22 @@ CDSdf <- function(object){
 
 
 .zipdown <- function(url, file){
-    f = CFILE(file, mode="wb")
-    a = curlPerform(url = url, writedata = f@ref, noprogress=TRUE,
-        verbose = FALSE)
+    f <- CFILE(file, mode="wb")
+    ## a <- curlPerform(url = url, writedata = f@ref, noprogress=TRUE,
+    ##     verbose = FALSE,
+    ##     ssl.verifypeer = FALSE)
+    a <- tryCatch(curlPerform(url = url,
+                              writedata = f@ref, noprogress=TRUE,
+                              verbose = FALSE,
+                              ssl.verifypeer = FALSE),
+                  error = function(e) {
+                      return("Rates data not available at markit.com")
+                  })
     close(f)
     return(a)
+}
+
+
+.onAttach <- function(...) {
+    packageStartupMessage("This application is based on the ISDA CDS Standard Model (version 1.8), developed and supported in collaboration with Markit Group Ltd.\nPlease assent to the ISDA CDS Standard Model Public License at http://www.cdsmodel.com/cdsmodel/cds-disclaimer.page before using the package.\n")
 }

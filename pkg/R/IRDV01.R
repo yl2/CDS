@@ -115,19 +115,24 @@ IRDV01 <- function(object = NULL,
     if ((is.null(types) | is.null(rates) | is.null(expiries))){
         
         ratesInfo <- getRates(date = ratesDate, currency = currency)
-        types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
-        rates = as.numeric(as.character(ratesInfo[[1]]$rate))
-        expiries = as.character(ratesInfo[[1]]$expiry)
-        mmDCC = as.character(ratesInfo[[2]]$mmDCC)
-        
-        fixedSwapFreq = as.character(ratesInfo[[2]]$fixedFreq)
-        floatSwapFreq = as.character(ratesInfo[[2]]$floatFreq)
-        fixedSwapDCC = as.character(ratesInfo[[2]]$fixedDCC)
-        floatSwapDCC = as.character(ratesInfo[[2]]$floatDCC)
-        badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention)
-        holidays = as.character(ratesInfo[[2]]$swapCalendars)
-    }
 
+        if (class(ratesInfo) == "character"){
+            return(ratesInfo)
+        } else {
+
+            types = paste(as.character(ratesInfo[[1]]$type), collapse = "")
+            rates = as.numeric(as.character(ratesInfo[[1]]$rate))
+            expiries = as.character(ratesInfo[[1]]$expiry)
+            mmDCC = as.character(ratesInfo[[2]]$mmDCC)
+            
+            fixedSwapFreq = as.character(ratesInfo[[2]]$fixedFreq)
+            floatSwapFreq = as.character(ratesInfo[[2]]$floatFreq)
+            fixedSwapDCC = as.character(ratesInfo[[2]]$fixedDCC)
+            floatSwapDCC = as.character(ratesInfo[[2]]$floatDCC)
+            badDayConvZC = as.character(ratesInfo[[2]]$badDayConvention)
+            holidays = as.character(ratesInfo[[2]]$swapCalendars)
+        }
+    }
     upfront.orig <- .Call('calcUpfrontTest',
                           baseDate,
                           types,

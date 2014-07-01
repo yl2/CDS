@@ -14,9 +14,10 @@
 #'
 #' ## build a CDS class object
 #' cds1 <- CDS(TDate = "2014-05-07", parSpread = 50, coupon = 100)
-#'
+#' \dontrun{
 #' ## update
 #' update(cds1, spread = 55)
+#' }
 #' 
 
 setMethod("update",

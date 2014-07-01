@@ -6,4 +6,4 @@ import(methods, Rcpp, RCurl, XML)
 exportClasses(CDS)
 exportMethods("summary",
               "show")
-
+export(.onAttach)

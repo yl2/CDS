@@ -1,4 +1,4 @@
-## calcSpread.test.R
+## spread.test.R
 
 library(CDS)
 
@@ -37,26 +37,7 @@ library(CDS)
 ##                  payAccruedOnDefault = TRUE)
 
 
-
-## truth2 <- spread(TDate = "2014-01-14",
-##                  baseDate = "2014-01-13",
-##                  currency = "USD",
-##                  maturity = "5Y",
-
-##                  dccCDS = "ACT/360",
-##                  freqCDS = 'Q',		  
-##                  stubCDS = "F", 		
-##                  badDayConvCDS = "F",
-##                  calendar = 'None',
-
-##                  upfront = -1e7*3.41/100,
-##                  coupon = 100, 
-##                  recoveryRate = .4,
-##                  payAccruedAtStart = TRUE,
-##                  notional = 1e7,
-##                  payAccruedOnDefault = TRUE)
-
-## save(truth1, truth2, file = "spread.test.RData")
+## save(truth1, file = "spread.test.RData")
 
 load("spread.test.RData")
 
@@ -96,23 +77,3 @@ result1 <- spread(TDate = "2014-01-14",
 
 stopifnot(all.equal(result1, truth1))
 
-result2 <- spread(TDate = "2014-01-14",
-                  baseDate = "2014-01-13",
-                  currency = "USD",
-                  maturity = "5Y",
-                  
-                  dccCDS = "ACT/360",
-                  freqCDS = 'Q',		  
-                  stubCDS = "F", 		
-                  badDayConvCDS = "F",
-                  calendar = 'None',
-
-                  upfront = -1e7*3.41/100,
-                  coupon = 100, 
-                  recoveryRate = .4,
-                  payAccruedAtStart = TRUE,
-                  notional = 1e7,
-                  payAccruedOnDefault = TRUE)
-
-
-stopifnot(all.equal(result2, truth2))

@@ -319,7 +319,8 @@ TCouponDateList *   JpmcdsNewCouponDatesSwap(
               streamSched->fArray[i].payDate)
        {
            if (JpmcdsBusinessDay(
-                  --streamSched->fArray[i].resetDate,
+				 //--streamSched->fArray[i].resetDate,
+				 streamSched->fArray[i].resetDate,
                   JPMCDS_BAD_DAY_PREVIOUS,
                   holidayFile,
                   &streamSched->fArray[i].resetDate)==FAILURE)

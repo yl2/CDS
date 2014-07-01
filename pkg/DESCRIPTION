@@ -1,6 +1,6 @@
 Package: CDS
 Version: 0.1-1
-Date: 2014-05-16
+Date: 2014-06-24
 Title: Credit Default Swap
 Authors@R: c(person("Heidi", "Chen", role = c("aut"),
     email = "s.heidi.chen@gmail.com"),
@@ -17,5 +17,6 @@ Depends:
     RCurl,
     XML
 Description: Tools for pricing credit default swaps.
-License: GPL (>= 2)
+License: GPL-3 + file LICENSE
+Copyright: 2009 International Swaps and Derivatives Association, Inc.
 LinkingTo: Rcpp
