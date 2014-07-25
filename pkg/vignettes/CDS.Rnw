@@ -50,7 +50,7 @@ in which the buyer pays a fixed periodic coupon to the seller in
 exchange for protection in the case of a credit event. The
 International Swaps and Derivatives Association
 (ISDA\textsuperscript{\textregistered})\footnote{``ISDA\textsuperscript{\textregistered}''
-  is a registered mark of the International Swaps and Derivative
+  is a registered mark of the International Swaps and Derivatives
   Association, Inc.} has created a set of standard terms for CDS
 contracts, the so-called ``Standard Model.'' This allows market
 participants to calculate cash settlement from conventional spread
