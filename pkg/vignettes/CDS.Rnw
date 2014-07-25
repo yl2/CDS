@@ -45,17 +45,23 @@
 
 %% 1 paragraph
 
-A Credit Default Swap (CDS) is an agreement between two
-counterparties in which the buyer pays a fixed periodic coupon to the
-seller in exchange for protection in the case of a credit event. The
-International Swaps and Derivatives Association (ISDA) has created a
-set of standard terms for CDS contracts, the so-called ``Standard
-Model.'' This allows market participants to calculate cash settlement
-from conventional spread quotations, convert between conventional
-spread and upfront payments, and build the spread curve of a CDS. The
-\textbf{CDS} package implements the Standard Model, allowing users to
-value credit default swaps and calculate various risk measures
-associated with these instruments.
+A Credit Default Swap (CDS) is an agreement between two counterparties
+in which the buyer pays a fixed periodic coupon to the seller in
+exchange for protection in the case of a credit event. The
+International Swaps and Derivatives Association
+(ISDA\textsuperscript{\textregistered})\footnote{``ISDA\textsuperscript{\textregistered}''
+  is a registered mark of the International Swaps and Derivative
+  Association, Inc.} has created a set of standard terms for CDS
+contracts, the so-called ``Standard Model.'' This allows market
+participants to calculate cash settlement from conventional spread
+quotations, convert between conventional spread and upfront payments,
+and build the spread curve of a CDS. The \textbf{CDS}
+package\footnote{Disclaimer: ISDA has neither reviewed, approved nor
+  endorsed the use of the \textbf{CDS} package. Those persons using
+  this \textbf{CDS} package are encouraged to seek the advice of a
+  legal professional to evaluate its suitability for their use.} value
+credit default swaps and calculate various risk measures associated
+with these instruments.
 
 %% Are the "standard terms for CDS contracts" really the same thing as the 
 %% Standard Model? I am not so sure. I think that the standard terms are 

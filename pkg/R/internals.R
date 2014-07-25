@@ -179,5 +179,16 @@ CDSdf <- function(object){
 
 
 .onAttach <- function(...) {
-    packageStartupMessage("This application is based on the ISDA CDS Standard Model (version 1.8), developed and supported in collaboration with Markit Group Ltd.\nPlease assent to the ISDA CDS Standard Model Public License at http://www.cdsmodel.com/cdsmodel/cds-disclaimer.page before using the package.\n")
+
+    packageStartupMessage(
+        "\nIF YOU USE THIS CDS PACKAGE, YOUR USE WILL SIGNIFY YOUR UNDERSTANDING \nAND IRREVOCABLE ACCEPTANCE OF THIS LICENSE AND ITS TERMS, WHICH INCORPORATE \nBY REFERENCE THE INTERNATIONAL SWAPS AND DERIVATIVE ASSOCIATION, INC.'S CDS \nSTANDARD MODEL PUBLIC LICENSE, WHICH IS AVAILABLE AT \nhttp://www.cdsmodel.com/cdsmodel/cds-disclaimer.page before using the package. \n\nNOTHING IN THIS LICENSE RESTRICTS YOUR ABILITY TO USE THE ISDA(R) CDS \nSTANDARD MODEL.\n \nDISCLAIMER: ISDA HAS NEITHER REVIEWED, APPROVED NOR ENDORSED THE USE OF \nTHE CDS PACKAGE. THOSE PERSONS USING THIS CDS PACKAGE ARE ENCOURAGED TO SEEK \nTHE ADVICE OF A LEGAL PROFESSIONAL TO EVALUATE ITS SUITABILITY FOR THEIR USE.\n \nISDA(R) is a registered mark of the International Swaps and Derivative \nAssociation, Inc.\n \nPlease type yes to assent to the aforementioned terms.\n")
+
+    if(interactive()){
+        while (readLines(n=1)!="yes")
+            packageStartupMessage("Please type yes to assent to the aforementioned terms.\n")
+    }
+    ## tmp <- readLines(n=1, warn = FALSE)
+    ## if (!is.na(tmp)){
+    ##     if (!tmp %in% c("yes", "")) detach("package:CDS", unload = TRUE)
+    ## }
 }
